@@ -2,13 +2,20 @@
 #include <Arduino.h>
 #include <TimerOne.h>
 
-BipolarStepper stepper(200, 9, 12, 3, 8, 13, 11);
+const float GEAR_RATIO = 24.0/72.0;
+const uint16_t MOTOR_STEPS = 200u;
+const int BRKA_PIN = 9;
+const int DIRA_PIN = 12;
+const int PWMA_PIN = 3;
+const int BRKB_PIN = 8;
+const int DIRB_PIN = 13;
+const int PWMB_PIN = 11;
+
+BipolarStepper stepper(MOTOR_STEPS, BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
 TimerOne timer;
 
 float target;
 bool dir;
-
-const float GEAR_RATIO = 24.0/72.0;
 
 void setup() {
   Serial.begin(19200);
