@@ -2,15 +2,9 @@
 #include <Math.h>
 #include <Arduino.h>
 
-BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set, int DIRB_set, int PWMB_set)
-{
-	steps = steps_set;
-	BRKA = BRKA_set;
-	DIRA = DIRA_set;
-	PWMA = PWMA_set;
-	BRKB = BRKB_set;
-	DIRB = DIRB_set;
-	PWMB = PWMB_set;
+BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set,
+    int BRKB_set, int DIRB_set, int PWMB_set) : BRKA(BRKA_set), DIRA(DIRA_set), PWMA(PWMA_set),
+    BRKB(BRKB_set), DIRB(DIRB_set), PWMB(PWMB_set), steps(steps_set) {
 	pinMode(BRKA, OUTPUT);
 	pinMode(DIRA, OUTPUT);
 	pinMode(PWMA, OUTPUT);
