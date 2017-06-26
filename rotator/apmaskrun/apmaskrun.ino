@@ -14,6 +14,7 @@ void setup() {
   Serial.begin(19200);
   Serial.setTimeout(10);
   stepper = new BipolarStepper(200, 9, 12, 3, 8, 13, 11);
+  stepper->initialize();
   timer = new TimerOne();
   stepper->enable();
   //stepper->forceDirection(BipolarStepper::BIDIRECTIONAL);

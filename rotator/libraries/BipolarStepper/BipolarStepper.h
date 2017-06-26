@@ -11,6 +11,7 @@ class BipolarStepper
 		// const static int BACKWARD = -1;
 	
 		BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set, int DIRB_set, int PWMB_set);
+    void initialize();
 		void enable();
 		void disable();
 		bool isEnabled();
@@ -50,5 +51,6 @@ class BipolarStepper
 		bool enabled;
 		//int direction;
 		int state;
+    bool initialized;
 };
 #endif

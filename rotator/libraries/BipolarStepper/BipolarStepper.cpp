@@ -5,17 +5,21 @@
 BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set,
     int BRKB_set, int DIRB_set, int PWMB_set) : BRKA(BRKA_set), DIRA(DIRA_set), PWMA(PWMA_set),
     BRKB(BRKB_set), DIRB(DIRB_set), PWMB(PWMB_set), steps(steps_set), position(0), target(0),
-    enabled(false), state(0) {
-	pinMode(BRKA, OUTPUT);
+    enabled(false), state(0), initialized(false) {
+	//direction = BIDIRECTIONAL;
+}
+
+void BipolarStepper::initialize() {
+  pinMode(BRKA, OUTPUT);
 	pinMode(DIRA, OUTPUT);
 	pinMode(PWMA, OUTPUT);
 	pinMode(BRKB, OUTPUT);
 	pinMode(DIRB, OUTPUT);
 	pinMode(PWMB, OUTPUT);
-	//direction = BIDIRECTIONAL;
-	doState(state);
+  doState(state);
 	delay(200);
 	zero();
+  initialized = true;
 }
 
 void BipolarStepper::enable()
@@ -109,7 +113,7 @@ float BipolarStepper::ticksToDegrees(int32_t ticks)
 
 void BipolarStepper::stepForward()
 {
-	if (!enabled) {
+	if (!initialized || !enabled) {
 		return;
 	}
 	
@@ -121,7 +125,7 @@ void BipolarStepper::stepForward()
 
 void BipolarStepper::stepBackward()
 {
-	if (!enabled) {
+	if (!initialized || !enabled) {
 		return;
 	}
 	
@@ -159,7 +163,7 @@ void BipolarStepper::stepBackward()
 
 void BipolarStepper::stepTowardTarget()
 {
-	if (!enabled || position == target) {
+	if (!initialized || !enabled || position == target) {
 		return;
 	}
 	
