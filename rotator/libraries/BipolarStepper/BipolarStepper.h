@@ -3,14 +3,14 @@
 
 #include <Arduino.h>
 
-class BipolarStepper
-{
+class BipolarStepper {
   public:
     // const static int FORWARD = 1;
     // const static int BIDIRECTIONAL = 0;
     // const static int BACKWARD = -1;
   
-    BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set, int DIRB_set, int PWMB_set);
+    BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set,
+        int DIRB_set, int PWMB_set);
     void initialize();
     void enable();
     void disable();
@@ -53,4 +53,5 @@ class BipolarStepper
     int state;
     bool initialized;
 };
+
 #endif
