@@ -2,290 +2,259 @@
 #include <Math.h>
 #include <Arduino.h>
 
-BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set, int DIRB_set, int PWMB_set)
-{
-	steps = steps_set;
-	BRKA = BRKA_set;
-	DIRA = DIRA_set;
-	PWMA = PWMA_set;
-	BRKB = BRKB_set;
-	DIRB = DIRB_set;
-	PWMB = PWMB_set;
-	pinMode(BRKA, OUTPUT);
-	pinMode(DIRA, OUTPUT);
-	pinMode(PWMA, OUTPUT);
-	pinMode(BRKB, OUTPUT);
-	pinMode(DIRB, OUTPUT);
-	pinMode(PWMB, OUTPUT);
-	enabled = false;
-	target = 0;
-	//direction = BIDIRECTIONAL;
-	state = 0;
-	doState(state);
-	delay(200);
-	zero();
+BipolarStepper::BipolarStepper(uint16_t steps_set, int brka_set, int dira_set, int pwma_set,
+    int brkb_set, int dirb_set, int pwmb_set) : brka(brka_set), dira(dira_set), pwma(pwma_set),
+    brkb(brkb_set), dirb(dirb_set), pwmb(pwmb_set), steps(steps_set), position(0), target(0),
+    enabled(false), state(0), initialized(false) {
+  //direction = BIDIRECTIONAL;
 }
 
-void BipolarStepper::enable()
-{
-	enabled = true;
+void BipolarStepper::initialize() {
+  pinMode(brka, OUTPUT);
+  pinMode(dira, OUTPUT);
+  pinMode(pwma, OUTPUT);
+  pinMode(brkb, OUTPUT);
+  pinMode(dirb, OUTPUT);
+  pinMode(pwmb, OUTPUT);
+  doState(state);
+  delay(200);
+  zero();
+  initialized = true;
 }
 
-void BipolarStepper::disable()
-{
-	enabled = false;
+void BipolarStepper::enable() {
+  enabled = true;
 }
 
-bool BipolarStepper::isEnabled()
-{
-	return enabled;
+void BipolarStepper::disable() {
+  enabled = false;
 }
 
-// void BipolarStepper::forceDirection(int direction_forcing)
-// {
-	// direction = direction_forcing;
+bool BipolarStepper::isEnabled() const {
+  return enabled;
+}
+
+// void BipolarStepper::forceDirection(int direction_forcing) {
+  // direction = direction_forcing;
 // }
 
-//void BipolarStepper::setTarget(uint16_t target_setting)
-void BipolarStepper::setTarget(int32_t target_setting)
-{
-	target = target_setting;
+void BipolarStepper::setTarget(int32_t target_setting) {
+  target = target_setting;
 }
 
-//uint16_t BipolarStepper::getTarget()
-int32_t BipolarStepper::getTarget()
-{
-	return target;
+int32_t BipolarStepper::getTarget() const {
+  return target;
 }
 
-float BipolarStepper::getTargetDegrees()
-{
-	return ticksToDegrees(target);
+float BipolarStepper::getTargetDegrees() const {
+  return ticksToDegrees(target);
 }
 
-void BipolarStepper::setTargetDegrees(float target_setting)
-{
-	target = degreesToTicks(target_setting);
+void BipolarStepper::setTargetDegrees(float target_setting) {
+  target = degreesToTicks(target_setting);
 }
 
-//uint16_t BipolarStepper::getPosition()
-int32_t BipolarStepper::getPosition()
-{
-	return position;
+int32_t BipolarStepper::getPosition() const {
+  return position;
 }
 
-float BipolarStepper::getPositionDegrees()
-{
-	return ticksToDegrees(position);
+float BipolarStepper::getPositionDegrees() const {
+  return ticksToDegrees(position);
 }
 
-//void BipolarStepper::setCurrentPosition(uint16_t position_setting)
-void BipolarStepper::setCurrentPosition(int32_t position_setting)
-{
-	position = position_setting;
+void BipolarStepper::setCurrentPosition(int32_t position_setting) {
+  position = position_setting;
 }
 
-void BipolarStepper::setCurrentPositionDegrees(float position_setting)
-{
-	position = degreesToTicks(position_setting);
+void BipolarStepper::setCurrentPositionDegrees(float position_setting) {
+  position = degreesToTicks(position_setting);
 }
 
-void BipolarStepper::zero()
-{
-	setCurrentPosition(0);
+void BipolarStepper::zero() {
+  position = 0;
 }
 
 // uint16_t BipolarStepper::degreesToTicks(float degrees)
 // {
-	// if (degrees >= 0.0f) {
-		// return (uint16_t)(round(fmod(degrees, 360.0f) / 360.0f * steps));
-	// } else {
-		// return (uint16_t)(round(fmod(360.0f - fmod(-degrees, 360.0f), 360.0f) / 360.0f * steps)); // Outer mod function is to ensure inputs like -360.0f return 0 instead of steps
-	// }
+  // if (degrees >= 0.0f) {
+    // return (uint16_t)(round(fmod(degrees, 360.0f) / 360.0f * steps));
+  // } else {
+    // return (uint16_t)(round(fmod(360.0f - fmod(-degrees, 360.0f), 360.0f) / 360.0f * steps)); // Outer mod function is to ensure inputs like -360.0f return 0 instead of steps
+  // }
 // }
 
-int32_t BipolarStepper::degreesToTicks(float degrees)
-{
-	return (int32_t)(round(degrees / 360.0f * steps));
+int32_t BipolarStepper::degreesToTicks(float degrees) const {
+  return (int32_t)(round(degrees / 360.0f * steps));
 }
 
-//float BipolarStepper::ticksToDegrees(uint16_t ticks)
-float BipolarStepper::ticksToDegrees(int32_t ticks)
-{
-	return 360.0f * ticks / steps;
+float BipolarStepper::ticksToDegrees(int32_t ticks) const {
+  return 360.0f * ticks / steps;
 }
 
-void BipolarStepper::stepForward()
-{
-	if (!enabled) {
-		return;
-	}
-	
-	state = (state + 1) % NUM_STATES;
-	doState(state);
-	//position = (position + 1) % steps;
-	position++;
+void BipolarStepper::stepForward() {
+  if (!initialized || !enabled) {
+    return;
+  }
+  
+  state = (state + 1) % NUM_STATES;
+  doState(state);
+  //position = (position + 1) % steps;
+  position++;
 }
 
-void BipolarStepper::stepBackward()
-{
-	if (!enabled) {
-		return;
-	}
-	
-	state = (state + NUM_STATES - 1) % NUM_STATES;
-	doState(state);
-	//position = (position + steps - 1) % steps;
-	position--;
+void BipolarStepper::stepBackward() {
+  if (!initialized || !enabled) {
+    return;
+  }
+  
+  state = (state + NUM_STATES - 1) % NUM_STATES;
+  doState(state);
+  //position = (position + steps - 1) % steps;
+  position--;
 }
 
-// void BipolarStepper::stepTowardTarget()
-// {
-	// if (!enabled || position == target) {
-		// return;
-	// }
-	
-	// switch (direction) {
-		// case FORWARD:
-			// stepForward();
-		// break;
-		// case BACKWARD:
-			// stepBackward();
-		// break;
-		// case BIDIRECTIONAL:
-			// if ((position > target && position - target > steps / 2) || (position < target && target - position <= steps / 2)) {
-				// stepForward();
-			// } else {
-				// stepBackward();
-			// }
-		// break;
-		// default:
-			// return;
-		// break;
-	// }
+// void BipolarStepper::stepTowardTarget() {
+  // if (!enabled || position == target) {
+    // return;
+  // }
+  
+  // switch (direction) {
+    // case FORWARD:
+      // stepForward();
+    // break;
+    // case BACKWARD:
+      // stepBackward();
+    // break;
+    // case BIDIRECTIONAL:
+      // if ((position > target && position - target > steps / 2) || (position < target && target - position <= steps / 2)) {
+        // stepForward();
+      // } else {
+        // stepBackward();
+      // }
+    // break;
+    // default:
+      // return;
+    // break;
+  // }
 // }
 
-void BipolarStepper::stepTowardTarget()
-{
-	if (!enabled || position == target) {
-		return;
-	}
-	
-	if (position > target) {
-		stepBackward();
-	} else if (position < target) {
-		stepForward();
-	}
+void BipolarStepper::stepTowardTarget() {
+  if (!initialized || !enabled || position == target) {
+    return;
+  }
+  
+  if (position > target) {
+    stepBackward();
+  } else if (position < target) {
+    stepForward();
+  }
 }
 
-// void BipolarStepper::step()
-// {
-	// if (!enabled) {
-		// return;
-	// }
-	
-	// switch (direction) {
-		// case FORWARD:
-			// stepForward();
-		// break;
-		// case BACKWARD:
-			// stepBackward();
-		// break;
-		// default:
-			// stepForward();
-		// break;
-	// }
+// void BipolarStepper::step() {
+  // if (!enabled) {
+    // return;
+  // }
+  
+  // switch (direction) {
+    // case FORWARD:
+      // stepForward();
+    // break;
+    // case BACKWARD:
+      // stepBackward();
+    // break;
+    // default:
+      // stepForward();
+    // break;
+  // }
 // }
 
-void BipolarStepper::doState(int state)
-{
-	state = state % 4;
-	switch (state) {
-		case 0:
-			digitalWrite(BRKA, LOW);
-			digitalWrite(BRKB, HIGH);
-			digitalWrite(DIRA, HIGH);
-			analogWrite(PWMA, 255);
-		break;
-		case 1:
-			digitalWrite(BRKA, HIGH);
-			digitalWrite(BRKB, LOW);
-			digitalWrite(DIRB, LOW);
-			analogWrite(PWMB, 255);
-		break;
-		case 2:
-			digitalWrite(BRKA, LOW);
-			digitalWrite(BRKB, HIGH);
-			digitalWrite(DIRA, LOW);
-			analogWrite(PWMA, 255);
-		break;
-		case 3:
-			digitalWrite(BRKA, HIGH);
-			digitalWrite(BRKB, LOW);
-			digitalWrite(DIRB, HIGH);
-			analogWrite(PWMB, 255);
-		break;
-	}
+void BipolarStepper::doState(int state) {
+  state = state % 4;
+  switch (state) {
+    case 0:
+      digitalWrite(brka, LOW);
+      digitalWrite(brkb, HIGH);
+      digitalWrite(dira, HIGH);
+      analogWrite(pwma, 255);
+    break;
+    case 1:
+      digitalWrite(brka, HIGH);
+      digitalWrite(brkb, LOW);
+      digitalWrite(dirb, LOW);
+      analogWrite(pwmb, 255);
+    break;
+    case 2:
+      digitalWrite(brka, LOW);
+      digitalWrite(brkb, HIGH);
+      digitalWrite(dira, LOW);
+      analogWrite(pwma, 255);
+    break;
+    case 3:
+      digitalWrite(brka, HIGH);
+      digitalWrite(brkb, LOW);
+      digitalWrite(dirb, HIGH);
+      analogWrite(pwmb, 255);
+    break;
+  }
 
-	// switch (state) {
-		// case 0:
-			// digitalWrite(pin_1, HIGH);
-			// digitalWrite(pin_2, LOW);
-			// digitalWrite(pin_3, HIGH);
-			// digitalWrite(pin_4, LOW);
-		// break;
-		// case 1:
-			// digitalWrite(pin_1, LOW);
-			// digitalWrite(pin_2, LOW);
-			// digitalWrite(pin_3, HIGH);
-			// digitalWrite(pin_4, LOW);
-		// break;
-		// case 2:
-			// digitalWrite(pin_1, LOW);
-			// digitalWrite(pin_2, HIGH);
-			// digitalWrite(pin_3, HIGH);
-			// digitalWrite(pin_4, LOW);
-		// break;
-		// case 3:
-			// digitalWrite(pin_1, LOW);
-			// digitalWrite(pin_2, HIGH);
-			// digitalWrite(pin_3, LOW);
-			// digitalWrite(pin_4, LOW);
-		// break;
-		// case 4:
-			// digitalWrite(pin_1, LOW);
-			// digitalWrite(pin_2, HIGH);
-			// digitalWrite(pin_3, LOW);
-			// digitalWrite(pin_4, HIGH);
-		// break;
-		// case 5:
-			// digitalWrite(pin_1, LOW);
-			// digitalWrite(pin_2, LOW);
-			// digitalWrite(pin_3, LOW);
-			// digitalWrite(pin_4, HIGH);
-		// break;
-		// case 6:
-			// digitalWrite(pin_1, HIGH);
-			// digitalWrite(pin_2, LOW);
-			// digitalWrite(pin_3, LOW);
-			// digitalWrite(pin_4, HIGH);
-		// break;
-		// case 7:
-			// digitalWrite(pin_1, HIGH);
-			// digitalWrite(pin_2, LOW);
-			// digitalWrite(pin_3, LOW);
-			// digitalWrite(pin_4, LOW);
-		// break;
-		// default:
-			// digitalWrite(pin_1, HIGH);
-			// digitalWrite(pin_2, HIGH);
-			// digitalWrite(pin_3, HIGH);
-			// digitalWrite(pin_4, HIGH);
-		// break;
-	// }
+  // switch (state) {
+    // case 0:
+      // digitalWrite(pin_1, HIGH);
+      // digitalWrite(pin_2, LOW);
+      // digitalWrite(pin_3, HIGH);
+      // digitalWrite(pin_4, LOW);
+    // break;
+    // case 1:
+      // digitalWrite(pin_1, LOW);
+      // digitalWrite(pin_2, LOW);
+      // digitalWrite(pin_3, HIGH);
+      // digitalWrite(pin_4, LOW);
+    // break;
+    // case 2:
+      // digitalWrite(pin_1, LOW);
+      // digitalWrite(pin_2, HIGH);
+      // digitalWrite(pin_3, HIGH);
+      // digitalWrite(pin_4, LOW);
+    // break;
+    // case 3:
+      // digitalWrite(pin_1, LOW);
+      // digitalWrite(pin_2, HIGH);
+      // digitalWrite(pin_3, LOW);
+      // digitalWrite(pin_4, LOW);
+    // break;
+    // case 4:
+      // digitalWrite(pin_1, LOW);
+      // digitalWrite(pin_2, HIGH);
+      // digitalWrite(pin_3, LOW);
+      // digitalWrite(pin_4, HIGH);
+    // break;
+    // case 5:
+      // digitalWrite(pin_1, LOW);
+      // digitalWrite(pin_2, LOW);
+      // digitalWrite(pin_3, LOW);
+      // digitalWrite(pin_4, HIGH);
+    // break;
+    // case 6:
+      // digitalWrite(pin_1, HIGH);
+      // digitalWrite(pin_2, LOW);
+      // digitalWrite(pin_3, LOW);
+      // digitalWrite(pin_4, HIGH);
+    // break;
+    // case 7:
+      // digitalWrite(pin_1, HIGH);
+      // digitalWrite(pin_2, LOW);
+      // digitalWrite(pin_3, LOW);
+      // digitalWrite(pin_4, LOW);
+    // break;
+    // default:
+      // digitalWrite(pin_1, HIGH);
+      // digitalWrite(pin_2, HIGH);
+      // digitalWrite(pin_3, HIGH);
+      // digitalWrite(pin_4, HIGH);
+    // break;
+  // }
 }
 
-int BipolarStepper::getState()
-{
-	return state;
+int BipolarStepper::getState() const {
+  return state;
 }
