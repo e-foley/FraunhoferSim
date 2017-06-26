@@ -30,7 +30,7 @@ void BipolarStepper::disable() {
   enabled = false;
 }
 
-bool BipolarStepper::isEnabled() {
+bool BipolarStepper::isEnabled() const {
   return enabled;
 }
 
@@ -42,11 +42,11 @@ void BipolarStepper::setTarget(int32_t target_setting) {
   target = target_setting;
 }
 
-int32_t BipolarStepper::getTarget() {
+int32_t BipolarStepper::getTarget() const {
   return target;
 }
 
-float BipolarStepper::getTargetDegrees() {
+float BipolarStepper::getTargetDegrees() const {
   return ticksToDegrees(target);
 }
 
@@ -54,11 +54,11 @@ void BipolarStepper::setTargetDegrees(float target_setting) {
   target = degreesToTicks(target_setting);
 }
 
-int32_t BipolarStepper::getPosition() {
+int32_t BipolarStepper::getPosition() const {
   return position;
 }
 
-float BipolarStepper::getPositionDegrees() {
+float BipolarStepper::getPositionDegrees() const {
   return ticksToDegrees(position);
 }
 
@@ -83,11 +83,11 @@ void BipolarStepper::zero() {
   // }
 // }
 
-int32_t BipolarStepper::degreesToTicks(float degrees) {
+int32_t BipolarStepper::degreesToTicks(float degrees) const {
   return (int32_t)(round(degrees / 360.0f * steps));
 }
 
-float BipolarStepper::ticksToDegrees(int32_t ticks) {
+float BipolarStepper::ticksToDegrees(int32_t ticks) const {
   return 360.0f * ticks / steps;
 }
 
@@ -255,6 +255,6 @@ void BipolarStepper::doState(int state) {
   // }
 }
 
-int BipolarStepper::getState() {
+int BipolarStepper::getState() const {
   return state;
 }
