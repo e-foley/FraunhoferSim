@@ -10,6 +10,7 @@ const int PWMA_PIN = 3;
 const int BRKB_PIN = 8;
 const int DIRB_PIN = 13;
 const int PWMB_PIN = 11;
+uint32_t STEP_PERIOD_US = 5000;  // [us] (3500, 4000, 4444, 5000 work well)
 
 BipolarStepper stepper(MOTOR_STEPS, BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
 TimerOne timer;
@@ -24,7 +25,7 @@ void setup() {
   stepper.enable();
   //stepper.forceDirection(BipolarStepper::BIDIRECTIONAL);
   timer.initialize();
-  timer.attachInterrupt(update, 5000); // 3500, 4000, 4444, 5000 work well
+  timer.attachInterrupt(update, STEP_PERIOD_US);
   target = 0.0f;
   dir = true;
 }
