@@ -36,8 +36,8 @@ class BipolarStepper {
   const static int NUM_STATES = 8;
   
   void doState(int state);
-  int brka, dira, pwma, brkb, dirb, pwmb;
-  uint16_t steps;
+  const int brka, dira, pwma, brkb, dirb, pwmb;
+  const uint16_t steps;
   int32_t position;
   int32_t target;
   bool enabled;
