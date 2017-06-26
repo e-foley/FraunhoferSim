@@ -2,20 +2,20 @@
 #include <Math.h>
 #include <Arduino.h>
 
-BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set,
-    int BRKB_set, int DIRB_set, int PWMB_set) : BRKA(BRKA_set), DIRA(DIRA_set), PWMA(PWMA_set),
-    BRKB(BRKB_set), DIRB(DIRB_set), PWMB(PWMB_set), steps(steps_set), position(0), target(0),
+BipolarStepper::BipolarStepper(uint16_t steps_set, int brka_set, int dira_set, int pwma_set,
+    int brkb_set, int dirb_set, int pwmb_set) : brka(brka_set), dira(dira_set), pwma(pwma_set),
+    brkb(brkb_set), dirb(dirb_set), pwmb(pwmb_set), steps(steps_set), position(0), target(0),
     enabled(false), state(0), initialized(false) {
   //direction = BIDIRECTIONAL;
 }
 
 void BipolarStepper::initialize() {
-  pinMode(BRKA, OUTPUT);
-  pinMode(DIRA, OUTPUT);
-  pinMode(PWMA, OUTPUT);
-  pinMode(BRKB, OUTPUT);
-  pinMode(DIRB, OUTPUT);
-  pinMode(PWMB, OUTPUT);
+  pinMode(brka, OUTPUT);
+  pinMode(dira, OUTPUT);
+  pinMode(pwma, OUTPUT);
+  pinMode(brkb, OUTPUT);
+  pinMode(dirb, OUTPUT);
+  pinMode(pwmb, OUTPUT);
   doState(state);
   delay(200);
   zero();
@@ -172,28 +172,28 @@ void BipolarStepper::doState(int state) {
   state = state % 4;
   switch (state) {
     case 0:
-      digitalWrite(BRKA, LOW);
-      digitalWrite(BRKB, HIGH);
-      digitalWrite(DIRA, HIGH);
-      analogWrite(PWMA, 255);
+      digitalWrite(brka, LOW);
+      digitalWrite(brkb, HIGH);
+      digitalWrite(dira, HIGH);
+      analogWrite(pwma, 255);
     break;
     case 1:
-      digitalWrite(BRKA, HIGH);
-      digitalWrite(BRKB, LOW);
-      digitalWrite(DIRB, LOW);
-      analogWrite(PWMB, 255);
+      digitalWrite(brka, HIGH);
+      digitalWrite(brkb, LOW);
+      digitalWrite(dirb, LOW);
+      analogWrite(pwmb, 255);
     break;
     case 2:
-      digitalWrite(BRKA, LOW);
-      digitalWrite(BRKB, HIGH);
-      digitalWrite(DIRA, LOW);
-      analogWrite(PWMA, 255);
+      digitalWrite(brka, LOW);
+      digitalWrite(brkb, HIGH);
+      digitalWrite(dira, LOW);
+      analogWrite(pwma, 255);
     break;
     case 3:
-      digitalWrite(BRKA, HIGH);
-      digitalWrite(BRKB, LOW);
-      digitalWrite(DIRB, HIGH);
-      analogWrite(PWMB, 255);
+      digitalWrite(brka, HIGH);
+      digitalWrite(brkb, LOW);
+      digitalWrite(dirb, HIGH);
+      analogWrite(pwmb, 255);
     break;
   }
 

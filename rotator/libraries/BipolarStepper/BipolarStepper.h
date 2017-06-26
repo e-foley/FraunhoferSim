@@ -8,8 +8,8 @@ class BipolarStepper {
   // const static int FORWARD = 1;
   // const static int BIDIRECTIONAL = 0;
   // const static int BACKWARD = -1;
-  BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set, int BRKB_set,
-      int DIRB_set, int PWMB_set);
+  BipolarStepper(uint16_t steps_set, int brka_set, int dira_set, int pwma_set, int brkb_set,
+      int dirb_set, int pwmb_set);
   void initialize();
   void enable();
   void disable();
@@ -36,7 +36,7 @@ class BipolarStepper {
   const static int NUM_STATES = 8;
   
   void doState(int state);
-  int BRKA, DIRA, PWMA, BRKB, DIRB, PWMB;
+  int brka, dira, pwma, brkb, dirb, pwmb;
   uint16_t steps;
   int32_t position;
   int32_t target;
