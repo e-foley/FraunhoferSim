@@ -4,17 +4,15 @@
 
 BipolarStepper::BipolarStepper(uint16_t steps_set, int BRKA_set, int DIRA_set, int PWMA_set,
     int BRKB_set, int DIRB_set, int PWMB_set) : BRKA(BRKA_set), DIRA(DIRA_set), PWMA(PWMA_set),
-    BRKB(BRKB_set), DIRB(DIRB_set), PWMB(PWMB_set), steps(steps_set) {
+    BRKB(BRKB_set), DIRB(DIRB_set), PWMB(PWMB_set), steps(steps_set), position(0), target(0),
+    enabled(false), state(0) {
 	pinMode(BRKA, OUTPUT);
 	pinMode(DIRA, OUTPUT);
 	pinMode(PWMA, OUTPUT);
 	pinMode(BRKB, OUTPUT);
 	pinMode(DIRB, OUTPUT);
 	pinMode(PWMB, OUTPUT);
-	enabled = false;
-	target = 0;
 	//direction = BIDIRECTIONAL;
-	state = 0;
 	doState(state);
 	delay(200);
 	zero();
