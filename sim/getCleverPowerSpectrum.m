@@ -1,4 +1,4 @@
-function [xfm, reduced_size, fft_size] = get_clever_power_spectrum(input, psf_props)
+function [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(input, psf_props)
 
 p = psf_props;  % Shorthand
 

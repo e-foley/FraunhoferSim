@@ -1,13 +1,44 @@
 % Runner file.  Creates power-spectrum-related figures from existing
 % aperture shape files.
 
+% Define global propertes
+image_path = 'items/';
+input_extension = '.png';
+processed_extension = '_psf.png';
+show_processed = true;
+save_processed = true;
+figure_num = 1;
+
 % Define standard PSF-generation properties
 psf_props = PsfProps;
 psf_props.input_scale = 0.25;
-psf_props.fft_scale = 10;
+psf_props.fft_scale = 8;
 psf_props.ld_conv = [0 0 1];
 
-[xfm, ~, ~] = get_clever_power_spectrum(imread('c11.png'), psf_props);
+% Define standard cropping properties
+crop_scale_props = CropScaleProps;
+crop_scale_props.ld_lim = 12;
+crop_scale_props.mag_lims = [0 4];
+
+inputs = {
+    'c11' psf_props crop_scale_props
+    'gaussian-15' psf_props crop_scale_props
+};
+
+for i = 1:size(inputs, 1)
+    input = {inputs{i, :}};
+    path = [image_path inputs{i, 1} input_extension];
+    if save_processed
+        processed_path = [image_path inputs{i, 1} processed_extension];
+    else
+        processed_path = '';
+    end
+    [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(imread(path), input{2});
+    % Note for later: the convolutions should probably happen outside of power
+    % spec. so that we can apply rainbow effect to each point of light...
+    [processed, figure_num] = cropAndScale(xfm, input{2}.fft_scale, input{3}, show_processed, figure_num, save_processed, processed_path);
+end
+
 
 %TODO: Define other functions with parameters and loop through everything
 %we need using clever arrays.  I'm actually looking forward to this...
