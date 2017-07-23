@@ -1,14 +1,33 @@
 close all;
 
-A = form_circle(1024, 0.5);
-imwrite(A, 'full.png');
-A_inner = form_circle(1024, 3.881/11*0.5);
-imwrite(A_inner, 'inner.png');
-A_alt = A - A_inner;
-imwrite(A_alt, 'C11.png');
+A = ones(1024);
+A = A .* form_circle(1024, 0.5);
+A = A .* (1-form_circle(1024, 3.881/11*0.5));
+A = A .* (1-form_rectangle(1024, [0 0], [((1/16)/11) 1]));
+A = A .* (1-form_rectangle(1024, [0 0], [1 ((1/16)/11)]));
+A = A .* form_gaussian(1024, 1.0, 0.18);
+A = A .* (1-form_gaussian(1024, 0.56, 0.18));
 
+% imshow(A);
+% imwrite(A, 'Gaussian 18 donut and structure.png');
 
+B = ones(1024);
+bar_size = 1/8;  % [in]
+B = B .* form_polygon(1024, 0.5, 6, 0);
+B = B .* (1-form_polygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
+B = B .* (1-form_rectangle(1024, [0 0], [(bar_size/11) 1]));
+B = B .* (1-imrotate(form_rectangle(1024, [0 0], [(bar_size/11) 1]), 60, 'nearest', 'crop'));
+B = B .* (1-imrotate(form_rectangle(1024, [0 0], [(bar_size/11) 1]), 120, 'nearest', 'crop'));
+imshow(B);
+% imwrite(B, 'Hex donut.png');
 
+bowtie_bar_placement = 0.049;
+C = double(imread('bowtie.png'));
+C = C ./ max(max(C));  % because original bowtie is on [0 255]
+C = C .* (1-form_rectangle(1000, [-bowtie_bar_placement 0], [bar_size/11 0.8]));
+C = C .* (1-form_rectangle(1000, [bowtie_bar_placement 0], [bar_size/11 0.8]));
+imshow(C);
+imwrite(C, 'beamed bowtie.png');
 
 % 
 % % square
@@ -33,9 +52,9 @@ imwrite(A_alt, 'C11.png');
 %     end
 % end
 
-H = form_gaussian(1024, 1.0, 0.15);
-J = H .* A_alt;
-imwrite(J, 'C11_gaussian-15.png');
+%H = form_gaussian(1024, 1.0, 0.15);
+%J = H .* A_alt;
+%imwrite(J, 'C11_gaussian-15.png');
 
 % J = [H H; zeros(0, 1024); H H];
 % L = cat(3, J, J, A_alt);
@@ -84,8 +103,8 @@ imwrite(J, 'C11_gaussian-15.png');
 %N = form_gaussian(1024, 0.56, 0.18); % 312358
 %N = form_gaussian(1024, 0.63, 0.15); % 303494
 % P = M-N;
-beam = ones(1024);
-beam(512.5-10.5:512.5+10.5, :) = 0;
+%beam = ones(1024);
+%beam(512.5-10.5:512.5+10.5, :) = 0;
 %P = P .* beam;
 % through = sum(sum(P))
 % Q = cat(3, P, P, A_alt);
