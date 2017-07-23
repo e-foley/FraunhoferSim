@@ -86,6 +86,7 @@ end
 
 imwrite(cropped, [filename_string ' simple PSF.png']);
 
+% NOTE: THIS MAY BE COPIED INTO A DIFFERENT FILE...
 % Use the automatic image scale/plot function so that axes are labeled
 if (show_scaled)
     scaled_fig = figure(figure_num + 2);
