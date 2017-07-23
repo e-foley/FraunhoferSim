@@ -1,10 +1,10 @@
 % compares two power spectra
 function [comp_img, r_axis, m1_axis, m2_axis, colors] = compare2(ps1, ps2, primary_color, ld_lim, fft_scale, mag_lims)
 
-cropped1 = crop_by_ld(ps1, ld_lim, fft_scale);
-bound1 = bound_shades(cropped1, mag_lims);
-cropped2 = crop_by_ld(ps2, ld_lim, fft_scale);
-bound2 = bound_shades(cropped2, mag_lims);
+cropped1 = cropByLd(ps1, ld_lim, fft_scale);
+bound1 = boundShades(cropped1, mag_lims);
+cropped2 = cropByLd(ps2, ld_lim, fft_scale);
+bound2 = boundShades(cropped2, mag_lims);
 
 secondary_color = 1-primary_color;
 red =   bound1 .* primary_color(1) + bound2 .* secondary_color(1);
