@@ -41,11 +41,12 @@ imagesc_props.color_map = parula(256);
 % Define overlay-related properties
 overlay_props = OverlayProps;  % Struct defined in OverlayProps.m
 overlay_props.cut_vert_lims = [-8 0];
+overlay_props.cut_y_axis_spacing = 1;
 overlay_props.cut_line_thickness = 2;
 overlay_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot title
 overlay_props.primary_color = [0 1 0];
 
-runOverlay(overlay_props, psf_props, crop_scale_props, imagesc_props, 'gaussian-15_donut', 'items/gaussian-15_donut.png', 'Gaussian donut', 'gaussian-15', 'items/gaussian-15.png', 'Gaussian', figure_num);
+runOverlay(overlay_props, psf_props, crop_scale_props, imagesc_props, 'gaussian-15_donut', 'items/gaussian-15_donut.png', 'Gaussian donut', 'multigaussian-15', 'items/multigaussian-15.png', 'Multi-Gaussian', figure_num);
 
 inputs = {
 %     'c11' psf_props crop_scale_props imagesc_props
