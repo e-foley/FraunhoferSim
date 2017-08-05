@@ -1,4 +1,4 @@
-function [ A ] = form_rectangle( img_size, rel_center, rel_dims )
+function [ A ] = formRectangle( img_size, rel_center, rel_dims )
     A = zeros(img_size);
     % calculate center and bounds
     center = ((img_size + 1) / 2) + (img_size - 1) * rel_center;

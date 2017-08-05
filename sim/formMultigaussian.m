@@ -1,9 +1,9 @@
-function [ canvas ] = form_multigaussian( master_size, rel_centers, rel_peak_height, std_factor, combine_as_product )
+function [ canvas ] = formMultigaussian( master_size, rel_centers, rel_peak_height, std_factor, combine_as_product )
 
 canvas = zeros(master_size);
 
 for i = 1:size(rel_centers, 1)
-    single = form_gaussian(master_size, rel_peak_height, std_factor);
+    single = formGaussion(master_size, rel_peak_height, std_factor);
     
     pixel_shift = -round(rel_centers(i, :) .* master_size);
     for j=1:master_size
@@ -24,4 +24,3 @@ for i=1:numel(canvas)
 end
 
 end
-
