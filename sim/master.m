@@ -13,6 +13,7 @@ aperture_extension_png = '_aperture.png';
 processed_extension = '_psf.png';
 scaled_extension_eps = '_scaled.eps';
 scaled_extension_png = '_scaled.png';
+spec_extension = '_psf_specs.txt';
 imagesc_title_prefix = 'Ideal monochromatic, on-axis PSF of ';
 persist_aperture = false;
 save_aperture_eps = true;
@@ -26,6 +27,7 @@ save_psf_overlay = true;
 save_cut_overlay = true;
 save_combo = true;
 persist_overlay_figures = false;
+generate_spec_files = true;
 figure_num = 1;
 
 % Define formatting parameters for the aperture figure.
@@ -147,6 +149,10 @@ for i = 1:size(inputs, 1)
     ld_bounds = reduced_size' * [-0.5 0.5];  % LD covered by whole image (`reduced_size` refers to scaled input image) 
     % TODO: Handle the arguments here better...
     [figure_num] = runImagesc(log_scaled, input{5}, ld_bounds, input{4}, imagesc_title, persist_scaled, figure_num, save_scaled_eps, scaled_location_eps, save_scaled_png, scaled_location_png);
+    if generate_spec_files
+        spec_output_location = [output_directory input{1} spec_extension];
+        generatePsfSpecFile(inputs{3}, size(mask), reduced_size, fft_size, input{4}, size(processed), inputs{2}, inputs{5}, spec_output_location);
+    end
 end
 
 for i = 1:size(overlays, 1)
