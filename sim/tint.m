@@ -1,4 +1,4 @@
-function [ tinted ] = tint( img, tint )
+function [tinted  = tint(img, tint)
 
 if size(img, 3) == 1
     img = cat(3, img, img, img);
