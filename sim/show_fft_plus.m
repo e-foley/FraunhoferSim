@@ -55,12 +55,12 @@ end
 img_in = single(img_in);
 
 % Create a figure showing the mask/aperture and save the figure to a file
-if (show_aperture && figure_num ~= 0)
-    plot_aperture(img_in, mask_name, filename_string, figure_num, font_size_const, nominal_plot_size, print_mode);
-end
+% if (show_aperture && figure_num ~= 0)
+%     plot_aperture(img_in, mask_name, filename_string, figure_num, font_size_const, nominal_plot_size, print_mode);
+% end
 
 % Calculate the power spectrum of the image
-[xfm, reduced_size, fft_size] = get_clever_power_spectrum(img_in, img_in_scale, fft_scale, ld);
+[xfm, reduced_size, fft_size] = getCleverPowerSpectrum(img_in, img_in_scale, fft_scale, ld);
 
 if (figure_num == 0)
     return;
