@@ -1,8 +1,8 @@
 gamma = 0.8;
 rows = 300;
-lambdas = 350:800;
+lambdas = 370:790;
 num_lambdas = numel(lambdas);
-map = zeros(rows, bounds(2)-bounds(1)+1, 3);
+map = zeros(rows, num_lambdas, 3);
 
 for i=1:num_lambdas
     rgb = lambda2rgb(lambdas(i), gamma);
