@@ -12,7 +12,7 @@ ld_max = 64;
 % mask = imread('mask1.png');
 % show_fft_plus(mask, in_scale, fft_scale, mag_scale, ld_max, 1, 'Double Gaussian mask', 'double Gaussian mask');
 % 
-mask = imread('gaussian-15.png');
+mask = imread('items/gaussian-15.png');
 R = show_fft_plus(mask, in_scale, fft_scale, mag_scale, ld_max, 'hot', 1, 'iht', 'iht');
 G = show_fft_plus(mask, in_scale, fft_scale, mag_scale, ld_max, 'hot', 1, 'iht', 'iht');
 %R = show_fft_plus(mask, in_scale, fft_scale, mag_scale, ld_max, 'hot', 1, 'iht', 'iht');
