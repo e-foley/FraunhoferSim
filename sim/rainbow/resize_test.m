@@ -15,7 +15,7 @@ img = imread('target.png');
 %img = imread('bridged3.png');
 
 mono = false;
-autocrop = true;  % crops image to dimensions of smallest "slice" of spectrum (best used when centered on [0.5 0.5])
+autocrop = false;  % crops image to dimensions of smallest "slice" of spectrum (best used when centered on [0.5 0.5])
 steps = 200;
 lambda_low = 380;  % 380 to 670 range gives whites a little yellowy, but not bad
 lambda_high = 660;  % up to 640 improves whites but makes image look green
@@ -38,5 +38,5 @@ if mono
     img = rgb2gray(img);
 end
 
-tester = rainbowify_lambdas(img, scales, wavelengths, brightnesses, gamma, border_shade, output_size, center);
+tester = rainbowifyLambdas(img, scales, wavelengths, brightnesses, gamma, border_shade, output_size, center);
 imshow(tester);

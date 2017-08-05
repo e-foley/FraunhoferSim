@@ -1,7 +1,7 @@
 % How to handle images that are resized such that their numbers of pixels
 % end up with different parities? Because centers may not match.
 
-function [ img_out ] = scale_dimkeep( img, scale, dims, border_shade, center)
+function [img_out] = scaleKeepingDimensions(img, scale, dims, border_shade, center)
     img_out = border_shade * ones([dims size(img, 3)], 'double');
     img = double(imresize(img, scale)) / 255;
     canvas_margin = dims - [size(img, 1) size(img, 2)];

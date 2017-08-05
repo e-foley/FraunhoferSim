@@ -1,4 +1,4 @@
-function [ rgb ] = lambda2rgb( lambda, gamma )
+function [rgb] = lambdaToRgb( lambda, gamma )
 
 % per Dan Bruton's approach
 
@@ -29,4 +29,3 @@ end
 rgb = (rgb * intensity) .^ gamma;
 
 end
-
