@@ -11,6 +11,11 @@ A = A .* (1-form_gaussian(1024, 0.56, 0.18));
 % imshow(A);
 % imwrite(A, 'Gaussian 18 donut and structure.png');
 
+S = ones(1024);
+S = S .* form_polygon(1024, 0.5, 4, 90);
+imshow(S);
+imwrite(S, 'diamond.png');
+
 B = ones(1024);
 bar_size = 1/8;  % [in]
 B = B .* form_polygon(1024, 0.5, 6, 0);
