@@ -1,4 +1,4 @@
-function [ mat ] = form_sine_grating(dims, spatfreq, phase, angle)
+function [ mat ] = formSineGrating(dims, spatfreq, phase, angle)
 
 % Creates a sinusoid at a given spatial frequency, phase, and propogation
 % angle, TREATING TOP-LEFT CORNER AS (0, 0)

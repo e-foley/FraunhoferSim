@@ -1,7 +1,8 @@
-function [convmat] = LD_to_convmat(LD, fft_scale)
+function [convmat] = ldToConvMat(LD, fft_scale)
 
 pixels_per_LD = fft_scale;
 
+coords = zeros(size(LD, 1), 2);
 for i=1:size(LD, 1)
     % raw pixel coords--can be negative for the moment
     coords(i, 1) = round(-pixels_per_LD * LD(i, 2));  % raster "x" (vert)

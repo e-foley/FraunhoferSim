@@ -11,7 +11,7 @@ fft_size = p.fft_scale * reduced_size;
 xfm = fftshift(fft2(reduced, fft_size(1), fft_size(2)));
 
 % Convolve the FFT with whatever pattern of stars, etc. we please
-convmat = LD_to_convmat(p.ld_conv, p.fft_scale);
+convmat = ldToConvMat(p.ld_conv, p.fft_scale);
 
 % Note this is relative to xfm's scale...
 xfm = conv2(xfm, convmat);
