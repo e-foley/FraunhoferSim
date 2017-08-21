@@ -8,8 +8,8 @@ function [ ld ] = doubleToLd(separation, mags, angle, wavelength, diameter)
 % TODO: Think more about whether that additional division by two is
 % necessary... I think it is
 
-ld_separation = arcsec_to_LD(separation, wavelength, diameter);
-secondary_pos = [LD_separation * cosd(angle-90) ld_separation * sind(angle-90)];
+ld_separation = arcsecToLd(separation, wavelength, diameter);
+secondary_pos = [ld_separation * cosd(angle-90) ld_separation * sind(angle-90)];
 
 ld = zeros(2, 3);
 ld(1, :) = [0.0 0.0 10^(-mags(1) / 2.5 / 2)];
