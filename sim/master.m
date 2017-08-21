@@ -1,12 +1,17 @@
 % Runner file.  Creates power-spectrum-related figures from existing
 % aperture shape files.
 
+% RECENT:
+% * LD lims changed for Rigel test (originally 12)
+% * LD tick spacing changed (was 2)
+
 close all;  % Get rid of our figures
 clear variables;  % Clean up our variables
 
 % Define global propertes
-input_directory = 'items/';
-output_directory = 'out/';
+telescope_diameter = 11;  % [in] Affects convolution matrix math
+input_directory = '../Inputs/';
+output_directory = '../Outputs/overlays/';
 input_extension = '.png';
 aperture_extension_eps = '_aperture.eps';
 aperture_extension_png = '_aperture.png';
@@ -26,7 +31,7 @@ save_scaled_png = true;
 save_psf_overlay = true;
 save_cut_overlay = true;
 save_combo = true;
-persist_overlay_figures = false;
+persist_overlay_figures = true;
 generate_spec_files = true;
 figure_num = 1;
 
@@ -43,22 +48,23 @@ aperture_props.color_map = gray(256);
 
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
-psf_props.input_scale = 0.25;
-psf_props.fft_scale = 8;
+psf_props.input_scale = 1.0;  % Affects accuracy
+psf_props.fft_scale = 8;  % Affects resolution
 psf_props.ld_conv = [0 0 1];
+%psf_props.ld_conv = doubleToLd(9.5, [0 6.5], 90, 680, telescope_diameter);
 
 % Define standard cropping properties.
 crop_scale_props = CropScaleProps;
-crop_scale_props.ld_lim = 12;
+crop_scale_props.ld_lim = 20;
 crop_scale_props.mag_lims = [1 4];
 
 % Define imagesc-related properties.
 imagesc_props = ImagescProps;
 imagesc_props.nominal_plot_size = [620 528];
 imagesc_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
-imagesc_props.h_axis_tick_spacing = 2;
+imagesc_props.h_axis_tick_spacing = 5;
 imagesc_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
-imagesc_props.v_axis_tick_spacing = 2;
+imagesc_props.v_axis_tick_spacing = 5;
 imagesc_props.extra_title_margin = 0.5;
 imagesc_props.font_size = 14;
 imagesc_props.color_map = hot(256);
@@ -76,7 +82,7 @@ inputs = {
 %     'bowtie' aperture_props psf_props crop_scale_props imagesc_props
 %     'C11 and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'c11' aperture_props psf_props crop_scale_props imagesc_props
-    'diamond' aperture_props psf_props crop_scale_props imagesc_props
+%     'diamond' aperture_props psf_props crop_scale_props imagesc_props
 %     'full' aperture_props psf_props crop_scale_props imagesc_props
 %     'Gaussian 18 donut and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-05' aperture_props psf_props crop_scale_props imagesc_props
@@ -99,7 +105,9 @@ overlays = {
 %     'Hex donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'hexagon' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
 %     'triangle' 'full' overlay_props psf_props crop_scale_props imagesc_props
-    'diamond' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
+%     'diamond' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
+%     'c11' 'full' overlay_props psf_props crop_scale_props imagesc_props
+      'bowtie' 'multigaussian-18' overlay_props psf_props crop_scale_props imagesc_props
 };
 
 names = {
@@ -121,6 +129,7 @@ names = {
   'hexagon' 'hexagonal aperture'
   'inner' 'C11 central obstruction'
   'multigaussian-15' 'multi-Gaussian'
+  'multigaussian-18' 'multi-Gaussian'
   'square' 'square aperture'
   'triangle' 'triangular aperture'
 };
