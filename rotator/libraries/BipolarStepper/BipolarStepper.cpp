@@ -95,7 +95,7 @@ void BipolarStepper::stepForward() {
   if (!initialized || !enabled) {
     return;
   }
-  
+
   state = (state + 1) % NUM_STATES;
   doState(state);
   //position = (position + 1) % steps;
@@ -106,7 +106,7 @@ void BipolarStepper::stepBackward() {
   if (!initialized || !enabled) {
     return;
   }
-  
+
   state = (state + NUM_STATES - 1) % NUM_STATES;
   doState(state);
   //position = (position + steps - 1) % steps;
@@ -117,7 +117,7 @@ void BipolarStepper::stepBackward() {
   // if (!enabled || position == target) {
     // return;
   // }
-  
+
   // switch (direction) {
     // case FORWARD:
       // stepForward();
@@ -142,7 +142,7 @@ void BipolarStepper::stepTowardTarget() {
   if (!initialized || !enabled || position == target) {
     return;
   }
-  
+
   if (position > target) {
     stepBackward();
   } else if (position < target) {
@@ -154,7 +154,7 @@ void BipolarStepper::stepTowardTarget() {
   // if (!enabled) {
     // return;
   // }
-  
+
   // switch (direction) {
     // case FORWARD:
       // stepForward();
@@ -176,25 +176,25 @@ void BipolarStepper::doState(int state) {
       digitalWrite(brkb, HIGH);
       digitalWrite(dira, HIGH);
       analogWrite(pwma, 255);
-    break;
+      break;
     case 1:
       digitalWrite(brka, HIGH);
       digitalWrite(brkb, LOW);
       digitalWrite(dirb, LOW);
       analogWrite(pwmb, 255);
-    break;
+      break;
     case 2:
       digitalWrite(brka, LOW);
       digitalWrite(brkb, HIGH);
       digitalWrite(dira, LOW);
       analogWrite(pwma, 255);
-    break;
+      break;
     case 3:
       digitalWrite(brka, HIGH);
       digitalWrite(brkb, LOW);
       digitalWrite(dirb, HIGH);
       analogWrite(pwmb, 255);
-    break;
+      break;
   }
 
   // switch (state) {
