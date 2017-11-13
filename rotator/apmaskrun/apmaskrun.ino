@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "bipolar_stepper.h"
 #include "mask_controller.h"
+#include "stepper_controller.h"
 #include "timer_one.h"
 
 const float GEAR_RATIO = 17.0/72.0;
@@ -41,12 +42,12 @@ void loop() {
 //    stepper.setTargetDegrees(350.0f);
 //  }
   if (Serial.available()) {
-    stepper.setTargetDegrees(Serial.parseFloat() / GEAR_RATIO);
+    //stepper.setTargetDegrees(Serial.parseFloat() / GEAR_RATIO);
     Serial.print("Target set to ");
-    Serial.println(stepper.getTargetDegrees() * GEAR_RATIO);
+    //Serial.println(stepper.getTargetDegrees() * GEAR_RATIO);
   }
 }
 
 void update() {
-  stepper.stepTowardTarget();
+  //stepper.stepTowardTarget();
 }

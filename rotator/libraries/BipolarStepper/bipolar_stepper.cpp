@@ -31,49 +31,49 @@ bool BipolarStepper::isEnabled() const {
   return enabled_;
 }
 
-void BipolarStepper::setTarget(int32_t target_setting) {
-  target_ = target_setting;
-}
+// void BipolarStepper::setTarget(int32_t target_setting) {
+//   target_ = target_setting;
+// }
+//
+// int32_t BipolarStepper::getTarget() const {
+//   return target_;
+// }
 
-int32_t BipolarStepper::getTarget() const {
-  return target_;
-}
-
-float BipolarStepper::getTargetDegrees() const {
-  return ticksToDegrees(target_);
-}
-
-void BipolarStepper::setTargetDegrees(float target_setting) {
-  target_ = degreesToTicks(target_setting);
-}
+// float BipolarStepper::getTargetDegrees() const {
+//   return ticksToDegrees(target_);
+// }
+//
+// void BipolarStepper::setTargetDegrees(float target_setting) {
+//   target_ = degreesToTicks(target_setting);
+// }
 
 int32_t BipolarStepper::getPosition() const {
   return position_;
 }
 
-float BipolarStepper::getPositionDegrees() const {
-  return ticksToDegrees(position_);
-}
+// float BipolarStepper::getPositionDegrees() const {
+//   return ticksToDegrees(position_);
+// }
 
 void BipolarStepper::setCurrentPosition(int32_t position_setting) {
   position_ = position_setting;
 }
 
-void BipolarStepper::setCurrentPositionDegrees(float position_setting) {
-  position_ = degreesToTicks(position_setting);
-}
+// void BipolarStepper::setCurrentPositionDegrees(float position_setting) {
+//   position_ = degreesToTicks(position_setting);
+// }
 
 void BipolarStepper::zero() {
   position_ = 0;
 }
 
-int32_t BipolarStepper::degreesToTicks(float degrees) const {
-  return static_cast<int32_t>(round(degrees / 360.0f * steps_));
-}
-
-float BipolarStepper::ticksToDegrees(int32_t ticks) const {
-  return 360.0f * ticks / steps_;
-}
+// int32_t BipolarStepper::degreesToTicks(float degrees) const {
+//   return static_cast<int32_t>(round(degrees / 360.0f * steps_));
+// }
+//
+// float BipolarStepper::ticksToDegrees(int32_t ticks) const {
+//   return 360.0f * ticks / steps_;
+// }
 
 void BipolarStepper::stepForward() {
   if (!initialized_ || !enabled_) {
@@ -95,17 +95,17 @@ void BipolarStepper::stepBackward() {
   position_--;
 }
 
-void BipolarStepper::stepTowardTarget() {
-  if (!initialized_ || !enabled_ || position_ == target_) {
-    return;
-  }
-
-  if (position_ > target_) {
-    stepBackward();
-  } else if (position_ < target_) {
-    stepForward();
-  }
-}
+// void BipolarStepper::stepTowardTarget() {
+//   if (!initialized_ || !enabled_ || position_ == target_) {
+//     return;
+//   }
+//
+//   if (position_ > target_) {
+//     stepBackward();
+//   } else if (position_ < target_) {
+//     stepForward();
+//   }
+// }
 
 void BipolarStepper::doState(int state) {
   state %= 4;
