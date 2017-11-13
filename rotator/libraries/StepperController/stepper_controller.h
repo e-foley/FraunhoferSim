@@ -1,3 +1,6 @@
+#ifndef STEPPER_CONTROLLER_H_
+#define STEPPER_CONTROLLER_H_
+
 #include "bipolar_stepper.h"
 #include "timer_one.h"
 
@@ -26,3 +29,5 @@ class StepperController {
     uint32_t step_period_us_;
     bool initialized_;
 };
+
+#endif

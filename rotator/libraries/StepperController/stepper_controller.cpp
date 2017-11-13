@@ -6,11 +6,11 @@ StepperController::StepperController(BipolarStepper* stepper, int steps_per_rota
 
 float StepperController::rotateTo(float angle, Direction direction) {
 
-  timer_->attachInterrupt(&update, 1000u);
+  timer_->attachInterrupt(&StepperController::update, 1000u);
 
   return 0.0f;
 }
 
-void update() {
+void StepperController::update() {
   // Step toward target...
 }
