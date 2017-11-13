@@ -21,9 +21,10 @@ class StepperController {
     float rotateTo(float angle, Direction direction);
 
   private:
+    static BipolarStepper* stepper_;
     static void update();
 
-    BipolarStepper* stepper_;
+    // BipolarStepper* stepper_;
     int steps_per_rotation_;
     TimerOne* timer_;
     uint32_t step_period_us_;
