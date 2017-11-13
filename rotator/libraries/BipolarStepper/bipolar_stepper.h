@@ -5,8 +5,7 @@
 
 class BipolarStepper {
  public:
-  BipolarStepper(uint16_t steps_set, int brka_set, int dira_set, int pwma_set, int brkb_set,
-      int dirb_set, int pwmb_set);
+  BipolarStepper(uint16_t steps, int brka, int dira, int pwma, int brkb, int dirb, int pwmb);
   void initialize();
   void enable();
   void disable();
@@ -28,16 +27,23 @@ class BipolarStepper {
   int getState() const;
 
  private:
-  const static int NUM_STATES = 4;
+  static const int NUM_STATES = 4;
 
   void doState(int state);
-  const int brka, dira, pwma, brkb, dirb, pwmb;
-  const uint16_t steps;
-  int32_t position;
-  int32_t target;
-  bool enabled;
-  int state;
-  bool initialized;
+
+  // Arduino pins corresponding to motor functions.
+  const int brka_;
+  const int dira_;
+  const int pwma_;
+  const int brkb_;
+  const int dirb_;
+  const int pwmb_;
+  const uint16_t steps_;
+  int32_t position_;
+  int32_t target_;
+  bool enabled_;
+  int state_;
+  bool initialized_;
 };
 
 #endif
