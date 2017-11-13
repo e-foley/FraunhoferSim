@@ -28,7 +28,7 @@ class BipolarStepper {
   int getState() const;
 
  private:
-  const static int NUM_STATES = 8;
+  const static int NUM_STATES = 4;
 
   void doState(int state);
   const int brka, dira, pwma, brkb, dirb, pwmb;
