@@ -12,11 +12,17 @@ class StepperController {
 
     StepperController(BipolarStepper* stepper, int steps_per_rotation, TimerOne* timer,
         uint32_t step_period_us);
+
+    void initialize();
+
     float rotateTo(float angle, Direction direction);
 
   private:
+    static void update();
+
     BipolarStepper* stepper_;
     int steps_per_rotation_;
     TimerOne* timer_;
     uint32_t step_period_us_;
+    bool initialized_;
 };
