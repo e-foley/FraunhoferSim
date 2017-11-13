@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <TimerOne.h>
 
-const float GEAR_RATIO = 24.0/72.0;
+const float GEAR_RATIO = 17.0/72.0;
 const uint16_t MOTOR_STEPS = 200u;
 const int BRKA_PIN = 9;
 const int DIRA_PIN = 12;
