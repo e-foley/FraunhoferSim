@@ -1,6 +1,6 @@
-#include <BipolarStepper.h>
-#include <Math.h>
-#include <Arduino.h>
+#include "Arduino.h"
+#include "Math.h"
+#include "bipolar_stepper.h"
 
 BipolarStepper::BipolarStepper(uint16_t steps_set, int brka_set, int dira_set, int pwma_set,
     int brkb_set, int dirb_set, int pwmb_set) : brka(brka_set), dira(dira_set), pwma(pwma_set),

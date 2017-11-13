@@ -1,6 +1,7 @@
-#include <BipolarStepper.h>
-#include <Arduino.h>
-#include <TimerOne.h>
+#include "Arduino.h"
+#include "bipolar_stepper.h"
+#include "mask_controller.h"
+#include "timer_one.h"
 
 const float GEAR_RATIO = 17.0/72.0;
 const uint16_t MOTOR_STEPS = 200u;
