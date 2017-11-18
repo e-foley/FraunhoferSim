@@ -30,9 +30,6 @@ class StepperController {
   private:
     BipolarStepper* const stepper_;
     const int16_t steps_per_rotation_;
-    // TimerOne* timer_;
-    // uint32_t step_period_us_;
-    // bool initialized_;
     int32_t position_;
     float target_angle_;
     int32_t target_steps_;
