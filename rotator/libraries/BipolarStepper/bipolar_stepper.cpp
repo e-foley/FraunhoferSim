@@ -2,9 +2,19 @@
 #include "Math.h"
 #include "bipolar_stepper.h"
 
-BipolarStepper::BipolarStepper(uint16_t steps, int brka, int dira, int pwma, int brkb, int dirb,
-    int pwmb) : brka_(brka), dira_(dira), pwma_(pwma), brkb_(brkb), dirb_(dirb), pwmb_(pwmb),
-    steps_(steps), position_(0), target_(0), enabled_(false), state_(0), initialized_(false) {}
+BipolarStepper::BipolarStepper(int brka, int dira, int pwma, int brkb, int dirb, int pwmb)
+    : brka_(brka), dira_(dira), pwma_(pwma), brkb_(brkb), dirb_(dirb), pwmb_(pwmb), state_(0),
+    initialized_(false), enabled_(false) {}
+
+BipolarStepper::~BipolarStepper() {
+  // Put our outputs in what should be a safe state before destroying the object that controls them.
+  digitalWrite(brka_, LOW);
+  digitalWrite(dira_, LOW);
+  digitalWrite(pwma_, LOW);
+  digitalWrite(brkb_, LOW);
+  digitalWrite(dirb_, LOW);
+  digitalWrite(pwmb_, LOW);
+}
 
 void BipolarStepper::initialize() {
   pinMode(brka_, OUTPUT);
@@ -14,9 +24,11 @@ void BipolarStepper::initialize() {
   pinMode(dirb_, OUTPUT);
   pinMode(pwmb_, OUTPUT);
   doState(state_);
-  delay(200);
-  zero();
   initialized_ = true;
+}
+
+bool BipolarStepper::isInitialized() const {
+  return initialized_;
 }
 
 void BipolarStepper::enable() {
@@ -31,50 +43,6 @@ bool BipolarStepper::isEnabled() const {
   return enabled_;
 }
 
-// void BipolarStepper::setTarget(int32_t target_setting) {
-//   target_ = target_setting;
-// }
-//
-// int32_t BipolarStepper::getTarget() const {
-//   return target_;
-// }
-
-// float BipolarStepper::getTargetDegrees() const {
-//   return ticksToDegrees(target_);
-// }
-//
-// void BipolarStepper::setTargetDegrees(float target_setting) {
-//   target_ = degreesToTicks(target_setting);
-// }
-
-int32_t BipolarStepper::getPosition() const {
-  return position_;
-}
-
-// float BipolarStepper::getPositionDegrees() const {
-//   return ticksToDegrees(position_);
-// }
-
-void BipolarStepper::setCurrentPosition(int32_t position_setting) {
-  position_ = position_setting;
-}
-
-// void BipolarStepper::setCurrentPositionDegrees(float position_setting) {
-//   position_ = degreesToTicks(position_setting);
-// }
-
-void BipolarStepper::zero() {
-  position_ = 0;
-}
-
-// int32_t BipolarStepper::degreesToTicks(float degrees) const {
-//   return static_cast<int32_t>(round(degrees / 360.0f * steps_));
-// }
-//
-// float BipolarStepper::ticksToDegrees(int32_t ticks) const {
-//   return 360.0f * ticks / steps_;
-// }
-
 void BipolarStepper::stepForward() {
   if (!initialized_ || !enabled_) {
     return;
@@ -82,7 +50,6 @@ void BipolarStepper::stepForward() {
 
   state_ = (state_ + 1) % NUM_STATES;
   doState(state_);
-  position_++;
 }
 
 void BipolarStepper::stepBackward() {
@@ -92,20 +59,7 @@ void BipolarStepper::stepBackward() {
 
   state_ = (state_ + NUM_STATES - 1) % NUM_STATES;
   doState(state_);
-  position_--;
 }
-
-// void BipolarStepper::stepTowardTarget() {
-//   if (!initialized_ || !enabled_ || position_ == target_) {
-//     return;
-//   }
-//
-//   if (position_ > target_) {
-//     stepBackward();
-//   } else if (position_ < target_) {
-//     stepForward();
-//   }
-// }
 
 void BipolarStepper::doState(int state) {
   state %= 4;
@@ -134,9 +88,8 @@ void BipolarStepper::doState(int state) {
       digitalWrite(dirb_, HIGH);
       analogWrite(pwmb_, 255);
       break;
+    default:
+      // Can't get here.
+      break;
   }
-}
-
-int BipolarStepper::getState() const {
-  return state_;
 }
