@@ -45,15 +45,19 @@ void StepperController::update() {
       break;
     case Behavior::FORWARD:
       stepper_->stepForward();
+      position_++;
       break;
     case Behavior::BACKWARD:
       stepper_->stepBackward();
+      position_--;
       break;
     case Behavior::TARGETING:
       if (position_ < target_steps_) {
         stepper_->stepForward();
+        position_++;
       } else if (position_ > target_steps_) {
         stepper_->stepBackward();
+        position_--;
       } else /*position_ == target_steps_*/ {
         behavior_ = Behavior::REACHED_TARGET;
       }
