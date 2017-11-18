@@ -6,29 +6,37 @@
 
 class StepperController {
   public:
-    enum class Direction {
-      NONE,
+    enum class Behavior {
+      STOPPED,
       FORWARD,
       BACKWARD,
-      EITHER
+      TARGETING,
+      REACHED_TARGET
     };
 
-    StepperController(BipolarStepper* stepper, int steps_per_rotation, TimerOne* timer,
-        uint32_t step_period_us);
+    StepperController(BipolarStepper* stepper, int16_t steps_per_rotation);
 
-    void initialize();
-
-    float rotateTo(float angle, Direction direction);
+    void forward();
+    void backward();
+    void stop();
+    float rotateTo(float angle);
+    float rotateBy(float relative_angle);
+    float getPosition() const;
+    void setZero(float angle_relative_to_current = 0.0f);
+    void update();
+    int32_t degreesToSteps(float degrees) const;
+    float stepsToDegrees(int32_t steps) const;
 
   private:
-    static BipolarStepper* stepper_;
-    static void update();
-
-    // BipolarStepper* stepper_;
-    int steps_per_rotation_;
-    TimerOne* timer_;
-    uint32_t step_period_us_;
-    bool initialized_;
+    BipolarStepper* const stepper_;
+    const int16_t steps_per_rotation_;
+    // TimerOne* timer_;
+    // uint32_t step_period_us_;
+    // bool initialized_;
+    int32_t position_;
+    float target_angle_;
+    int32_t target_steps_;
+    Behavior behavior_;
 };
 
 #endif
