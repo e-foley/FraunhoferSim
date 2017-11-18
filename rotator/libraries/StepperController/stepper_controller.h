@@ -22,6 +22,7 @@ class StepperController {
     float rotateTo(float angle);
     float rotateBy(float relative_angle);
     float getPosition() const;
+    float getTarget() const;
     void setZero(float angle_relative_to_current = 0.0f);
     void update();
     int32_t degreesToSteps(float degrees) const;

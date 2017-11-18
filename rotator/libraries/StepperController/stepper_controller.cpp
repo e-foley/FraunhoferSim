@@ -31,6 +31,10 @@ float StepperController::getPosition() const {
   return stepsToDegrees(position_);
 }
 
+float StepperController::getTarget() const {
+  return target_angle_;
+}
+
 void StepperController::setZero(const float relative_angle) {
   position_ = degreesToSteps(-relative_angle);
 }
