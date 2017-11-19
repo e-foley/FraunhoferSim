@@ -12,7 +12,8 @@ const int PWMA_PIN = 3;
 const int BRKB_PIN = 8;
 const int DIRB_PIN = 13;
 const int PWMB_PIN = 11;
-uint32_t STEP_PERIOD_US = 5000u;  // [us] (3500, 4000, 4444, 5000 work well)
+uint32_t STEP_PERIOD_US = 8000u;  // [us]
+
 
 BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
 StepperController controller(&stepper, MOTOR_STEPS);
