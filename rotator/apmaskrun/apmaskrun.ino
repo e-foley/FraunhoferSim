@@ -16,7 +16,7 @@ uint32_t STEP_PERIOD_US = 8000u;  // [us]
 
 
 BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
-StepperController controller(&stepper, MOTOR_STEPS);
+StepperController motor_controller(&stepper, MOTOR_STEPS);
 TimerOne timer;
 
 float target = 0.0f;
@@ -38,20 +38,20 @@ void loop() {
       case 'f':
         // Go forward.
         Serial.read();
-        controller.forward();
+        motor_controller.forward();
         break;
       case 'b':
         // Go backward.
         Serial.read();
-        controller.backward();
+        motor_controller.backward();
         break;
       case 's':
         // Stop.
         Serial.read();
-        controller.stop();
+        motor_controller.stop();
         break;
       default: {
-        float actual = controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);
+        float actual = motor_controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);
         Serial.print("Target set to ");
         Serial.println(actual * GEAR_RATIO);
         break;
@@ -61,5 +61,5 @@ void loop() {
 }
 
 void update() {
-  controller.update();
+  motor_controller.update();
 }
