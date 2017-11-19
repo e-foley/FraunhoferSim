@@ -32,9 +32,30 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    float actual = controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);
-    Serial.print("Target set to ");
-    Serial.println(actual * GEAR_RATIO);
+    const char command = Serial.peek();
+    switch (command) {
+      case 'f':
+        // Go forward.
+        Serial.read();
+        controller.forward();
+        break;
+      case 'b':
+        // Go backward.
+        Serial.read();
+        controller.backward();
+        break;
+      case 's':
+        // Stop.
+        Serial.read();
+        controller.stop();
+        break;
+      default: {
+        float actual = controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);
+        Serial.print("Target set to ");
+        Serial.println(actual * GEAR_RATIO);
+        break;
+      }
+    }
   }
 }
 
