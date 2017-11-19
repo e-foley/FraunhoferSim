@@ -42,6 +42,10 @@ void StepperController::setZero(const float relative_angle) {
 // Note: Instead of a switch tree, we could just set a function pointer (to a private helper
 // function) whenever we alter behavior_.  A function-pointer approach might be overkill though...
 void StepperController::update() {
+  if (stepper_ == nullptr) {
+    return;
+  }
+
   switch (behavior_) {
     default:
     case Behavior::STOPPED:

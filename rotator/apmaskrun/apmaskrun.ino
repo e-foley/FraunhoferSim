@@ -4,7 +4,7 @@
 #include "stepper_controller.h"
 #include "timer_one.h"
 
-const float GEAR_RATIO = 17.0/72.0;
+const float GEAR_RATIO = 72.0/17.0;
 const int16_t MOTOR_STEPS = 200u;
 const int BRKA_PIN = 9;
 const int DIRA_PIN = 12;
@@ -17,6 +17,7 @@ uint32_t STEP_PERIOD_US = 8000u;  // [us]
 
 BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
 StepperController motor_controller(&stepper, MOTOR_STEPS);
+MaskController mask_controller(&motor_controller, GEAR_RATIO);
 TimerOne timer;
 
 float target = 0.0f;
@@ -38,17 +39,17 @@ void loop() {
       case 'f':
         // Go forward.
         Serial.read();
-        motor_controller.forward();
+        mask_controller.counterclockwise();
         break;
       case 'b':
         // Go backward.
         Serial.read();
-        motor_controller.backward();
+        mask_controller.clockwise();
         break;
       case 's':
         // Stop.
         Serial.read();
-        motor_controller.stop();
+        mask_controller.stop();
         break;
       default: {
         float actual = motor_controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);

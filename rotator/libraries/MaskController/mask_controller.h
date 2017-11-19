@@ -9,20 +9,33 @@ class MaskController {
       NONE,
       FORWARD,
       BACKWARD,
-      BIDIRECTIONAL
+      AUTO
     };
 
-    MaskController(StepperController* stepper, float gear_ratio);
-    void initialize();
-    void step();
-    void setPreferredDirection(Direction direction);
-    Direction getPreferredDirection() const;
+    MaskController(StepperController* stepper_controller, float gear_ratio);
+    // void initialize();
+    void counterclockwise();
+    void clockwise();
+    void stop();
+    float rotateTo(float mask_angle, Direction direction = Direction::AUTO);
+    float rotateBy(float relative_angle);
+    float getPosition() const;
+    float getTarget() const;
+    void setZero(float relative_angle);
+    float maskToMotorAngle(float mask_angle) const;
+    float motorToMaskAngle(float motor_angle) const;
 
   private:
-    StepperController* stepper_;
-    Direction direction_;
-    float angle_;
+    //
+    static float wrapAngle(float nominal);
+    float unwrapAngle(float wrapped_angle) const;
+    static float wrappedDifference(float a, float b);
+
+
+    StepperController* stepper_controller_;
     const float gear_ratio_;
+    // Direction direction_;
+    float target_;
 };
 
 #endif
