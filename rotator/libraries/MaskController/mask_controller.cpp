@@ -88,23 +88,16 @@ float MaskController::getTarget() const {
 }
 
 void MaskController::setZero(const float relative_angle) {
-  (void)(relative_angle);
-  return;
+  if (stepper_controller_ == nullptr) {
+    return;
+  }
+
+  stepper_controller_->setZero(-maskToMotorAngle(relative_angle));
 }
 
 // Returns any absolute angle on [0, 360)
 float MaskController::wrapAngle(const float nominal) {
   return nominal - 360.0f * floor(nominal / 360.0f);
-}
-
-float MaskController::unwrapAngle(const float angle) const {
-  (void)(angle);
-  return 0.0f;
-}
-
-float MaskController::wrappedDifference(const float a, const float b) {
-  (void)(a); (void)(b);
-  return 0.0f;
 }
 
 float MaskController::maskToMotorAngle(const float mask_angle) const {
