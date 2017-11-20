@@ -39,17 +39,40 @@ void loop() {
       case 'f':
         // Go forward.
         Serial.read();
+        Serial.println("Moving mask counterclockwise.");
         mask_controller.counterclockwise();
         break;
       case 'b':
         // Go backward.
         Serial.read();
+        Serial.println("Moving mask clockwise.");
         mask_controller.clockwise();
         break;
       case 's':
         // Stop.
         Serial.read();
+        Serial.println("Mask stopped.");
         mask_controller.stop();
+        break;
+      case 'p':
+        // Retrieve mask position.
+        Serial.read();
+        Serial.print("Current mask position: ");
+        Serial.print(mask_controller.getPosition());
+        Serial.println(" deg");
+        break;
+      case 't':
+        // Retrieve mask target position.
+        Serial.read();
+        Serial.print("Mask target position: ");
+        Serial.print(mask_controller.getTarget());
+        Serial.println(" deg");
+        break;
+      case 'z':
+        // Zero current mask position.
+        Serial.read();
+        mask_controller.setZero();
+        Serial.print("Mask position zeroed.");
         break;
       default: {
         float actual = mask_controller.rotateTo(Serial.parseFloat(), PREFERRED_DIRECTION);
