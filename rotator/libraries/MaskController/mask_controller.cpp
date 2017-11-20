@@ -84,7 +84,8 @@ void MaskController::setZero(const float relative_angle) {
   if (stepper_controller_ == nullptr) {
     return;
   }
-  stepper_controller_->setZero(-maskToMotorAngle(relative_angle));
+  stepper_controller_->stop();
+  stepper_controller_->setZero(maskToMotorAngle(relative_angle));
 }
 
 float MaskController::wrapAngle(const float nominal) {
