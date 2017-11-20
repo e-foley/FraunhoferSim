@@ -38,16 +38,9 @@ float MaskController::rotateTo(const float angle, const Direction direction) {
 
   const float forward_delta = wrapAngle(angle - target_);
   const float reverse_delta = wrapAngle(target_ - angle);
-
-  Serial.print("Forward: ");
-  Serial.println(forward_delta);
-  Serial.print("Reverse: ");
-  Serial.println(reverse_delta);
-
   target_ = angle;
 
   float delta_to_use = 0.0f;
-
   switch (direction) {
     default:
     case Direction::NONE:
