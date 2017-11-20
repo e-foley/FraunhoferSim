@@ -3,10 +3,6 @@
 MaskController::MaskController(StepperController* const stepper_controller, const float gear_ratio)
     : stepper_controller_(stepper_controller), gear_ratio_(gear_ratio), target_(0.0f) {}
 
-// void MaskController::initialize() {
-//   return;
-// }
-
 void MaskController::counterclockwise() {
   if (stepper_controller_ == nullptr) {
     return;
@@ -91,11 +87,9 @@ void MaskController::setZero(const float relative_angle) {
   if (stepper_controller_ == nullptr) {
     return;
   }
-
   stepper_controller_->setZero(-maskToMotorAngle(relative_angle));
 }
 
-// Returns any absolute angle on [0, 360)
 float MaskController::wrapAngle(const float nominal) {
   return nominal - 360.0f * floor(nominal / 360.0f);
 }

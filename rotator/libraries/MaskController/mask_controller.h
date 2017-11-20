@@ -25,9 +25,10 @@ class MaskController {
     float motorToMaskAngle(float motor_angle) const;
 
   private:
+    // Returns any absolute angle on [0, 360)
     static float wrapAngle(float nominal);
 
-    StepperController* stepper_controller_;
+    StepperController* const stepper_controller_;
     const float gear_ratio_;
     float target_;
 };
