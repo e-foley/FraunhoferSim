@@ -20,6 +20,12 @@ StepperController motor_controller(&stepper, MOTOR_STEPS);
 MaskController mask_controller(&motor_controller, GEAR_RATIO);
 TimerOne timer;
 
+enum class Mode {
+  NONE,
+  ABSOLUTE,
+  RELATIVE
+} mode = Mode::ABSOLUTE;
+
 float target = 0.0f;
 bool dir = true;
 
@@ -72,12 +78,34 @@ void loop() {
         // Zero current mask position.
         Serial.read();
         mask_controller.setZero();
-        Serial.print("Mask position zeroed.");
+        Serial.println("Mask position zeroed.");
+        break;
+      case 'r':
+        Serial.read();
+        mode = Mode::RELATIVE;
+        Serial.println("Mode set to relative.");
+        break;
+      case 'a':
+        Serial.read();
+        mode = Mode::ABSOLUTE;
+        Serial.println("Mode set to absolute.");
         break;
       default: {
-        float actual = mask_controller.rotateTo(Serial.parseFloat(), PREFERRED_DIRECTION);
-        Serial.print("Target set to ");
-        Serial.println(actual);
+        float actual = 0.0f;
+        if (mode == Mode::ABSOLUTE) {
+          actual = mask_controller.rotateTo(Serial.parseFloat(), PREFERRED_DIRECTION);
+          Serial.print("Target set to ");
+          Serial.print(actual);
+          Serial.println(" degrees.");
+        } else if (mode == Mode::RELATIVE) {
+          const float relative_angle = Serial.parseFloat();
+          actual = mask_controller.rotateBy(relative_angle);
+          Serial.print("Rotating mask by ");
+          Serial.print(relative_angle);
+          Serial.print(" degrees to new target of ");
+          Serial.print(actual);
+          Serial.println(" degrees.");
+        }
         break;
       }
     }
