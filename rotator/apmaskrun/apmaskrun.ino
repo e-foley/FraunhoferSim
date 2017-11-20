@@ -13,7 +13,7 @@ const int BRKB_PIN = 8;
 const int DIRB_PIN = 13;
 const int PWMB_PIN = 11;
 uint32_t STEP_PERIOD_US = 8000u;  // [us]
-
+const MaskController::Direction PREFERRED_DIRECTION = MaskController::Direction::AUTO;
 
 BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
 StepperController motor_controller(&stepper, MOTOR_STEPS);
@@ -52,9 +52,9 @@ void loop() {
         mask_controller.stop();
         break;
       default: {
-        float actual = motor_controller.rotateTo(Serial.parseFloat() / GEAR_RATIO);
+        float actual = mask_controller.rotateTo(Serial.parseFloat(), PREFERRED_DIRECTION);
         Serial.print("Target set to ");
-        Serial.println(actual * GEAR_RATIO);
+        Serial.println(actual);
         break;
       }
     }

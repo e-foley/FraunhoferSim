@@ -37,31 +37,41 @@ void MaskController::stop() {
 
 float MaskController::rotateTo(const float angle, const Direction direction) {
   if (stepper_controller_ == nullptr) {
-    return 0.0f;
+    return NAN;
   }
 
-  target_ = angle;
-  const float wrapped_target = wrapAngle(target_);
-  //const float motor_angle = stepper_controller_->getPosition();
+  const float forward_delta = wrapAngle(angle - target_);
+  const float reverse_delta = wrapAngle(target_ - angle);
 
+  Serial.print("Forward: ");
+  Serial.println(forward_delta);
+  Serial.print("Reverse: ");
+  Serial.println(reverse_delta);
+
+  target_ = angle;
+
+  float delta_to_use = 0.0f;
 
   switch (direction) {
     default:
     case Direction::NONE:
       break;
-    case Direction::FORWARD:
-
+    case Direction::COUNTERCLOCKWISE:
+      delta_to_use = forward_delta;
       break;
-    case Direction::BACKWARD:
+    case Direction::CLOCKWISE:
+      delta_to_use = -reverse_delta;
       break;
     case Direction::AUTO:
-      if (angle )
+      delta_to_use = forward_delta < reverse_delta ? forward_delta : -reverse_delta;
       break;
   }
 
-  float motor_target
-
-  return 0.0f;
+  if (gear_ratio_ > 0.0f) {
+    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(delta_to_use))));
+  } else {
+    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(-delta_to_use))));
+  }
 }
 
 float MaskController::rotateBy(const float relative_angle) {
@@ -78,6 +88,7 @@ float MaskController::getTarget() const {
 }
 
 void MaskController::setZero(const float relative_angle) {
+  (void)(relative_angle);
   return;
 }
 
@@ -87,11 +98,13 @@ float MaskController::wrapAngle(const float nominal) {
 }
 
 float MaskController::unwrapAngle(const float angle) const {
+  (void)(angle);
   return 0.0f;
 }
 
 float MaskController::wrappedDifference(const float a, const float b) {
-
+  (void)(a); (void)(b);
+  return 0.0f;
 }
 
 float MaskController::maskToMotorAngle(const float mask_angle) const {

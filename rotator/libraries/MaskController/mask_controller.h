@@ -7,8 +7,8 @@ class MaskController {
   public:
     enum class Direction {
       NONE,
-      FORWARD,
-      BACKWARD,
+      COUNTERCLOCKWISE,
+      CLOCKWISE,
       AUTO
     };
 
