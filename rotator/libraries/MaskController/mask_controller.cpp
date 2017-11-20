@@ -36,8 +36,12 @@ float MaskController::rotateTo(const float angle, const Direction direction) {
     return NAN;
   }
 
-  const float forward_delta = wrapAngle(angle - target_);
-  const float reverse_delta = wrapAngle(target_ - angle);
+  // Stop and record because the motor angle would theoretically change as we progress through the
+  // function if we didn't do this.
+  stepper_controller_->stop();
+  const float motor_angle = stepper_controller_->getPosition();
+  const float forward_delta = wrapAngle(angle - motorToMaskAngle(motor_angle));
+  const float reverse_delta = wrapAngle(motorToMaskAngle(motor_angle) - angle);
   target_ = angle;
 
   float delta_to_use = 0.0f;
@@ -57,9 +61,9 @@ float MaskController::rotateTo(const float angle, const Direction direction) {
   }
 
   if (gear_ratio_ > 0.0f) {
-    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(delta_to_use))));
+    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(delta_to_use))));
   } else {
-    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(-delta_to_use))));
+    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(-delta_to_use))));
   }
 }
 
