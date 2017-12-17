@@ -16,10 +16,11 @@ class MaskController {
     void counterclockwise();
     void clockwise();
     void stop();
-    float rotateTo(float mask_angle, Direction direction = Direction::AUTO);
-    float rotateBy(float relative_angle);
-    float getPosition() const;
-    float getTarget() const;
+    float rotateTo(float mask_angle, Direction direction = Direction::AUTO,
+        bool wrap_result = true);
+    float rotateBy(float relative_angle, bool wrap_result = true);
+    float getPosition(bool wrap_result = true) const;
+    float getTarget(bool wrap_result = true) const;
     void setZero(float relative_angle = 0.0f);
     float maskToMotorAngle(float mask_angle) const;
     float motorToMaskAngle(float motor_angle) const;

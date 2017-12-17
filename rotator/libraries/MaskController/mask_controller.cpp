@@ -32,7 +32,8 @@ void MaskController::stop() {
   }
 }
 
-float MaskController::rotateTo(const float angle, const Direction direction) {
+float MaskController::rotateTo(const float angle, const Direction direction,
+    const bool wrap_result) {
   if (stepper_controller_ == nullptr) {
     return NAN;
   }
@@ -61,24 +62,28 @@ float MaskController::rotateTo(const float angle, const Direction direction) {
       break;
   }
 
+  float nominal = 0.0f;
   if (gear_ratio_ > 0.0f) {
-    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(delta_to_use))));
+    nominal = motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(delta_to_use)));
   } else {
-    return wrapAngle(motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(-delta_to_use))));
+    nominal = motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(-delta_to_use)));
   }
+
+  return wrap_result ? wrapAngle(nominal) : nominal;
 }
 
-float MaskController::rotateBy(const float relative_angle) {
-  target_ += relative_angle;
-  return motorToMaskAngle(stepper_controller_->rotateTo(maskToMotorAngle(target_)));
+float MaskController::rotateBy(const float relative_angle, const bool wrap_result) {
+  target_ = motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(relative_angle)));
+  return wrap_result ? wrapAngle(target_) : target_;
 }
 
-float MaskController::getPosition() const {
-  return wrapAngle(motorToMaskAngle(stepper_controller_->getPosition()));
+float MaskController::getPosition(const bool wrap_result) const {
+  const float nominal = motorToMaskAngle(stepper_controller_->getPosition());
+  return wrap_result ? wrapAngle(nominal) : nominal;
 }
 
-float MaskController::getTarget() const {
-  return wrapAngle(target_);
+float MaskController::getTarget(const bool wrap_result) const {
+  return wrap_result ? wrapAngle(target_) : target_;
 }
 
 void MaskController::setZero(const float relative_angle) {
