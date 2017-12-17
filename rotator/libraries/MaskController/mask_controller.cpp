@@ -41,10 +41,10 @@ float MaskController::rotateTo(const float angle, const Direction direction,
   // Stop and record because the motor angle would theoretically change as we progress through the
   // function if we didn't do this.
   stepper_controller_->stop();
-  const float motor_angle = stepper_controller_->getPosition();
-  const float forward_delta = wrapAngle(angle - motorToMaskAngle(motor_angle));
-  const float reverse_delta = wrapAngle(motorToMaskAngle(motor_angle) - angle);
-  target_ = angle;
+  // const float motor_angle = stepper_controller_->getPosition();
+  const float current = getPosition(false);
+  const float forward_delta = wrapAngle(angle - current);
+  const float reverse_delta = wrapAngle(current - angle);
 
   float delta_to_use = 0.0f;
   switch (direction) {
@@ -62,19 +62,15 @@ float MaskController::rotateTo(const float angle, const Direction direction,
       break;
   }
 
-  float nominal = 0.0f;
-  if (gear_ratio_ > 0.0f) {
-    nominal = motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(delta_to_use)));
-  } else {
-    nominal = motorToMaskAngle(stepper_controller_->rotateTo(motor_angle + maskToMotorAngle(-delta_to_use)));
-  }
-
-  return wrap_result ? wrapAngle(nominal) : nominal;
+  return rotateBy(delta_to_use, wrap_result);
 }
 
 float MaskController::rotateBy(const float relative_angle, const bool wrap_result) {
-  target_ = motorToMaskAngle(stepper_controller_->rotateBy(maskToMotorAngle(relative_angle)));
-  return wrap_result ? wrapAngle(target_) : target_;
+  target_ = getPosition(false) + relative_angle;
+  // We use rotateTo() below rather than rotateBy() so that we don't accumulate roundoff error
+  // between target_ and the converted motor angle target in repeated calls to this function.
+  const float nominal = motorToMaskAngle(stepper_controller_->rotateTo(maskToMotorAngle(target_)));
+  return wrap_result ? wrapAngle(nominal) : nominal;
 }
 
 float MaskController::getPosition(const bool wrap_result) const {
