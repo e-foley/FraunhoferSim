@@ -27,6 +27,7 @@ float StepperController::rotateTo(const float angle) volatile {
 float StepperController::rotateBy(const float relative_angle) volatile {
   behavior_ = Behavior::STOPPED;  // Very brief pause to avoid position_ changes.
   target_angle_ = stepsToDegrees(position_) + relative_angle;
+  target_steps_ = degreesToSteps(target_angle_);
   behavior_ = Behavior::TARGETING;
   return target_angle_;
 }
