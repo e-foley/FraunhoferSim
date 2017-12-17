@@ -19,6 +19,7 @@ class MaskController {
     float rotateTo(float mask_angle, Direction direction = Direction::AUTO,
         bool wrap_result = true);
     float rotateBy(float relative_angle, bool wrap_result = true);
+    void setTargetReachedCallback(void (*callback)(void));
     float getPosition(bool wrap_result = true) const;
     float getTarget(bool wrap_result = true) const;
     void setZero(float relative_angle = 0.0f);
@@ -32,6 +33,7 @@ class MaskController {
     volatile StepperController* const stepper_controller_;
     const float gear_ratio_;
     float target_;
+    void (*target_reached_callback_)(void);
 };
 
 #endif

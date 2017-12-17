@@ -2,7 +2,7 @@
 
 MaskController::MaskController(volatile StepperController* const stepper_controller,
     const float gear_ratio) : stepper_controller_(stepper_controller), gear_ratio_(gear_ratio),
-    target_(0.0f) {}
+    target_(0.0f), target_reached_callback_(nullptr) {}
 
 void MaskController::forward() {
   if (stepper_controller_ == nullptr) {
@@ -71,6 +71,14 @@ float MaskController::rotateBy(const float relative_angle, const bool wrap_resul
   // between target_ and the converted motor angle target in repeated calls to this function.
   const float nominal = motorToMaskAngle(stepper_controller_->rotateTo(maskToMotorAngle(target_)));
   return wrap_result ? wrapAngle(nominal) : nominal;
+}
+
+void MaskController::setTargetReachedCallback(void (*const callback)(void)) {
+  target_reached_callback_ = callback;
+  // Nothing else special to do here...
+  if (stepper_controller_ != nullptr) {
+    stepper_controller_->setTargetReachedCallback(callback);
+  }
 }
 
 float MaskController::getPosition(const bool wrap_result) const {

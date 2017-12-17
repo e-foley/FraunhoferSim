@@ -19,6 +19,7 @@ BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PI
 volatile StepperController motor_controller(&stepper, MOTOR_STEPS);
 MaskController mask_controller(&motor_controller, GEAR_RATIO);
 TimerOne timer;
+bool target_reached = false;
 
 enum class Mode {
   NONE,
@@ -35,12 +36,14 @@ void setup() {
   stepper.initialize();
   stepper.enable();
   timer.initialize();
+  mask_controller.setTargetReachedCallback(&onTargetReached);
   timer.attachInterrupt(update, STEP_PERIOD_US);
 }
 
 void loop() {
   if (Serial.available()) {
     const char command = Serial.peek();
+    // digitalWrite(LED_BUILTIN, LOW);
     switch (command) {
       case 'f':
         // Go forward.
@@ -114,6 +117,15 @@ void loop() {
       }
     }
   }
+
+  if (target_reached) {
+    Serial.println("Target reached!");
+    target_reached = false;
+  }
+}
+
+void onTargetReached() {
+  target_reached = true;
 }
 
 void update() {

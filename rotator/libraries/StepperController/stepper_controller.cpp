@@ -32,7 +32,7 @@ float StepperController::rotateBy(const float relative_angle) volatile {
   return target_angle_;
 }
 
-void StepperController::setTargetReachedCallback(void (*const callback)(void)) {
+void StepperController::setTargetReachedCallback(void (*const callback)(void)) volatile {
   target_reached_callback_ = callback;
 }
 
