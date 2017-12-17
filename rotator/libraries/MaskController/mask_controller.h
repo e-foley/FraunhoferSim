@@ -12,7 +12,7 @@ class MaskController {
       AUTO
     };
 
-    MaskController(StepperController* stepper_controller, float gear_ratio);
+    MaskController(volatile StepperController* stepper_controller, float gear_ratio);
     void counterclockwise();
     void clockwise();
     void stop();
@@ -28,7 +28,7 @@ class MaskController {
     // Returns any absolute angle on [0, 360)
     static float wrapAngle(float nominal);
 
-    StepperController* const stepper_controller_;
+    volatile StepperController* const stepper_controller_;
     const float gear_ratio_;
     float target_;
 };

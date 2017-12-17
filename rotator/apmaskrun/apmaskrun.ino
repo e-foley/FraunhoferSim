@@ -16,7 +16,7 @@ uint32_t STEP_PERIOD_US = 8000u;  // [us]
 const MaskController::Direction PREFERRED_DIRECTION = MaskController::Direction::AUTO;
 
 BipolarStepper stepper(BRKA_PIN, DIRA_PIN, PWMA_PIN, BRKB_PIN, DIRB_PIN, PWMB_PIN);
-StepperController motor_controller(&stepper, MOTOR_STEPS);
+volatile StepperController motor_controller(&stepper, MOTOR_STEPS);
 MaskController mask_controller(&motor_controller, GEAR_RATIO);
 TimerOne timer;
 

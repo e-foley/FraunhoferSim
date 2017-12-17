@@ -1,7 +1,8 @@
 #include "mask_controller.h"
 
-MaskController::MaskController(StepperController* const stepper_controller, const float gear_ratio)
-    : stepper_controller_(stepper_controller), gear_ratio_(gear_ratio), target_(0.0f) {}
+MaskController::MaskController(volatile StepperController* const stepper_controller,
+    const float gear_ratio) : stepper_controller_(stepper_controller), gear_ratio_(gear_ratio),
+    target_(0.0f) {}
 
 void MaskController::counterclockwise() {
   if (stepper_controller_ == nullptr) {
