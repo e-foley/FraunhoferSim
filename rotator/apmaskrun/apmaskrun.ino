@@ -64,15 +64,19 @@ void loop() {
         // Retrieve mask position.
         Serial.read();
         Serial.print("Current mask position: ");
-        Serial.print(mask_controller.getPosition());
-        Serial.println(" deg");
+        Serial.print(mask_controller.getPosition(true));
+        Serial.print(" deg (");
+        Serial.print(mask_controller.getPosition(false));
+        Serial.println(" deg)");
         break;
       case 't':
         // Retrieve mask target position.
         Serial.read();
         Serial.print("Mask target position: ");
-        Serial.print(mask_controller.getTarget());
-        Serial.println(" deg");
+        Serial.print(mask_controller.getTarget(true));
+        Serial.print(" deg (");
+        Serial.print(mask_controller.getTarget(false));
+        Serial.println(" deg)");
         break;
       case 'z':
         // Zero current mask position.
