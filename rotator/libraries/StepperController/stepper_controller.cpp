@@ -1,4 +1,5 @@
 #include "stepper_controller.h"
+#include "timer_one.h"
 
 StepperController::StepperController(BipolarStepper* const stepper, const int steps_per_rotation)
     : stepper_(stepper), steps_per_rotation_(steps_per_rotation), position_(0), target_angle_(0.0f),
@@ -33,12 +34,16 @@ float StepperController::rotateBy(const float relative_angle) volatile {
 }
 
 void StepperController::setTargetReachedCallback(void (*const callback)(void)) volatile {
+  disableInterrupt();
   target_reached_callback_ = callback;
+  enableInterrupt();
 }
 
 float StepperController::getPosition() const volatile {
-  // TODO: Disable interrupts here.
-  return stepsToDegrees(position_);
+  disableInterrupt();
+  const float result = stepsToDegrees(position_);
+  enableInterrupt();
+  return result;
 }
 
 float StepperController::getTarget() const volatile {
@@ -46,12 +51,15 @@ float StepperController::getTarget() const volatile {
 }
 
 void StepperController::setZero(const float relative_angle) volatile {
+  disableInterrupt();
   position_ = degreesToSteps(-relative_angle);
+  enableInterrupt();
 }
 
 // Note: Instead of a switch tree, we could just set a function pointer (to a private helper
 // function) whenever we alter behavior_.  A function-pointer approach might be overkill though...
 void StepperController::update() volatile {
+  // Technically, the value of stepper_ should be cached as well...
   if (stepper_ == nullptr) {
     return;
   }
@@ -92,4 +100,16 @@ int32_t StepperController::degreesToSteps(const float degrees) const volatile {
 
 float StepperController::stepsToDegrees(const int32_t steps) const volatile {
   return 360.0f * steps / steps_per_rotation_;
+}
+
+void StepperController::disableInterrupt() const volatile {
+  if (stepper_ != nullptr && stepper_->isInitialized()) {
+    Timer1.stop();
+  }
+}
+
+void StepperController::enableInterrupt() const volatile {
+  if (stepper_ != nullptr && stepper_->isInitialized()) {
+    Timer1.resume();
+  }
 }
