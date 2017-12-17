@@ -8,8 +8,8 @@ void StepperController::forward() volatile {
   behavior_ = Behavior::FORWARD;
 }
 
-void StepperController::backward() volatile {
-  behavior_ = Behavior::BACKWARD;
+void StepperController::reverse() volatile {
+  behavior_ = Behavior::REVERSE;
 }
 
 void StepperController::stop() volatile {
@@ -61,7 +61,7 @@ void StepperController::update() volatile {
       stepper_->stepForward();
       position_++;
       break;
-    case Behavior::BACKWARD:
+    case Behavior::REVERSE:
       stepper_->stepBackward();
       position_--;
       break;

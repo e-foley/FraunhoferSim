@@ -45,14 +45,14 @@ void loop() {
       case 'f':
         // Go forward.
         Serial.read();
-        Serial.println("Moving mask counterclockwise.");
-        mask_controller.counterclockwise();
+        Serial.println("Moving mask forward.");
+        mask_controller.forward();
         break;
       case 'b':
         // Go backward.
         Serial.read();
-        Serial.println("Moving mask clockwise.");
-        mask_controller.clockwise();
+        Serial.println("Moving mask backward.");
+        mask_controller.reverse();
         break;
       case 's':
         // Stop.

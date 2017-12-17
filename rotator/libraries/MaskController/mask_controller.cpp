@@ -4,21 +4,21 @@ MaskController::MaskController(volatile StepperController* const stepper_control
     const float gear_ratio) : stepper_controller_(stepper_controller), gear_ratio_(gear_ratio),
     target_(0.0f) {}
 
-void MaskController::counterclockwise() {
+void MaskController::forward() {
   if (stepper_controller_ == nullptr) {
     return;
   } else if (gear_ratio_ > 0.0f) {
     stepper_controller_->forward();
   } else {
-    stepper_controller_->backward();
+    stepper_controller_->reverse();
   }
 }
 
-void MaskController::clockwise() {
+void MaskController::reverse() {
   if (stepper_controller_ == nullptr) {
     return;
   } else if (gear_ratio_ > 0.0f) {
-    stepper_controller_->backward();
+    stepper_controller_->reverse();
   } else {
     stepper_controller_->forward();
   }
@@ -51,10 +51,10 @@ float MaskController::rotateTo(const float angle, const Direction direction,
     default:
     case Direction::NONE:
       break;
-    case Direction::COUNTERCLOCKWISE:
+    case Direction::FORWARD:
       delta_to_use = forward_delta;
       break;
-    case Direction::CLOCKWISE:
+    case Direction::REVERSE:
       delta_to_use = -reverse_delta;
       break;
     case Direction::AUTO:

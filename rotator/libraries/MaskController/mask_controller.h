@@ -7,14 +7,14 @@ class MaskController {
   public:
     enum class Direction {
       NONE,
-      COUNTERCLOCKWISE,
-      CLOCKWISE,
+      FORWARD,
+      REVERSE,
       AUTO
     };
 
     MaskController(volatile StepperController* stepper_controller, float gear_ratio);
-    void counterclockwise();
-    void clockwise();
+    void forward();
+    void reverse();
     void stop();
     float rotateTo(float mask_angle, Direction direction = Direction::AUTO,
         bool wrap_result = true);

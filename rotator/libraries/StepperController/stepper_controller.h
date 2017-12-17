@@ -9,7 +9,7 @@ class StepperController {
     enum class Behavior : int {
       STOPPED,
       FORWARD,
-      BACKWARD,
+      REVERSE,
       TARGETING,
       REACHED_TARGET
     };
@@ -17,7 +17,7 @@ class StepperController {
     StepperController(BipolarStepper* stepper, int16_t steps_per_rotation);
 
     void forward() volatile;
-    void backward() volatile;
+    void reverse() volatile;
     void stop() volatile;
     float rotateTo(float angle) volatile;
     float rotateBy(float relative_angle) volatile;
