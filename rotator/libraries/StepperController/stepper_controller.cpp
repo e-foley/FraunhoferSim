@@ -2,7 +2,7 @@
 
 StepperController::StepperController(BipolarStepper* const stepper, const int steps_per_rotation)
     : stepper_(stepper), steps_per_rotation_(steps_per_rotation), position_(0), target_angle_(0.0f),
-      target_steps_(0), behavior_(Behavior::STOPPED) {}
+      target_steps_(0), behavior_(Behavior::STOPPED), target_reached_callback_(nullptr) {}
 
 void StepperController::forward() volatile {
   behavior_ = Behavior::FORWARD;
@@ -30,6 +30,10 @@ float StepperController::rotateBy(const float relative_angle) volatile {
   target_steps_ = degreesToSteps(target_angle_);
   behavior_ = Behavior::TARGETING;
   return target_angle_;
+}
+
+void StepperController::setTargetReachedCallback(void (*const callback)(void)) {
+  target_reached_callback_ = callback;
 }
 
 float StepperController::getPosition() const volatile {
@@ -73,6 +77,9 @@ void StepperController::update() volatile {
         stepper_->stepBackward();
         position_--;
       } else /*position_ == target_steps_*/ {
+        if (target_reached_callback_ != nullptr) {
+          target_reached_callback_();
+        }
         behavior_ = Behavior::REACHED_TARGET;
       }
       break;

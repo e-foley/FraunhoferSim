@@ -21,6 +21,7 @@ class StepperController {
     void stop() volatile;
     float rotateTo(float angle) volatile;
     float rotateBy(float relative_angle) volatile;
+    void setTargetReachedCallback(void (*callback)(void));
     float getPosition() const volatile;
     float getTarget() const volatile;
     void setZero(float angle_relative_to_current = 0.0f) volatile;
@@ -35,6 +36,7 @@ class StepperController {
     float target_angle_;
     int32_t target_steps_;
     volatile Behavior behavior_;
+    void (*target_reached_callback_)(void);
 };
 
 #endif
