@@ -1,5 +1,5 @@
 #include "stepper_controller.h"
-#include "timer_one.h"
+#include "../TimerOne/timer_one.h"
 
 StepperController::StepperController(BipolarStepper* const stepper, const int steps_per_rotation)
     : stepper_(stepper), steps_per_rotation_(steps_per_rotation), position_(0), target_angle_(0.0f),
