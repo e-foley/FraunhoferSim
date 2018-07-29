@@ -1,38 +1,44 @@
 close all;
 
-A = ones(1024);
-A = A .* formCircle(1024, 0.5);
-A = A .* (1-formCircle(1024, 3.881/11*0.5));
-A = A .* (1-formRectangle(1024, [0 0], [((1/16)/11) 1]));
-A = A .* (1-formRectangle(1024, [0 0], [1 ((1/16)/11)]));
-A = A .* formGaussian(1024, 1.0, 0.18);
-A = A .* (1-formGaussian(1024, 0.56, 0.18));
+% A = ones(1024);
+% A = A .* formCircle(1024, 0.5);
+% A = A .* (1-formCircle(1024, 3.881/11*0.5));
+% A = A .* (1-formRectangle(1024, [0 0], [((1/16)/11) 1]));
+% A = A .* (1-formRectangle(1024, [0 0], [1 ((1/16)/11)]));
+% A = A .* formGaussian(1024, 1.0, 0.18);
+% A = A .* (1-formGaussian(1024, 0.56, 0.18));
+% 
+% % imshow(A);
+% % imwrite(A, 'Gaussian 18 donut and structure.png');
+% 
 
-% imshow(A);
-% imwrite(A, 'Gaussian 18 donut and structure.png');
+Z = ones(1024);
+Z = Z .* (1-formCircle(1024, 3.881/11*0.5));
+imshow(Z);
+imwrite(Z, 'obstruction.png');
 
-S = ones(1024);
-S = S .* formPolygon(1024, 0.5, 4, 90);
-imshow(S);
-imwrite(S, 'diamond.png');
-
-B = ones(1024);
-bar_size = 1/8;  % [in]
-B = B .* formPolygon(1024, 0.5, 6, 0);
-B = B .* (1-formPolygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
-B = B .* (1-formRectangle(1024, [0 0], [(bar_size/11) 1]));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 60, 'nearest', 'crop'));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 120, 'nearest', 'crop'));
-imshow(B);
-% imwrite(B, 'Hex donut.png');
-
-bowtie_bar_placement = 0.049;
-C = double(imread('bowtie.png'));
-C = C ./ max(max(C));  % because original bowtie is on [0 255]
-C = C .* (1-formRectangle(1000, [-bowtie_bar_placement 0], [bar_size/11 0.8]));
-C = C .* (1-formRectangle(1000, [bowtie_bar_placement 0], [bar_size/11 0.8]));
-imshow(C);
-imwrite(C, 'beamed bowtie.png');
+% S = ones(1024);
+% S = S .* formPolygon(1024, 0.5, 4, 90);
+% imshow(S);
+% imwrite(S, 'diamond.png');
+% 
+% B = ones(1024);
+% bar_size = 1/8;  % [in]
+% B = B .* formPolygon(1024, 0.5, 6, 0);
+% B = B .* (1-formPolygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
+% B = B .* (1-formRectangle(1024, [0 0], [(bar_size/11) 1]));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 60, 'nearest', 'crop'));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 120, 'nearest', 'crop'));
+% imshow(B);
+% % imwrite(B, 'Hex donut.png');
+% 
+% bowtie_bar_placement = 0.049;
+% C = double(imread('bowtie.png'));
+% C = C ./ max(max(C));  % because original bowtie is on [0 255]
+% C = C .* (1-formRectangle(1000, [-bowtie_bar_placement 0], [bar_size/11 0.8]));
+% C = C .* (1-formRectangle(1000, [bowtie_bar_placement 0], [bar_size/11 0.8]));
+% imshow(C);
+% imwrite(C, 'beamed bowtie.png');
 
 % 
 % % square
@@ -135,6 +141,26 @@ imwrite(C, 'beamed bowtie.png');
 % Q = Q .* beam;
 % %imshow(cat(3, Q, Q, A_alt));
 % imwrite(Q, 'cont-bridge test two.png');
+
+% S = formApodization(1024, 0.18) .* formCircle(1024, 0.5);
+% imshow(S);
+% imwrite(S, 'apodization_0-18.png');
+% 
+% T = 1 - formApodization(1024, 0.3);
+% T = T .* formCircle(1024, 0.5);
+% T = T .* (1-formCircle(1024, 3.881/11*0.5));
+% imshow(T);
+% imwrite(T, 'apodization_0-30_inv_c11.png');
+
+% lines = formScreen(1024, 4, 16);
+% screen = lines .* lines';
+% U =      min(screen + formCircle(1024, 0.55/2), 1);
+% U = U .* min(imrotate(screen, 30, 'crop') + formCircle(1024, 0.78/2), 1);
+% U = U .* min(imrotate(screen, 60, 'crop') + formCircle(1024, 0.90/2), 1);
+% U = U .* formCircle(1024, 0.5);
+% imshow(U);
+% imwrite(U, '../Inputs/apodizing_screen_4-16.png');
+%imwrite(U, 'apodizing_screen_4-16.tif');
 
 in_scale = 1;
 fft_scale = 6;

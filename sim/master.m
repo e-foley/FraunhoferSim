@@ -1,10 +1,6 @@
 % Runner file.  Creates power-spectrum-related figures from existing
 % aperture shape files.
 
-% RECENT:
-% * LD lims changed for Rigel test (originally 12)
-% * LD tick spacing changed (was 2)
-
 close all;  % Get rid of our figures
 clear variables;  % Clean up our variables
 
@@ -49,22 +45,22 @@ aperture_props.color_map = gray(256);
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
-psf_props.fft_scale = 8;  % Affects resolution
+psf_props.fft_scale = 16;  % Affects resolution (8 is fair)
 psf_props.ld_conv = [0 0 1];
-%psf_props.ld_conv = doubleToLd(9.5, [0 6.5], 90, 680, telescope_diameter);
+%psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
 
 % Define standard cropping properties.
 crop_scale_props = CropScaleProps;
-crop_scale_props.ld_lim = 20;
+crop_scale_props.ld_lim = 12;
 crop_scale_props.mag_lims = [1 4];
 
 % Define imagesc-related properties.
 imagesc_props = ImagescProps;
 imagesc_props.nominal_plot_size = [620 528];
 imagesc_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
-imagesc_props.h_axis_tick_spacing = 5;
+imagesc_props.h_axis_tick_spacing = 2;
 imagesc_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
-imagesc_props.v_axis_tick_spacing = 5;
+imagesc_props.v_axis_tick_spacing = 2;
 imagesc_props.extra_title_margin = 0.5;
 imagesc_props.font_size = 14;
 imagesc_props.color_map = hot(256);
@@ -78,6 +74,8 @@ overlay_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot t
 overlay_props.primary_color = [0 1 0];
 
 inputs = {
+%     'apodization_0-18' aperture_props psf_props crop_scale_props imagesc_props
+%     'apodizing_screen_4-16' aperture_props psf_props crop_scale_props imagesc_props
 %     'beamed bowtie' aperture_props psf_props crop_scale_props imagesc_props
 %     'bowtie' aperture_props psf_props crop_scale_props imagesc_props
 %     'C11 and structure' aperture_props psf_props crop_scale_props imagesc_props
@@ -101,16 +99,23 @@ inputs = {
 };
 
 overlays = {
+%     'apodization_0-18' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'gaussian-18_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'Hex donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'hexagon' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
 %     'triangle' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'diamond' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
 %     'c11' 'full' overlay_props psf_props crop_scale_props imagesc_props
-      'bowtie' 'multigaussian-18' overlay_props psf_props crop_scale_props imagesc_props
+%     'bowtie' 'multigaussian-18' overlay_props psf_props crop_scale_props imagesc_props
+%     'beamed bowtie' 'bowtie' overlay_props psf_props crop_scale_props imagesc_props 
+%     'multigaussian-15' 'c11' overlay_props psf_props crop_scale_props imagesc_props    
+    'multigaussian-18' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 };
 
 names = {
+  'apodization_0-18' 'apodizing mask'
+  'apodizing_screen_4-16' 'apodizing screen'
   'beamed bowtie' 'beamed bowtie mask'
   'bowtie' 'bowtie mask'
   'C11 and structure' 'C11 with spokes'
