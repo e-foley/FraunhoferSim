@@ -1,18 +1,7 @@
 % Runner file.  Creates power-spectrum-related figures from existing
 % aperture shape files.
 
-% THINGS TO CHANGE BACK
 % Change fft_scale back to 16
-% Change output directory to whatever
-% change aperture_eps
-% change save_aperture_png
-% change save_scaled_png
-% change save_processed
-% change generate_spec_files
-% save_psf_overlay = false;
-% save_cut_overlay = false;
-% save_combo = false;
-
 close all;  % Get rid of our figures
 clear variables;  % Clean up our variables
 
