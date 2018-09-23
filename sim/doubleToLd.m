@@ -1,5 +1,6 @@
 function [ ld ] = doubleToLd(separation, mags, angle, wavelength, diameter)
 % separation in arcseconds
+% mags in astronomical magnitudes
 % angle in degrees
 % wavelength in nanometers
 % diameter in inches
