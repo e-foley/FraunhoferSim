@@ -19,6 +19,7 @@ for i=1:size(p.ld_conv, 1)
     end
 end
 fprintf(fid, '\r\n');
+fprintf(fid, ['coherent light:  ' num2str(p.is_coherent) '\r\n']);
 fprintf(fid, ['magnitude limits:  [' num2str(-c.mag_lims(2)) ', ' num2str(-c.mag_lims(1)), ']\r\n']);
 fprintf(fid, ['lam/D limits:  [' num2str(-c.ld_lim) ', ' num2str(c.ld_lim) ']\r\n']);
 fprintf(fid, ['output PSF size:  ' num2str(processed_size(1)) ' px X ' num2str(processed_size(2)) ' px\r\n']);
