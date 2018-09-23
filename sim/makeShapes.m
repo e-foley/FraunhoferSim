@@ -12,10 +12,10 @@ close all;
 % % imwrite(A, 'Gaussian 18 donut and structure.png');
 % 
 
-Z = ones(1024);
-Z = Z .* (1-formCircle(1024, 3.881/11*0.5));
-imshow(Z);
-imwrite(Z, 'obstruction.png');
+% Z = ones(1024);
+% Z = Z .* (1-formCircle(1024, 3.881/11*0.5));
+% imshow(Z);
+% imwrite(Z, 'obstruction.png');
 
 % S = ones(1024);
 % S = S .* formPolygon(1024, 0.5, 4, 90);
@@ -30,7 +30,19 @@ imwrite(Z, 'obstruction.png');
 % B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 60, 'nearest', 'crop'));
 % B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 120, 'nearest', 'crop'));
 % imshow(B);
-% % imwrite(B, 'Hex donut.png');
+% % imwrite(B, 'hexagon_donut1.png');
+
+
+B = ones(1024);
+bar_size = 1/8;  % [in]
+B = B .* formPolygon(1024, 0.5, 6, 0);
+B = B .* (1-formPolygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
+B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 30, 'nearest', 'crop'));
+B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 90, 'nearest', 'crop'));
+B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 150, 'nearest', 'crop'));
+imshow(B);
+imwrite(B, 'hexagon_donut2.png');
+
 % 
 % bowtie_bar_placement = 0.049;
 % C = double(imread('bowtie.png'));
