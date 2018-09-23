@@ -1,13 +1,25 @@
 % Runner file.  Creates power-spectrum-related figures from existing
 % aperture shape files.
 
+% THINGS TO CHANGE BACK
+% Change fft_scale back to 16
+% Change output directory to whatever
+% change aperture_eps
+% change save_aperture_png
+% change save_scaled_png
+% change save_processed
+% change generate_spec_files
+% save_psf_overlay = false;
+% save_cut_overlay = false;
+% save_combo = false;
+
 close all;  % Get rid of our figures
 clear variables;  % Clean up our variables
 
 % Define global propertes
 telescope_diameter = 11;  % [in] Affects convolution matrix math
 input_directory = '../Inputs/';
-output_directory = '../Outputs/overlays/';
+output_directory = '../Outputs/temp/';
 input_extension = '.png';
 aperture_extension_eps = '_aperture.eps';
 aperture_extension_png = '_aperture.png';
@@ -17,18 +29,18 @@ scaled_extension_png = '_scaled.png';
 spec_extension = '_psf_specs.txt';
 imagesc_title_prefix = 'Ideal monochromatic, on-axis PSF of ';
 persist_aperture = false;
-save_aperture_eps = true;
-save_aperture_png = true;
+save_aperture_eps = false;  % default: true
+save_aperture_png = false;  % default: true
 show_processed = false;
-save_processed = true;
+save_processed = false;  % default: true
 persist_scaled = false;
 save_scaled_eps = false;
-save_scaled_png = true;
-save_psf_overlay = true;
-save_cut_overlay = true;
-save_combo = true;
+save_scaled_png = false;  % default: true
+save_psf_overlay = false;  % default: true
+save_cut_overlay = false;  % default: true
+save_combo = false;  % default: true
 persist_overlay_figures = true;
-generate_spec_files = true;
+generate_spec_files = false;  % default: true
 figure_num = 1;
 
 % Define formatting parameters for the aperture figure.
@@ -45,7 +57,7 @@ aperture_props.color_map = gray(256);
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
-psf_props.fft_scale = 16;  % Affects resolution (8 is fair)
+psf_props.fft_scale = 2;  % Affects resolution (8 is fair)
 psf_props.ld_conv = [0 0 1];
 %psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
 
@@ -72,6 +84,10 @@ overlay_props.cut_y_axis_spacing = 1;
 overlay_props.cut_line_thickness = 2;
 overlay_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot title
 overlay_props.primary_color = [0 1 0];
+overlay_props.show_target = true;
+overlay_props.target = -2.6;
+overlay_props.target_line_thickness = 1;
+overlay_props.target_line_color = [0.4 0.4 0.4];
 
 inputs = {
 %     'apodization_0-18' aperture_props psf_props crop_scale_props imagesc_props
@@ -90,7 +106,8 @@ inputs = {
 %     'gaussian-15_donut' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18_donut' aperture_props psf_props crop_scale_props imagesc_props
-%     'Hex donut' aperture_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut1' aperture_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut2' aperture_props psf_props crop_scale_props imagesc_props
 %     'hexagon' aperture_props psf_props crop_scale_props imagesc_props
 %     'inner' aperture_props psf_props crop_scale_props imagesc_props
 %     'multigaussian-15' aperture_props psf_props crop_scale_props imagesc_props
@@ -99,10 +116,14 @@ inputs = {
 };
 
 overlays = {
+    
+'multigaussian-18' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+
 %     'apodization_0-18' 'full' overlay_props psf_props crop_scale_props imagesc_props
+%     'apodizing_screen_4-16' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
-%     'Hex donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut1' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'hexagon' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
 %     'triangle' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'diamond' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
@@ -110,7 +131,11 @@ overlays = {
 %     'bowtie' 'multigaussian-18' overlay_props psf_props crop_scale_props imagesc_props
 %     'beamed bowtie' 'bowtie' overlay_props psf_props crop_scale_props imagesc_props 
 %     'multigaussian-15' 'c11' overlay_props psf_props crop_scale_props imagesc_props    
-    'multigaussian-18' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'multigaussian-18' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut2' 'hexagon_donut1' overlay_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut1' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'hexagon_donut2' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'beamed bowtie' 'gaussian-18_donut' overlay_props psf_props crop_scale_props imagesc_props
 };
 
 names = {
@@ -130,7 +155,8 @@ names = {
   'gaussian-15_donut' 'Gaussian donut'
   'gaussian-18' 'Gaussian aperture'
   'gaussian-18_donut' 'Gaussian donut'
-  'Hex donut' 'hex donut'
+  'hexagon_donut1' 'hex donut (vertex spokes)'
+  'hexagon_donut2' 'hex donut (edge spokes)'
   'hexagon' 'hexagonal aperture'
   'inner' 'C11 central obstruction'
   'multigaussian-15' 'multi-Gaussian'

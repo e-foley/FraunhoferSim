@@ -16,5 +16,9 @@ classdef OverlayProps
 %         secondary 
 %         img_cut_name
 %         img_rel_cut_name
+        show_target
+        target
+        target_line_thickness
+        target_line_color
     end
 end
