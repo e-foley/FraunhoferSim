@@ -86,7 +86,7 @@ overlay_props.cut_line_thickness = 2;
 overlay_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot title
 overlay_props.primary_color = [0 1 0];
 overlay_props.show_target = true;
-overlay_props.target = -2.6;
+overlay_props.target = -2.6;  % base-10 magnitude
 overlay_props.target_line_thickness = 1;
 overlay_props.target_line_color = [0.4 0.4 0.4];
 
