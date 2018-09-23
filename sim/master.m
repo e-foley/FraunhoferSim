@@ -29,18 +29,18 @@ scaled_extension_png = '_scaled.png';
 spec_extension = '_psf_specs.txt';
 imagesc_title_prefix = 'Ideal monochromatic, on-axis PSF of ';
 persist_aperture = false;
-save_aperture_eps = false;  % default: true
-save_aperture_png = false;  % default: true
+save_aperture_eps = true;  % default: true
+save_aperture_png = true;  % default: true
 show_processed = false;
-save_processed = false;  % default: true
+save_processed = true;  % default: true
 persist_scaled = false;
 save_scaled_eps = false;
-save_scaled_png = false;  % default: true
-save_psf_overlay = false;  % default: true
-save_cut_overlay = false;  % default: true
-save_combo = false;  % default: true
+save_scaled_png = true;  % default: true
+save_psf_overlay = true;  % default: true
+save_cut_overlay = true;  % default: true
+save_combo = true;  % default: true
 persist_overlay_figures = true;
-generate_spec_files = false;  % default: true
+generate_spec_files = true;  % default: true
 figure_num = 1;
 
 % Define formatting parameters for the aperture figure.
@@ -57,9 +57,10 @@ aperture_props.color_map = gray(256);
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
-psf_props.fft_scale = 2;  % Affects resolution (8 is fair)
-psf_props.ld_conv = [0 0 1];
-%psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
+psf_props.fft_scale = 8;  % Affects resolution (8 is fair)
+% psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
+psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
+psf_props.is_coherent = false;
 
 % Define standard cropping properties.
 crop_scale_props = CropScaleProps;
@@ -97,7 +98,7 @@ inputs = {
 %     'C11 and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'c11' aperture_props psf_props crop_scale_props imagesc_props
 %     'diamond' aperture_props psf_props crop_scale_props imagesc_props
-%     'full' aperture_props psf_props crop_scale_props imagesc_props
+     'full' aperture_props psf_props crop_scale_props imagesc_props
 %     'Gaussian 18 donut and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-05' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-08' aperture_props psf_props crop_scale_props imagesc_props
@@ -116,9 +117,6 @@ inputs = {
 };
 
 overlays = {
-    
-'multigaussian-18' 'c11' overlay_props psf_props crop_scale_props imagesc_props
-
 %     'apodization_0-18' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'apodizing_screen_4-16' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
