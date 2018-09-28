@@ -178,7 +178,7 @@ for i = 1:size(inputs, 1)
     [figure_num] = runImagesc(log_scaled, input{5}, ld_bounds, input{4}, imagesc_title, persist_scaled, figure_num, save_scaled_eps, scaled_location_eps, save_scaled_png, scaled_location_png);
     if generate_spec_files
         spec_output_location = [output_directory input{1} spec_extension];
-        generatePsfSpecFile(inputs{3}, size(mask), reduced_size, fft_size, input{4}, size(processed), inputs{2}, inputs{5}, spec_output_location);
+        generatePsfSpecFile(input{3}, size(mask), reduced_size, fft_size, input{4}, size(processed), input{2}, input{5}, spec_output_location);
     end
 end
 
