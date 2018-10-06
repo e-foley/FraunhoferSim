@@ -101,6 +101,7 @@ inputs = {
 %     'hexagon' aperture_props psf_props crop_scale_props imagesc_props
 %     'inner' aperture_props psf_props crop_scale_props imagesc_props
 %     'multigaussian-15' aperture_props psf_props crop_scale_props imagesc_props
+%     'multigaussian-18' aperture_props psf_props crop_scale_props imagesc_props
 %     'square' aperture_props psf_props crop_scale_props imagesc_props
 %     'triangle' aperture_props psf_props crop_scale_props imagesc_props
 };
