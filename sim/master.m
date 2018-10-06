@@ -48,7 +48,10 @@ psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
 psf_props.fft_scale = 8;  % Affects resolution (8 is fair)
 % psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
-psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
+% pair = StarPair(0.7, [3 6], 90);
+starDefs;  % generates list of stars provided in starDefs.m
+pair = stf_2579;
+psf_props.ld_conv = doubleToLd(pair, 680, telescope_diameter);
 psf_props.is_coherent = false;
 
 % Define standard cropping properties.
@@ -178,7 +181,7 @@ for i = 1:size(inputs, 1)
     [figure_num] = runImagesc(log_scaled, input{5}, ld_bounds, input{4}, imagesc_title, persist_scaled, figure_num, save_scaled_eps, scaled_location_eps, save_scaled_png, scaled_location_png);
     if generate_spec_files
         spec_output_location = [output_directory input{1} spec_extension];
-        generatePsfSpecFile(inputs{3}, size(mask), reduced_size, fft_size, input{4}, size(processed), inputs{2}, inputs{5}, spec_output_location);
+        generatePsfSpecFile(input{3}, size(mask), reduced_size, fft_size, input{4}, size(processed), input{2}, input{5}, spec_output_location);
     end
 end
 
