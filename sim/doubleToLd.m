@@ -1,7 +1,4 @@
-function [ ld ] = doubleToLd(separation, mags, angle, wavelength, diameter)
-% separation in arcseconds
-% mags in astronomical magnitudes
-% angle in degrees
+function [ ld ] = doubleToLd(pair, wavelength, diameter)
 % wavelength in nanometers
 % diameter in inches
 
@@ -9,11 +6,11 @@ function [ ld ] = doubleToLd(separation, mags, angle, wavelength, diameter)
 % TODO: Think more about whether that additional division by two is
 % necessary... I think it is
 
-ld_separation = arcsecToLd(separation, wavelength, diameter);
-secondary_pos = [ld_separation * cosd(angle-90) ld_separation * sind(angle-90)];
+ld_separation = arcsecToLd(pair.separation, wavelength, diameter);
+secondary_pos = [ld_separation * cosd(pair.angle-90) ld_separation * sind(pair.angle-90)];
 
 ld = zeros(2, 3);
-ld(1, :) = [0.0 0.0 10^(-mags(1) / 2.5 / 2)];
-ld(2, :) = [secondary_pos 10^(-mags(2) / 2.5 / 2)];
+ld(1, :) = [0.0 0.0 10^(-pair.mags(1) / 2.5 / 2)];
+ld(2, :) = [secondary_pos 10^(-pair.mags(2) / 2.5 / 2)];
 
 end

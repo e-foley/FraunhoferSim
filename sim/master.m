@@ -48,7 +48,10 @@ psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
 psf_props.fft_scale = 8;  % Affects resolution (8 is fair)
 % psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
-psf_props.ld_conv = doubleToLd(2.5, [0 7], 90, 680, telescope_diameter);
+% pair = StarPair(0.7, [3 6], 90);
+starDefs;  % generates list of stars provided in starDefs.m
+pair = stf_2579;
+psf_props.ld_conv = doubleToLd(pair, 680, telescope_diameter);
 psf_props.is_coherent = false;
 
 % Define standard cropping properties.
