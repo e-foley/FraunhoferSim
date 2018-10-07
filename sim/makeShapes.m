@@ -1,4 +1,5 @@
 close all;
+clear;
 
 % A = ones(1024);
 % A = A .* formCircle(1024, 0.5);
@@ -33,15 +34,15 @@ close all;
 % % imwrite(B, 'hexagon_donut1.png');
 
 
-B = ones(1024);
-bar_size = 1/8;  % [in]
-B = B .* formPolygon(1024, 0.5, 6, 0);
-B = B .* (1-formPolygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 30, 'nearest', 'crop'));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 90, 'nearest', 'crop'));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 150, 'nearest', 'crop'));
-imshow(B);
-imwrite(B, 'hexagon_donut2.png');
+% B = ones(1024);
+% bar_size = 1/8;  % [in]
+% B = B .* formPolygon(1024, 0.5, 6, 0);
+% B = B .* (1-formPolygon(1024, 0.5*(4.481/11), 6, 0));  % 4.481 is 2/sqrt(3)*3.881, so that sides are beyond radius of secondary mirror cylinder
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 30, 'nearest', 'crop'));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 90, 'nearest', 'crop'));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 150, 'nearest', 'crop'));
+% imshow(B);
+% imwrite(B, 'hexagon_donut2.png');
 
 % 
 % bowtie_bar_placement = 0.049;
@@ -174,8 +175,22 @@ imwrite(B, 'hexagon_donut2.png');
 % imwrite(U, '../Inputs/apodizing_screen_4-16.png');
 %imwrite(U, 'apodizing_screen_4-16.tif');
 
-in_scale = 1;
-fft_scale = 6;
-mag_scale = 4;
-ld_max = 90;
-%show_fft_plus(G, in_scale, fft_scale, mag_scale, ld_max, 'hot', 2, 'Test mask', 'test mask');
+X = ones(1024);
+for i = 1:2:5
+    X = xor(X, formScreen(1024, floor(1024/i), 2*floor(1024/i))');
+end
+X = X .* formCircle(1024, 0.5);
+X = X .* (1-formCircle(1024, 3.881/11*0.5));
+imshow(X);
+imwrite(X, 'tester.jpg');
+
+psf_props = PsfProps;
+psf_props.input_scale = 1;
+psf_props.fft_scale = 6;
+psf_props.ld_conv = [0 0 1];
+crop_scale_props = CropScaleProps;
+crop_scale_props.mag_lims = [0 4];
+crop_scale_props.ld_lim = 100;
+[xfm, reduced_size, fft_size] = getCleverPowerSpectrum(X, psf_props);
+[processed, log_scaled, figure_num] = cropAndScale(xfm, psf_props.fft_scale, crop_scale_props, true, 2);
+%show_fft_plus(X, in_scale, fft_scale, mag_scale, ld_max, 'hot', 2, 'Test mask', 'test mask');
