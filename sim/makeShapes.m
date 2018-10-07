@@ -175,22 +175,27 @@ clear;
 % imwrite(U, '../Inputs/apodizing_screen_4-16.png');
 %imwrite(U, 'apodizing_screen_4-16.tif');
 
+% creates a screen with odd-number horizontal divisions of the whole aperture
+% X = ones(1024);
+% for i = 1:2:9
+%     X = xor(X, formScreen(1024, floor(1024/i), 2*floor(1024/i))');
+% end
+% X = X .* formCircle(1024, 0.5);
+% X = X .* (1-formCircle(1024, 3.881/11*0.5));
+
+% creates a square donut
 X = ones(1024);
-for i = 1:2:5
-    X = xor(X, formScreen(1024, floor(1024/i), 2*floor(1024/i))');
-end
-X = X .* formCircle(1024, 0.5);
-X = X .* (1-formCircle(1024, 3.881/11*0.5));
+X = X .* formRectangle(1024, [0 0], sqrt(2)/2 * [1 1]);
+X = X - formRectangle(1024, [0 0], (3.881/11) * [1 1]);
+
 imshow(X);
 imwrite(X, 'tester.jpg');
-
 psf_props = PsfProps;
 psf_props.input_scale = 1;
 psf_props.fft_scale = 6;
 psf_props.ld_conv = [0 0 1];
 crop_scale_props = CropScaleProps;
-crop_scale_props.mag_lims = [0 4];
+crop_scale_props.mag_lims = [0 7];
 crop_scale_props.ld_lim = 100;
 [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(X, psf_props);
 [processed, log_scaled, figure_num] = cropAndScale(xfm, psf_props.fft_scale, crop_scale_props, true, 2);
-%show_fft_plus(X, in_scale, fft_scale, mag_scale, ld_max, 'hot', 2, 'Test mask', 'test mask');
