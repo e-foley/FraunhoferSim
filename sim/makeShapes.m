@@ -187,6 +187,14 @@ clear;
 X = ones(1024);
 X = X .* formRectangle(1024, [0 0], sqrt(2)/2 * [1 1]);
 X = X - formRectangle(1024, [0 0], (3.881/11) * [1 1]);
+X = X .* (1-formRectangle(1024, [0 0], [((1/16)/11) 1]));
+X = X .* (1-formRectangle(1024, [0 0], [1 ((1/16)/11)]));
+imwrite(X, 'square_donut.png');
+
+% creates a diamond donut
+% X = ones(1024);
+% X = X .* formPolygon(1024, 0.5, 4, 90);
+% X = X - formPolygon(1024, 0.5 * sqrt(2) * 3.811/11, 4, 90);
 
 imshow(X);
 imwrite(X, 'tester.jpg');
