@@ -1,6 +1,7 @@
 close all;
 clear;
 
+% GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
 % A = A .* formCircle(1024, 0.5);
 % A = A .* (1-formCircle(1024, 3.881/11*0.5));
@@ -11,7 +12,23 @@ clear;
 % 
 % % imshow(A);
 % % imwrite(A, 'Gaussian 18 donut and structure.png');
-% 
+%
+
+% GAUSSIAN 15 DONUT WITH 45-DEG SPOKES
+B = ones(1024);
+bar_size = 3/16;  % [in]
+gaussian_factor = 0.15;
+% 0.56 works for 0.18
+% 0.64 worls for 0.15
+secondary_height = 0.64;
+B = B .* formCircle(1024, 0.5);
+B = B .* (1-formCircle(1024, 3.881/11*0.5));
+B = B .* formGaussian(1024, 1.0, gaussian_factor);
+B = B .* (1-formGaussian(1024, secondary_height, gaussian_factor));
+B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 45, 'nearest', 'crop'));
+B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 135, 'nearest', 'crop'));
+imshow(B);
+imwrite(B, 'Gaussian 15 donut and 45-deg spokes.png');
 
 % Z = ones(1024);
 % Z = Z .* (1-formCircle(1024, 3.881/11*0.5));
@@ -54,7 +71,7 @@ clear;
 % imwrite(C, 'beamed bowtie.png');
 
 % 
-% % square
+% % square;
 % B = zeros(1024);
 % delta = round(256*sqrt(2));
 % B([512-delta : 512+delta], [512-delta : 512 + delta]) = 1;
@@ -184,26 +201,26 @@ clear;
 % X = X .* (1-formCircle(1024, 3.881/11*0.5));
 
 % creates a square donut
-X = ones(1024);
-X = X .* formRectangle(1024, [0 0], sqrt(2)/2 * [1 1]);
-X = X - formRectangle(1024, [0 0], (3.881/11) * [1 1]);
-X = X .* (1-formRectangle(1024, [0 0], [((1/16)/11) 1]));
-X = X .* (1-formRectangle(1024, [0 0], [1 ((1/16)/11)]));
-imwrite(X, 'square_donut.png');
+% X = ones(1024);
+% X = X .* formRectangle(1024, [0 0], sqrt(2)/2 * [1 1]);
+% X = X - formRectangle(1024, [0 0], (3.881/11) * [1 1]);
+% X = X .* (1-formRectangle(1024, [0 0], [((1/16)/11) 1]));
+% X = X .* (1-formRectangle(1024, [0 0], [1 ((1/16)/11)]));
+% imwrite(X, 'square_donut.png');
 
 % creates a diamond donut
 % X = ones(1024);
 % X = X .* formPolygon(1024, 0.5, 4, 90);
 % X = X - formPolygon(1024, 0.5 * sqrt(2) * 3.811/11, 4, 90);
 
-imshow(X);
-imwrite(X, 'tester.jpg');
-psf_props = PsfProps;
-psf_props.input_scale = 1;
-psf_props.fft_scale = 6;
-psf_props.ld_conv = [0 0 1];
-crop_scale_props = CropScaleProps;
-crop_scale_props.mag_lims = [0 7];
-crop_scale_props.ld_lim = 100;
-[xfm, reduced_size, fft_size] = getCleverPowerSpectrum(X, psf_props);
-[processed, log_scaled, figure_num] = cropAndScale(xfm, psf_props.fft_scale, crop_scale_props, true, 2);
+% imshow(X);
+% imwrite(X, 'tester.jpg');
+% psf_props = PsfProps;
+% psf_props.input_scale = 1;
+% psf_props.fft_scale = 6;
+% psf_props.ld_conv = [0 0 1];
+% crop_scale_props = CropScaleProps;
+% crop_scale_props.mag_lims = [0 7];
+% crop_scale_props.ld_lim = 100;
+% [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(X, psf_props);
+% [processed, log_scaled, figure_num] = cropAndScale(xfm, psf_props.fft_scale, crop_scale_props, true, 2);
