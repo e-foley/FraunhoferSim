@@ -8,7 +8,8 @@ clear variables;  % Clean up our variables
 % Define global propertes
 telescope_diameter = 11;  % [in] Affects convolution matrix math
 input_directory = '../Inputs/';
-output_directory = '../Outputs/temp/';
+output_directory = '../Outputs/';
+overlay_folder_path_rel_output = 'overlays/';
 input_extension = '.png';
 aperture_extension_eps = '_aperture.eps';
 aperture_extension_png = '_aperture.png';
@@ -17,18 +18,18 @@ scaled_extension_eps = '_scaled.eps';
 scaled_extension_png = '_scaled.png';
 spec_extension = '_psf_specs.txt';
 imagesc_title_prefix = 'Ideal monochromatic, on-axis PSF of ';
-persist_aperture = false;
+persist_aperture = false;  % default: false
 save_aperture_eps = true;  % default: true
 save_aperture_png = true;  % default: true
-show_processed = false;
+show_processed = true;  % default: true
 save_processed = true;  % default: true
-persist_scaled = false;
-save_scaled_eps = false;
+persist_scaled = false;  % default: false
+save_scaled_eps = false;  % default: false
 save_scaled_png = true;  % default: true
 save_psf_overlay = true;  % default: true
 save_cut_overlay = true;  % default: true
 save_combo = true;  % default: true
-persist_overlay_figures = true;
+persist_overlay_figures = true;  % default: true
 generate_spec_files = true;  % default: true
 figure_num = 1;
 
@@ -46,18 +47,18 @@ aperture_props.color_map = gray(256);
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
-psf_props.fft_scale = 8;  % Affects resolution (8 is fair)
-% psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
-% pair = StarPair(0.7, [3 6], 90);
-starDefs;  % generates list of stars provided in starDefs.m
-pair = stf_2579;
-psf_props.ld_conv = doubleToLd(pair, 680, telescope_diameter);
-psf_props.is_coherent = false;
+psf_props.fft_scale = 12;  % Affects resolution (8 is fair)
+psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
+% pair = StarPair(1.0, [0 0], 55);
+% starDefs;  % generates list of stars provided in starDefs.m
+% pair = bu_627;
+% psf_props.ld_conv = doubleToLd(pair, 550, telescope_diameter);  % default wavelength: 680
+psf_props.is_coherent = false;  % default: false
 
 % Define standard cropping properties.
 crop_scale_props = CropScaleProps;
 crop_scale_props.ld_lim = 12;
-crop_scale_props.mag_lims = [1 4];
+crop_scale_props.mag_lims = [1 4];  % default: [1 4] (base-10 log)
 
 % Define imagesc-related properties.
 imagesc_props = ImagescProps;
@@ -77,7 +78,7 @@ overlay_props.cut_y_axis_spacing = 1;
 overlay_props.cut_line_thickness = 2;
 overlay_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot title
 overlay_props.primary_color = [0 1 0];
-overlay_props.show_target = true;
+overlay_props.show_target = false;  % default: true
 overlay_props.target = -2.6;  % base-10 magnitude
 overlay_props.target_line_thickness = 1;
 overlay_props.target_line_color = [0.4 0.4 0.4];
@@ -90,13 +91,14 @@ inputs = {
 %     'C11 and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'c11' aperture_props psf_props crop_scale_props imagesc_props
 %     'diamond' aperture_props psf_props crop_scale_props imagesc_props
-     'full' aperture_props psf_props crop_scale_props imagesc_props
+%     'full' aperture_props psf_props crop_scale_props imagesc_props
 %     'Gaussian 18 donut and structure' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-05' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-08' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-10' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15_donut' aperture_props psf_props crop_scale_props imagesc_props
+%     'gaussian-15_donut_45-deg_spokes' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18' aperture_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18_donut' aperture_props psf_props crop_scale_props imagesc_props
 %     'hexagon_donut1' aperture_props psf_props crop_scale_props imagesc_props
@@ -109,10 +111,12 @@ inputs = {
 %     'triangle' aperture_props psf_props crop_scale_props imagesc_props
 };
 
+% Generally, put the mask first and the natural aperture shape second.
 overlays = {
 %     'apodization_0-18' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'apodizing_screen_4-16' 'full' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-15_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
+%     'gaussian-15_donut_45-deg_spokes' 'gaussian-15_donut' overlay_props psf_props crop_scale_props imagesc_props
 %     'gaussian-18_donut' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'hexagon_donut1' 'c11' overlay_props psf_props crop_scale_props imagesc_props
 %     'hexagon' 'triangle' overlay_props psf_props crop_scale_props imagesc_props
@@ -144,6 +148,7 @@ names = {
   'gaussian-10' 'Gaussian aperture'
   'gaussian-15' 'Gaussian aperture'
   'gaussian-15_donut' 'Gaussian donut'
+  'gaussian-15_donut_45-deg_spokes' ['Gaussian donut (45' char(176) ' spokes)']
   'gaussian-18' 'Gaussian aperture'
   'gaussian-18_donut' 'Gaussian donut'
   'hexagon_donut1' 'hex donut (vertex spokes)'
@@ -197,13 +202,13 @@ for i = 1:size(overlays, 1)
     overlay_io_props.primary_input_location = [input_directory overlay{1} '.png'];
     overlay_io_props.secondary_input_location = [input_directory overlay{2} '.png'];
     overlay_io_props.save_psf_overlay = save_psf_overlay;
-    overlay_io_props.psf_overlay_location_png = [output_directory overlay{1} '_vs_' overlay{2} '_psf_overlay.png'];
-    overlay_io_props.psf_overlay_location_eps = [output_directory overlay{1} '_vs_' overlay{2} '_psf_overlay.eps'];
+    overlay_io_props.psf_overlay_location_png = [output_directory overlay_folder_path_rel_output overlay{1} '_vs_' overlay{2} '_psf_overlay.png'];
+    overlay_io_props.psf_overlay_location_eps = [output_directory overlay_folder_path_rel_output overlay{1} '_vs_' overlay{2} '_psf_overlay.eps'];
     overlay_io_props.save_cut_overlay = save_cut_overlay;
-    overlay_io_props.cut_overlay_location_png = [output_directory overlay{1} '_vs_' overlay{2} '_cut_overlay.png'];
-    overlay_io_props.cut_overlay_location_eps = [output_directory overlay{1} '_vs_' overlay{2} '_cut_overlay.eps'];
+    overlay_io_props.cut_overlay_location_png = [output_directory overlay_folder_path_rel_output overlay{1} '_vs_' overlay{2} '_cut_overlay.png'];
+    overlay_io_props.cut_overlay_location_eps = [output_directory overlay_folder_path_rel_output overlay{1} '_vs_' overlay{2} '_cut_overlay.eps'];
     overlay_io_props.save_combo = save_combo;
-    overlay_io_props.combo_location_png = [output_directory overlay{1} '_vs_' overlay{2} '_side_by_side.png'];
+    overlay_io_props.combo_location_png = [output_directory overlay_folder_path_rel_output overlay{1} '_vs_' overlay{2} '_side_by_side.png'];
     
     % Actually run overlay code.
     [figure_num] = runOverlay(overlay{3}, overlay{4}, overlay{5}, overlay{6}, overlay_io_props,...
