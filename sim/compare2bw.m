@@ -1,16 +1,23 @@
 % compares two power spectra
-function [comp_img, r_axis, m1_axis, m2_axis, colors] = compare2(ps1, ps2, primary_color, ld_lim, fft_scale, mag_lims)
+function [comp_img, r_axis, m1_axis, m2_axis] = compare2bw(ps1, ps2, primary_pattern, ld_lim, fft_scale, mag_lims)
 
 cropped1 = cropByLd(ps1, ld_lim, fft_scale);
 bound1 = boundShades(cropped1, mag_lims);
 cropped2 = cropByLd(ps2, ld_lim, fft_scale);
 bound2 = boundShades(cropped2, mag_lims);
 
-secondary_color = 1-primary_color;
-red =   bound1 .* primary_color(1) + bound2 .* secondary_color(1);
-green = bound1 .* primary_color(2) + bound2 .* secondary_color(2);
-blue =  bound1 .* primary_color(3) + bound2 .* secondary_color(3);
-comp_img = cat(3, red, green, blue);
+% Remove pixels per pattern
+for r = 1:size(bound1, 1)
+    r_mod = mod(r, size(primary_pattern, 1));
+    for c = 1:size(bound1, 2)
+        c_mod = mod(c, size(primary_pattern, 2));
+        bound1(r, c) = bound1(r, c) * primary_pattern(r_mod + 1, c_mod + 1);
+        bound2(r, c) = bound2(r, c) * (1 - primary_pattern(r_mod + 1, c_mod + 1));
+    end
+end
+
+comp_img = bound1 + bound2;
+comp_img = cat(3, comp_img, comp_img, comp_img);
 
 mid_vert = round(size(cropped1, 1) / 2);
 mid_horiz = round(size(cropped1, 2) / 2);
@@ -18,7 +25,7 @@ r_axis = ((mid_horiz:size(cropped1, 2)) - mid_horiz) / fft_scale;
 m1_axis = cropped1(mid_vert, mid_horiz:end);
 m2_axis = cropped2(mid_vert, mid_horiz:end);
 
-colors = [primary_color; secondary_color];
+% colors = [primary_color; secondary_color];
 
 %plot(mid_horiz:size(ps1, 2), ps1(mid_vert, mid_horiz:end), 'Color', primary_color, mid_horiz:size(ps2, 2), ps2(mid_vert, mid_horiz:end), 'Color', secondary_color);
 % figure(4);

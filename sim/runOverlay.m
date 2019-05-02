@@ -39,7 +39,23 @@ ld_bounds = [-c.ld_lim c.ld_lim; -c.ld_lim c.ld_lim];  % TODO: Is this accurate?
 % show_scaled =    true;  % true to display the formatted power spectrum with axis labels and save it in EPS and PNG format
 % make_spec_file = true;  % true to create a TXT file recording some of the arguments to this function
 
-[combined, r_axis, m1_axis, m2_axis, colors] = compare2(xfm, xfm_rel, p.primary_color, c.ld_lim, f.fft_scale, c.mag_lims);
+% [combined, r_axis, m1_axis, m2_axis, colors] = compare2rgb(xfm, xfm_rel, p.primary_color, c.ld_lim, f.fft_scale, c.mag_lims);
+colors = [0,0,0;0,0,0];
+pattern = [
+0 0 0 0 1 1
+0 1 1 0 1 1
+0 1 1 0 1 1
+0 1 1 0 0 0
+];
+
+pattern = [
+0 0 0
+0 1 1
+0 1 1
+];
+
+
+[combined, r_axis, m1_axis, m2_axis] = compare2bw(xfm, xfm_rel, pattern, c.ld_lim, f.fft_scale, c.mag_lims);
 
 %%%%%%%%%%%%%%% SCALED FIGURE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 scaled_fig = figure(figure_num);
