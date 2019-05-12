@@ -177,7 +177,7 @@ for i = 1:size(inputs, 1)
     imagesc_title = [imagesc_title_prefix names{p_row, 2}];
     
     mask = imread(input_location);
-    [figure_num] = plotApertureNew(mask, input{2}, aperture_title, persist_aperture, figure_num, save_aperture_eps, save_aperture_png, aperture_location_eps, aperture_location_png);
+    [figure_num] = plotAperture(mask, input{2}, aperture_title, persist_aperture, figure_num, save_aperture_eps, save_aperture_png, aperture_location_eps, aperture_location_png);
     [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(imread(input_location), input{3});
     % Note for later: the convolutions should probably happen outside of power
     % spec. so that we can apply rainbow effect to each point of light...
