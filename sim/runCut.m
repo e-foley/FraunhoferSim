@@ -1,9 +1,9 @@
-function [replace_me] = runCut(psf, overlay_props, psf_props, crop_scale_props, imagesc_props, overlay_io_props, primary_label, secondary_label, persist_figures, figure_num)
+function [replace_me] = runCut(psf, cut_props, psf_props, crop_scale_props, imagesc_props, overlay_io_props, primary_label, secondary_label, persist_figures, figure_num)
 
 % creates a plot showing luminosity plotted as a function of a horizontal
 % coordinate of a single point spread function
 
-p = overlay_props;
+p = cut_props;
 f = psf_props;
 c = crop_scale_props;
 s = imagesc_props;
