@@ -3,7 +3,7 @@ s = imagesc_props;
 
 my_figure = figure(figure_number);
 imagesc([-0.5 0.5], [0.5 -0.5], aperture);
-formatImagescPlot(imagesc_props, my_figure, 0.5, my_title);
+formatImagescPlotNew(imagesc_props, my_figure, [-0.5 0.5;-0.5 0.5], my_title);
 colormap(s.color_map);  % needed to plot black/white if lingering colormap
 
 if save_eps
