@@ -1,17 +1,17 @@
-function [psf, reduced_input_size, fft_size] = ...
+function [psf, scaled_input_size, fft_size] = ...
     getCharacteristicPsf(aperture, input_scale, fft_scale)
 
 psf = Psf;
 
-% Reduce dims of the mask/aperture so FFT uses less memory after padding.
-reduced_aperture = imresize(aperture, input_scale);
-reduced_input_size = size(reduced_aperture);
-fft_size = fft_scale * reduced_input_size;
+% Scale dims of the mask/aperture. Scaling down allows FFT to use less memory.
+scaled_aperture = imresize(aperture, input_scale);
+scaled_input_size = size(scaled_aperture);
+fft_size = fft_scale * scaled_input_size;
 
 % Find FFT of this mask/aperture (not power spectrum yet), padding the FFT
 % to dimensions of fft_size and placing zero-frequency component in the
 % center of the image.
-psf.data = fftshift(fft2(reduced_aperture, fft_size(1), fft_size(2)));
+psf.data = fftshift(fft2(scaled_aperture, fft_size(1), fft_size(2)));
 
 % Power spectrum is the square of the complex amplitude.
 psf.data = abs(psf.data) .^ 2;
