@@ -24,5 +24,6 @@ psf.pixels_per_ld = fft_scale;
 % zero-frequency to lower-right of center when dimension is even.
 psf.ld_bounds(:,2) = floor((fft_size' - 1) / 2);
 psf.ld_bounds(:,1) = psf.ld_bounds(:,2) - fft_size' + 1;
+psf.ld_bounds = psf.ld_bounds / fft_scale;
 
 end
