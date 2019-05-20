@@ -5,8 +5,6 @@ function [convolved_psf] = psfConvolve(psf, ld_elements)
 
 convolved_psf = psf;
 convolved_psf.data = zeros(size(convolved_psf.data));
-x_lim = size(convolved_psf.data, 1);
-y_lim = size(convolved_psf.data, 2);
 
 % Compose the image in different slices--one slice per convolution member.
 for i = 1:size(ld_elements, 1)
