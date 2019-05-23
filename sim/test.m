@@ -1,14 +1,17 @@
 clearvars;
 
-% aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
-aperture = imread(['../Inputs/' 'c11' '.png']);
+aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
+% aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
+% aperture = imread(['../Inputs/' 'c11' '.png']);
 
 input_scale = 1;
 fft_scale = 4;
 [psf, reduced_input_size, fft_size] = ...
      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
-psf_crop = psfCrop(psf, [-12 12; -12 12]);
+% image = psfGetImage(psf, [-4 -1]);
+ 
+psf_crop = psfCrop(psf, [-24 24; 0 18]);
 image = psfGetImage(psf_crop, [-4 -1]);
 imshow(image);
 % imshow(psf.data .^ (1/5) / max(max(psf.data .^ (1/5))));
@@ -16,8 +19,8 @@ imshow(image);
 %[u, w] = psfCut(psf, [-5 5]);
 %plot(u, w);
 
-psf_convolve = psfConvolve(psf, [0 0 1; 2 -6 0.1; -3 3 0.1]);
-imshow(psfGetImage(psf_convolve, [-4 -1]));
+% psf_convolve = psfConvolve(psf, [0 0 1; 2 -6 0.1; -3 3 0.1]);
+% imshow(psfGetImage(psf_convolve, [-4 -1]));
 
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;

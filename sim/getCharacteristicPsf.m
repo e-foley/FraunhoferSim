@@ -4,7 +4,8 @@ function [psf, scaled_input_size, fft_size] = ...
 psf = Psf;
 
 % Scale dims of the mask/aperture. Scaling down allows FFT to use less memory.
-scaled_aperture = imresize(aperture, input_scale);
+% We rotate the matrix such that we can store the PSF with (u, v) indices. 
+scaled_aperture = imresize(rot90(aperture, 3), input_scale);
 scaled_input_size = size(scaled_aperture);
 fft_size = fft_scale * scaled_input_size;
 

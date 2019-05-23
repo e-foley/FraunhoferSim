@@ -12,4 +12,7 @@ image = log10(psf.data ./ normalization_value);
 mag_delta = log_10_mag_limits(2) - log_10_mag_limits(1);
 image = (image - log_10_mag_limits(1)) / mag_delta;
 
+% Rotate the image to same conventions as original aperture image.
+image = rot90(image);
+
 end
