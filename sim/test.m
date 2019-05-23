@@ -13,7 +13,7 @@ fft_scale = 8;
 % imshow(image);
 
 image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
-imshow(image);
+% imshow(image * 255, pink(255));
 % imshow(psf.data .^ (1/5) / max(max(psf.data .^ (1/5))));
 
 % [u, w] = psfCut(psf, [-7 7]);
