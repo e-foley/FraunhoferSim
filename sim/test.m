@@ -1,18 +1,19 @@
 clearvars;
 
-aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
+% aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
 % aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
-% aperture = imread(['../Inputs/' 'c11' '.png']);
+aperture = imread(['../Inputs/' 'c11' '.png']);
+% aperture = imread(['../Inputs/' 'bowtie' '.png']);
 
-input_scale = 1;
-fft_scale = 8;
+input_scale = 0.25;
+fft_scale = 12;
 [psf, reduced_input_size, fft_size] = ...
      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
 % image = psfGetImage(psf, [-4 -1]);
 % imshow(image);
 
-image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
+% image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
 % imshow(image * 255, pink(255));
 % imshow(psf.data .^ (1/5) / max(max(psf.data .^ (1/5))));
 
@@ -20,21 +21,19 @@ image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
 % plot(u, w);
 
 % 
-% star1 = Star;
-% star1.as_pos = [0 0];
-% star1.app_vis_mag = 1;
-% 
-% star2 = Star;
-% star2.as_pos = [10 3];
-% star2.app_vis_mag = 1;
-% 
-% stars = [star1 star2];
-% 
-% [sc] = combineStars(stars, psf, 11, 680);
-% [cropped_sc] = scCrop(sc, [-20 10; -20 3]);
-% 
-% image = scGetImage(cropped_sc, [-4 -1]);
-% imshow(image);
+star1 = Star;
+star1.as_pos = [0 0];
+star1.app_vis_mag = 1;
+
+star2 = Star;
+star2.as_pos = [0.5 0];
+star2.app_vis_mag = 4;
+
+stars = [star1 star2];
+
+[sc] = combineStars(stars, psf, 11, 550);
+image = scGetImage(sc, [-5 5; -5 5], [8 0]);
+imshow(image);
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;
 % img = fftshift(img);

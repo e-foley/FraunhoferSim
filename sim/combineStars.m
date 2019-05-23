@@ -62,11 +62,10 @@ for i = 1:numel(stars)
     % Calculate the shifted domain over which to place the new star image.
     upx_range = upx_min_pad + upx_shift + (1:size(psf.data,1));
     vpx_range = vpx_min_pad + vpx_shift + (1:size(psf.data,2));
-    slice(upx_range, vpx_range) = psf.data;
+    slice(upx_range, vpx_range) = psf.data / max(max(psf.data));
     
     % Amplify the star by its brightness as we add it to the convolution.
-    % FIX ME: THIS ISN'T THE RIGHT APPLICATION OF BRIGHTNESS.
-    sc.data = sc.data + stars(i).app_vis_mag * slice;
+    sc.data = sc.data + 100^(-stars(i).app_vis_mag / 5) * slice;
 end
 
 end
