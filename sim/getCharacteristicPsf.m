@@ -3,6 +3,11 @@ function [psf, scaled_input_size, fft_size] = ...
 
 psf = Psf;
 
+% Convert to grayscale if necessary.
+if (size(aperture, 3) > 1)
+    aperture = rgb2gray(aperture);
+end
+
 % Scale dims of the mask/aperture. Scaling down allows FFT to use less memory.
 % We rotate the matrix such that we can store the PSF with (u, v) indices. 
 scaled_aperture = imresize(rot90(aperture, 3), input_scale);
