@@ -10,30 +10,32 @@ fft_scale = 4;
      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
 % image = psfGetImage(psf, [-4 -1]);
+% imshow(image);
 
-% psf_crop = psfCrop(psf, [-24 24; -18 18]);
-% image = psfGetImage(psf_crop, [-4 -1]);
+psf_crop = psfCrop(psf, [-7 7; -18 18]);
+image = psfGetImage(psf_crop, [-4 -1]);
 % imshow(image);
 % imshow(psf.data .^ (1/5) / max(max(psf.data .^ (1/5))));
 
-%[u, w] = psfCut(psf, [-5 5]);
-%plot(u, w);
+[u, w] = psfCut(psf, [-7 7]);
+plot(u, w);
 
-star1 = Star;
-star1.as_pos = [0 0];
-star1.app_vis_mag = 1;
-
-star2 = Star;
-star2.as_pos = [10 3];
-star2.app_vis_mag = 1;
-
-stars = [star1 star2];
-
-[sc] = combineStars(stars, psf, 11, 680);
-[cropped_sc] = scCrop(sc, [-20 10; -20 3]);
-
-image = scGetImage(cropped_sc, [-4 -1]);
-imshow(image);
+% 
+% star1 = Star;
+% star1.as_pos = [0 0];
+% star1.app_vis_mag = 1;
+% 
+% star2 = Star;
+% star2.as_pos = [10 3];
+% star2.app_vis_mag = 1;
+% 
+% stars = [star1 star2];
+% 
+% [sc] = combineStars(stars, psf, 11, 680);
+% [cropped_sc] = scCrop(sc, [-20 10; -20 3]);
+% 
+% image = scGetImage(cropped_sc, [-4 -1]);
+% imshow(image);
 
 % psf_convolve = psfConvolve(psf, [0 0 1; 2 -6 0.1; -3 3 0.1]);
 % imshow(psfGetImage(psf_convolve, [-4 -1]));
