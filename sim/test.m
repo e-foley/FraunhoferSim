@@ -5,20 +5,19 @@ aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
 % aperture = imread(['../Inputs/' 'c11' '.png']);
 
 input_scale = 1;
-fft_scale = 4;
+fft_scale = 8;
 [psf, reduced_input_size, fft_size] = ...
      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
 % image = psfGetImage(psf, [-4 -1]);
 % imshow(image);
 
-psf_crop = psfCrop(psf, [-7 7; -18 18]);
-image = psfGetImage(psf_crop, [-4 -1]);
-% imshow(image);
+image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
+imshow(image);
 % imshow(psf.data .^ (1/5) / max(max(psf.data .^ (1/5))));
 
-[u, w] = psfCut(psf, [-7 7]);
-plot(u, w);
+% [u, w] = psfCut(psf, [-7 7]);
+% plot(u, w);
 
 % 
 % star1 = Star;
