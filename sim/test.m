@@ -30,8 +30,9 @@ star2.app_vis_mag = 1;
 stars = [star1 star2];
 
 [sc] = combineStars(stars, psf, 11, 680);
+[cropped_sc] = scCrop(sc, [-20 10; -20 3]);
 
-image = scGetImage(sc, [-4 -1]);
+image = scGetImage(cropped_sc, [-4 -1]);
 imshow(image);
 
 % psf_convolve = psfConvolve(psf, [0 0 1; 2 -6 0.1; -3 3 0.1]);
