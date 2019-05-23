@@ -1,12 +1,7 @@
-function [cropped_image] = psfGetImage(psf, new_ld_bounds, log_10_mag_limits, normalization_value)
+function [cropped_image] = psfGetImage(psf, new_ld_bounds, log_10_mag_limits)
 
-% Log-normalize the power spectrum. Use the maximum value if a
-% normalization value is not provided.
-if nargin < 4
-    normalization_value = max(max(psf.data));
-end
-
-image = log10(psf.data ./ normalization_value);
+% Log-normalize the power spectrum.
+image = log10(psf.data ./ max(max(psf.data)));
 
 % Crop the spectrum as close as possible to ld_bounds.
 upx_min = 1 + floor(psf.pixels_per_ld * (new_ld_bounds(1,1) - psf.ld_bounds(1,1)));
