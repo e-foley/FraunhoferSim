@@ -8,7 +8,7 @@ clear variables;  % Clean up our variables
 % Define global propertes
 telescope_diameter = 11;  % [in] Affects convolution matrix math
 input_directory = '../Inputs/';
-output_directory = '../Outputs/';
+output_directory = '../Outputs/temp/';
 overlay_folder_path_rel_output = 'overlays/';
 input_extension = '.png';
 aperture_extension_eps = '_aperture.eps';
@@ -19,10 +19,10 @@ scaled_extension_png = '_scaled.png';
 spec_extension = '_psf_specs.txt';
 imagesc_title_prefix = 'Ideal monochromatic, on-axis PSF of ';
 persist_aperture = false;  % default: false
-save_aperture_eps = true;  % default: true
-save_aperture_png = true;  % default: true
-show_processed = true;  % default: true
-save_processed = true;  % default: true
+save_aperture_eps = false;  % default: true
+save_aperture_png = false;  % default: true
+show_processed = false;  % default: true
+save_processed = false;  % default: true
 persist_scaled = false;  % default: false
 save_scaled_eps = false;  % default: false
 save_scaled_png = true;  % default: true
@@ -47,7 +47,7 @@ aperture_props.color_map = gray(256);
 % Define standard PSF-generation properties.
 psf_props = PsfProps;
 psf_props.input_scale = 1.0;  % Affects accuracy
-psf_props.fft_scale = 12;  % Affects resolution (8 is fair)
+psf_props.fft_scale = 6;  % Affects resolution (8 is fair)
 psf_props.ld_conv = [0 0 1];  % default: [0 0 1]
 % pair = StarPair(1.0, [0 0], 55);
 % starDefs;  % generates list of stars provided in starDefs.m
@@ -178,7 +178,7 @@ for i = 1:size(inputs, 1)
     
     mask = imread(input_location);
     [figure_num] = plotAperture(mask, input{2}, aperture_title, persist_aperture, figure_num, save_aperture_eps, save_aperture_png, aperture_location_eps, aperture_location_png);
-    [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(imread(input_location), input{3});
+    [xfm, reduced_size, fft_size] = getCleverPowerSpectrum(mask, input{3});
     % Note for later: the convolutions should probably happen outside of power
     % spec. so that we can apply rainbow effect to each point of light...
     [processed, log_scaled, figure_num] = cropAndScale(xfm, input{3}.fft_scale, input{4}, show_processed, figure_num);
