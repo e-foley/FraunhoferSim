@@ -2,12 +2,15 @@ function [sc] = combineStars(stars, psf, diameter_in, wavelength_nm)
 
 sc = SpectralCanvas;
 
+% Cache (L/D -> arcsecond) factor for easy reference.
+as_from_ld = asFromLd(wavelength_nm, diameter_in);
+
+% Calculate pixel scale in pixels per arcseconds
+sc.pixels_per_as = psf.pixels_per_ld / as_from_ld;
+
 if numel(stars) == 0
     return;
 end
-
-% Calculate pixel scale in pixelss per arcseconds
-sc.pixels_per_as = psf.pixels_per_ld / asFromLd(wavelength_nm, diameter_in);
 
 % Precompute the bounds of the domain we'll want to fill. Since the PSF for
 % each star will be the same, the result comes down to how the star
@@ -42,6 +45,12 @@ vpx_max_pad =  round(max_star_v * sc.pixels_per_as);
 upx_total = size(psf.data, 1) + upx_min_pad + upx_max_pad;
 vpx_total = size(psf.data, 2) + vpx_min_pad + vpx_max_pad;
 sc.data = zeros(upx_total, vpx_total);
+
+% Assign arcsecond bounds accordingly.
+sc.as_bounds(1,1) = min_star_u + psf.ld_bounds(1,1) * as_from_ld;
+sc.as_bounds(1,2) = max_star_u + psf.ld_bounds(1,2) * as_from_ld;
+sc.as_bounds(2,1) = min_star_v + psf.ld_bounds(2,1) * as_from_ld;
+sc.as_bounds(2,2) = max_star_v + psf.ld_bounds(2,2) * as_from_ld;
 
 % Compose the image in different slices--one slice per convolution member.
 for i = 1:numel(stars)
