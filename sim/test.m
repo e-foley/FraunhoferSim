@@ -90,7 +90,7 @@ stars = asterismFromDouble(3, [0 3], 90);
 
 sc_props = ImagescProps;
 sc_props.nominal_plot_size = [620 528];
-sc_props.plot_title = 'Testing!';
+sc_props.plot_title = 'Image';
 sc_props.field_limits = [-3 3; -3 3];
 sc_props.output_limits = [10 2];
 sc_props.h_axis_title = '{\itu} [as]';
