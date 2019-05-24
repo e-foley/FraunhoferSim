@@ -69,19 +69,21 @@ psf_io_props.png_location = 'works2.png';
 % plot(u, w);
 
 
-star1 = Star;
-star1.as_pos = [0 0];
-star1.app_vis_mag = 1;
+% star1 = Star;
+% star1.as_pos = [0 0];
+% star1.app_vis_mag = 1;
+% 
+% star2 = Star;
+% star2.as_pos = [2 1];
+% star2.app_vis_mag = 4;
+% 
+% stars = [star1 star2];
 
-star2 = Star;
-star2.as_pos = [2 1];
-star2.app_vis_mag = 4;
-
-stars = [star1 star2];
+stars = asterismFromDouble(3, [0 3], 90);
 
 [sc] = combineStars(stars, psf, 6, 550);
-%image = scGetImage(sc, [-3 3; -3 3], [10 0]);
-%imshow(image);
+% image = scGetImage(sc, [-3 3; -3 3], [10 0]);
+% imshow(image);
 
 
 

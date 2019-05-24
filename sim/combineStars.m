@@ -20,7 +20,7 @@ max_star_u = -inf();
 min_star_v =  inf();
 max_star_v = -inf();
 for i = 1:numel(stars)
-    star_u = stars(i).as_pos(1);
+    star_u = stars(i).pos_as(1);
     if star_u < min_star_u
         min_star_u = star_u;
     end
@@ -28,7 +28,7 @@ for i = 1:numel(stars)
         max_star_u = star_u;
     end
     
-    star_v = stars(i).as_pos(2);
+    star_v = stars(i).pos_as(2);
     if star_v < min_star_v
         min_star_v = star_v;
     end
@@ -54,8 +54,8 @@ sc.as_bounds(2,2) = max_star_v + psf.ld_bounds(2,2) * as_from_ld;
 
 % Compose the image in different slices--one slice per convolution member.
 for i = 1:numel(stars)
-    upx_shift =  round(stars(i).as_pos(1) * sc.pixels_per_as);
-    vpx_shift =  round(stars(i).as_pos(2) * sc.pixels_per_as);
+    upx_shift =  round(stars(i).pos_as(1) * sc.pixels_per_as);
+    vpx_shift =  round(stars(i).pos_as(2) * sc.pixels_per_as);
     
     slice = zeros(size(sc.data));
     
