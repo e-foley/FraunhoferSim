@@ -1,14 +1,37 @@
 clearvars;
 
 % aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
-% aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
-aperture = imread(['../Inputs/' 'c11' '.png']);
+aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
+%aperture = imread(['../Inputs/' 'c11' '.png']);
 % aperture = imread(['../Inputs/' 'bowtie' '.png']);
 
-input_scale = 0.25;
-fft_scale = 12;
-[psf, reduced_input_size, fft_size] = ...
-     getCharacteristicPsf(aperture, input_scale, fft_scale);
+% Define formatting parameters for the aperture figure.
+aperture_props = ImagescProps;
+aperture_props.nominal_plot_size = [620 528];
+aperture_props.plot_title = 'Aperture';
+aperture_props.bounds = [-0.5 0.5; -0.5 0.5];
+aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
+aperture_props.h_axis_tick_spacing = 0.1;
+aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
+aperture_props.v_axis_tick_spacing = 0.1;
+aperture_props.extra_title_margin = 0.02;
+aperture_props.font_size = 14;
+aperture_props.color_map = gray(256);
+
+% Define output parameters for the aperture figure.
+aperture_io_props = ImagescIoProps;
+aperture_io_props.save_eps = false;
+aperture_io_props.save_png = true;
+aperture_io_props.eps_location = 'works.eps';
+aperture_io_props.png_location = 'works.png';
+
+[aperture_figure] = plotAperture(aperture, aperture_props, aperture_io_props);
+%close(aperture_figure);
+
+% input_scale = 0.25;
+% fft_scale = 12;
+% [psf, reduced_input_size, fft_size] = ...
+%      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
 % image = psfGetImage(psf, [-4 -1]);
 % imshow(image);
@@ -21,19 +44,19 @@ fft_scale = 12;
 % plot(u, w);
 
 % 
-star1 = Star;
-star1.as_pos = [0 0];
-star1.app_vis_mag = 1;
-
-star2 = Star;
-star2.as_pos = [0.5 0];
-star2.app_vis_mag = 4;
-
-stars = [star1 star2];
-
-[sc] = combineStars(stars, psf, 11, 550);
-image = scGetImage(sc, [-5 5; -5 5], [8 0]);
-imshow(image);
+% star1 = Star;
+% star1.as_pos = [0 0];
+% star1.app_vis_mag = 1;
+% 
+% star2 = Star;
+% star2.as_pos = [0.5 0];
+% star2.app_vis_mag = 4;
+% 
+% stars = [star1 star2];
+% 
+% [sc] = combineStars(stars, psf, 11, 550);
+% image = scGetImage(sc, [-5 5; -5 5], [8 0]);
+% imshow(image);
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;
 % img = fftshift(img);
