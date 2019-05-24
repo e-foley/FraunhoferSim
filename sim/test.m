@@ -37,14 +37,14 @@ fft_scale = 12;
 psf_props = ImagescProps;
 psf_props.nominal_plot_size = [620 528];
 psf_props.plot_title = 'Power spectrum';
-psf_props.bounds = [-20 20; -20 20];
+psf_props.bounds = [-12 12; -12 12];
 psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
 psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
 psf_props.extra_title_margin = 0.5;
 psf_props.font_size = 14;
-psf_props.color_map = gray(256);  % normally hot(256)
+psf_props.color_map = hot(256);
  
 % Define output parameters for the PSF figure.
 psf_io_props = ImagescIoProps;
