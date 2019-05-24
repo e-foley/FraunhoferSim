@@ -26,11 +26,11 @@ psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works.eps';
 psf_io_props.png_location = 'works.png';
 
-[aperture_figure] = plotAperture(aperture, aperture_props, psf_io_props);
+% [aperture_figure] = plotAperture(aperture, aperture_props, psf_io_props);
 % close(aperture_figure);
 
-input_scale = 0.25;
-fft_scale = 12;
+input_scale = 0.25;  % controls accuracy of PSF
+fft_scale = 16;  % controls resolution of PSF
 [psf, reduced_input_size, fft_size] = ...
      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
@@ -54,10 +54,7 @@ psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works2.eps';
 psf_io_props.png_location = 'works2.png';
  
-[psf_figure] = psfPlot(psf, psf_props, psf_io_props);
-
-
-
+% [psf_figure] = psfPlot(psf, psf_props, psf_io_props);
 
 
 % image = psfGetImage(psf, [-20 20; -20 20], [-4 -1]);
@@ -77,28 +74,28 @@ star1.as_pos = [0 0];
 star1.app_vis_mag = 1;
 
 star2 = Star;
-star2.as_pos = [0.5 0];
+star2.as_pos = [2 1];
 star2.app_vis_mag = 4;
 
 stars = [star1 star2];
 
-[sc] = combineStars(stars, psf, 11, 550);
-image = scGetImage(sc, [-5 5; -5 5], [10 0]);
-% imshow(image);
+[sc] = combineStars(stars, psf, 6, 550);
+%image = scGetImage(sc, [-3 3; -3 3], [10 0]);
+%imshow(image);
 
 
 
 
 sc_props = ImagescProps;
 sc_props.nominal_plot_size = [620 528];
-sc_props.plot_title = 'Image';
-sc_props.field_limits = [-4 5; -4 6];
-sc_props.output_limits = [10 0];
+sc_props.plot_title = 'Testing!';
+sc_props.field_limits = [-3 3; -3 3];
+sc_props.output_limits = [10 2];
 sc_props.h_axis_title = '{\itu} [as]';
 sc_props.h_axis_tick_spacing = 1;
 sc_props.v_axis_title = '{\itv} [as]';
 sc_props.v_axis_tick_spacing = 1;
-sc_props.extra_title_margin = 0.5;
+sc_props.extra_title_margin = 0.1;
 sc_props.font_size = 14;
 sc_props.color_map = bone(256);
 
