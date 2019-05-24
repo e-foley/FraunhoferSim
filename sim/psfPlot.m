@@ -6,7 +6,7 @@ image = log10(psf.data ./ max(max(psf.data)));
 image = rot90(image);
 
 figure_out = figure;
-imagesc(psf.ld_bounds(2,:), fliplr(psf.ld_bounds(1,:)), image);
+imagesc(psf.ld_bounds(1,:), fliplr(psf.ld_bounds(2,:)), image);
 formatImagescPlot(figure_out, s);
 caxis(s.output_limits);
 h = colorbar;
