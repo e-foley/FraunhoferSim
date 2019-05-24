@@ -7,10 +7,11 @@ image = rot90(image);
 
 figure_out = figure;
 imagesc(psf.ld_bounds(2,:), fliplr(psf.ld_bounds(1,:)), image);
-caxis(log_10_mag_limits);
 formatImagescPlot(figure_out, s);
-colormap(s.color_map);
+caxis(log_10_mag_limits);
 h = colorbar;
+drawnow;  % MATLAB bug: colorbar colors don't update without this line.
+colormap(s.color_map);
 ylabel(h, 'log_1_0 contrast');
 
 if o.save_eps
