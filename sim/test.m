@@ -1,8 +1,8 @@
 clearvars;
 
 % aperture = imread(['../Inputs/' 'multigaussian-15' '.png']);
-aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
-%aperture = imread(['../Inputs/' 'c11' '.png']);
+% aperture = imread(['../Inputs/' 'diamond_temp' '.png']);
+aperture = imread(['../Inputs/' 'c11' '.png']);
 % aperture = imread(['../Inputs/' 'bowtie' '.png']);
 
 % Define formatting parameters for the aperture figure.
@@ -19,21 +19,44 @@ aperture_props.font_size = 14;
 aperture_props.color_map = gray(256);
 
 % Define output parameters for the aperture figure.
-aperture_io_props = ImagescIoProps;
-aperture_io_props.save_eps = false;
-aperture_io_props.save_png = true;
-aperture_io_props.eps_location = 'works.eps';
-aperture_io_props.png_location = 'works.png';
+psf_io_props = ImagescIoProps;
+psf_io_props.save_eps = false;
+psf_io_props.save_png = true;
+psf_io_props.eps_location = 'works.eps';
+psf_io_props.png_location = 'works.png';
 
-[aperture_figure] = plotAperture(aperture, aperture_props, aperture_io_props);
-%close(aperture_figure);
+% [aperture_figure] = plotAperture(aperture, aperture_props, psf_io_props);
+% close(aperture_figure);
 
-% input_scale = 0.25;
-% fft_scale = 12;
-% [psf, reduced_input_size, fft_size] = ...
-%      getCharacteristicPsf(aperture, input_scale, fft_scale);
 
-% image = psfGetImage(psf, [-4 -1]);
+input_scale = 0.25;
+fft_scale = 12;
+[psf, reduced_input_size, fft_size] = ...
+     getCharacteristicPsf(aperture, input_scale, fft_scale);
+
+psf_props = ImagescProps;
+psf_props.nominal_plot_size = [620 528];
+psf_props.plot_title = 'Power spectrum';
+psf_props.bounds = [-20 20; -20 20];
+psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
+psf_props.h_axis_tick_spacing = 2;
+psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
+psf_props.v_axis_tick_spacing = 2;
+psf_props.extra_title_margin = 0.5;
+psf_props.font_size = 14;
+psf_props.color_map = gray(256);  % normally hot(256)
+ 
+% Define output parameters for the PSF figure.
+psf_io_props = ImagescIoProps;
+psf_io_props.save_eps = false;
+psf_io_props.save_png = true;
+psf_io_props.eps_location = 'works2.eps';
+psf_io_props.png_location = 'works2.png';
+ 
+[psf_figure] = psfPlot(psf, psf_props, [-4 -1], psf_io_props);
+
+% image = psfGetImage(psf, [-20 20; -20 20], [-4 -1]);
+% figure;
 % imshow(image);
 
 % image = psfGetImage(psf, [-30 30; -24 24], [-4 -1]);
