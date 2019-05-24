@@ -21,7 +21,7 @@ aperture_props.color_map = gray(256);
 % Define output parameters for the aperture figure.
 psf_io_props = ImagescIoProps;
 psf_io_props.save_eps = false;
-psf_io_props.save_png = true;
+psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works.eps';
 psf_io_props.png_location = 'works.png';
 
@@ -49,11 +49,15 @@ psf_props.color_map = hot(256);
 % Define output parameters for the PSF figure.
 psf_io_props = ImagescIoProps;
 psf_io_props.save_eps = false;
-psf_io_props.save_png = true;
+psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works2.eps';
 psf_io_props.png_location = 'works2.png';
  
-[psf_figure] = psfPlot(psf, psf_props, [-4 -1], psf_io_props);
+%[psf_figure] = psfPlot(psf, psf_props, [-4 -1], psf_io_props);
+
+
+
+
 
 % image = psfGetImage(psf, [-20 20; -20 20], [-4 -1]);
 % figure;
@@ -66,20 +70,44 @@ psf_io_props.png_location = 'works2.png';
 % [u, w] = psfCut(psf, [-7 7]);
 % plot(u, w);
 
-% 
-% star1 = Star;
-% star1.as_pos = [0 0];
-% star1.app_vis_mag = 1;
-% 
-% star2 = Star;
-% star2.as_pos = [0.5 0];
-% star2.app_vis_mag = 4;
-% 
-% stars = [star1 star2];
-% 
-% [sc] = combineStars(stars, psf, 11, 550);
-% image = scGetImage(sc, [-5 5; -5 5], [8 0]);
+
+star1 = Star;
+star1.as_pos = [0 0];
+star1.app_vis_mag = 1;
+
+star2 = Star;
+star2.as_pos = [0.5 0];
+star2.app_vis_mag = 4;
+
+stars = [star1 star2];
+
+[sc] = combineStars(stars, psf, 11, 550);
+image = scGetImage(sc, [-5 5; -5 5], [10 0]);
 % imshow(image);
+
+
+
+
+sc_props = ImagescProps;
+sc_props.nominal_plot_size = [620 528];
+sc_props.plot_title = 'Image';
+sc_props.bounds = [-6 6; -6 6];
+sc_props.h_axis_title = '{\itu} [as]';
+sc_props.h_axis_tick_spacing = 2;
+sc_props.v_axis_title = '{\itv} [as]';
+sc_props.v_axis_tick_spacing = 2;
+sc_props.extra_title_margin = 0.5;
+sc_props.font_size = 14;
+sc_props.color_map = bone(256);
+
+sc_io_props = ImagescIoProps;
+sc_io_props.save_eps = false;
+sc_io_props.save_png = true;
+sc_io_props.eps_location = 'works3.eps';
+sc_io_props.png_location = 'works3.png';
+
+[sc_figure] = scPlot(sc, sc_props, [10 0], sc_io_props);
+
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;
 % img = fftshift(img);
