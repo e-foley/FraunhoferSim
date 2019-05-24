@@ -1,13 +1,13 @@
-function [figure_out] = scPlot(sc, imagesc_props, imagesc_io_props)
+function [figure_out] = svPlot(sv, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
-image = sc.data;
-image = -2.5 * log10(sc.data);
+image = sv.data;
+image = -2.5 * log10(image);
 image = rot90(image);
 
 figure_out = figure;
-imagesc(sc.as_bounds(1,:), fliplr(sc.as_bounds(2,:)), image);
+imagesc(sv.as_bounds(1,:), fliplr(sv.as_bounds(2,:)), image);
 formatImagescPlot(figure_out, s);
 caxis(fliplr(s.output_limits));
 h = colorbar;

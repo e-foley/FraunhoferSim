@@ -1,4 +1,4 @@
-classdef SpectralCanvas
+classdef StarView
     properties
         data  % the color data: dims 1, 2, 3 are v, u, and RGB
         pixels_per_as  % pixels/arcsecond

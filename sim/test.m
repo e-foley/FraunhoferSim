@@ -81,33 +81,33 @@ psf_io_props.png_location = 'works2.png';
 
 stars = asterismFromDouble(3, [0 3], 90);
 
-[sc] = combineStars(stars, psf, 6, 550);
-% image = scGetImage(sc, [-3 3; -3 3], [10 0]);
+[sv] = getStarView(stars, psf, 6, 550);
+% image = svGetImage(sv, [-3 3; -3 3], [10 0]);
 % imshow(image);
 
 
 
 
-sc_props = ImagescProps;
-sc_props.nominal_plot_size = [620 528];
-sc_props.plot_title = 'Image';
-sc_props.field_limits = [-3 3; -3 3];
-sc_props.output_limits = [10 2];
-sc_props.h_axis_title = '{\itu} [as]';
-sc_props.h_axis_tick_spacing = 1;
-sc_props.v_axis_title = '{\itv} [as]';
-sc_props.v_axis_tick_spacing = 1;
-sc_props.extra_title_margin = 0.1;
-sc_props.font_size = 14;
-sc_props.color_map = bone(256);
+sv_props = ImagescProps;
+sv_props.nominal_plot_size = [620 528];
+sv_props.plot_title = 'Image';
+sv_props.field_limits = [-3 3; -3 3];
+sv_props.output_limits = [10 2];
+sv_props.h_axis_title = '{\itu} [as]';
+sv_props.h_axis_tick_spacing = 1;
+sv_props.v_axis_title = '{\itv} [as]';
+sv_props.v_axis_tick_spacing = 1;
+sv_props.extra_title_margin = 0.1;
+sv_props.font_size = 14;
+sv_props.color_map = bone(256);
 
-sc_io_props = ImagescIoProps;
-sc_io_props.save_eps = false;
-sc_io_props.save_png = true;
-sc_io_props.eps_location = 'works3.eps';
-sc_io_props.png_location = 'works3.png';
+sv_io_props = ImagescIoProps;
+sv_io_props.save_eps = false;
+sv_io_props.save_png = true;
+sv_io_props.eps_location = 'works3.eps';
+sv_io_props.png_location = 'works3.png';
 
-[sc_figure] = scPlot(sc, sc_props, sc_io_props);
+[sv_figure] = svPlot(sv, sv_props, sv_io_props);
 
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;
