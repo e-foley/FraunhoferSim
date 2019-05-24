@@ -2,7 +2,8 @@ classdef ImagescProps
     properties
         nominal_plot_size
         plot_title
-        bounds  % [x1 x2; y1 y2]
+        field_limits  % [x1 x2; y1 y2]
+        output_limits
         h_axis_title
         h_axis_tick_spacing
         v_axis_title

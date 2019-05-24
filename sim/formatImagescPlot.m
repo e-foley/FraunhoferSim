@@ -7,10 +7,10 @@ axis on;
 % these seem redundant, but performance consistent only with them all
 axis square;
 axis equal;
-xlim(s.bounds(1,:));
-ylim(s.bounds(2,:));
-xticks(s.bounds(1,1):s.h_axis_tick_spacing:s.bounds(1,2));
-yticks(s.bounds(2,1):s.v_axis_tick_spacing:s.bounds(2,2));
+xlim(s.field_limits(1,:));
+ylim(s.field_limits(2,:));
+xticks(s.field_limits(1,1):s.h_axis_tick_spacing:s.field_limits(1,2));
+yticks(s.field_limits(2,1):s.v_axis_tick_spacing:s.field_limits(2,2));
 set(gca, 'YDir', 'normal');
 set(gca, 'TickDir', 'out');  % draw ticks outside of PSF area
 xlabel(s.h_axis_title);

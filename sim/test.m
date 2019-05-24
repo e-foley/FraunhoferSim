@@ -9,7 +9,8 @@ aperture = imread(['../Inputs/' 'c11' '.png']);
 aperture_props = ImagescProps;
 aperture_props.nominal_plot_size = [620 528];
 aperture_props.plot_title = 'Aperture';
-aperture_props.bounds = [-0.5 0.5; -0.5 0.5];
+aperture_props.field_limits = [-0.5 0.5; -0.5 0.5];
+aperture_props.output_limits = [0 1];
 aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
 aperture_props.h_axis_tick_spacing = 0.1;
 aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
@@ -25,9 +26,8 @@ psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works.eps';
 psf_io_props.png_location = 'works.png';
 
-% [aperture_figure] = plotAperture(aperture, aperture_props, psf_io_props);
+[aperture_figure] = plotAperture(aperture, aperture_props, psf_io_props);
 % close(aperture_figure);
-
 
 input_scale = 0.25;
 fft_scale = 12;
@@ -37,7 +37,8 @@ fft_scale = 12;
 psf_props = ImagescProps;
 psf_props.nominal_plot_size = [620 528];
 psf_props.plot_title = 'Power spectrum';
-psf_props.bounds = [-12 12; -12 12];
+psf_props.field_limits = [-12 12; -12 12];
+psf_props.output_limits = [-4 -1];
 psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
 psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
@@ -53,7 +54,7 @@ psf_io_props.save_png = false;
 psf_io_props.eps_location = 'works2.eps';
 psf_io_props.png_location = 'works2.png';
  
-%[psf_figure] = psfPlot(psf, psf_props, [-4 -1], psf_io_props);
+[psf_figure] = psfPlot(psf, psf_props, psf_io_props);
 
 
 
@@ -91,11 +92,12 @@ image = scGetImage(sc, [-5 5; -5 5], [10 0]);
 sc_props = ImagescProps;
 sc_props.nominal_plot_size = [620 528];
 sc_props.plot_title = 'Image';
-sc_props.bounds = [-6 6; -6 6];
+sc_props.field_limits = [-4 5; -4 6];
+sc_props.output_limits = [10 0];
 sc_props.h_axis_title = '{\itu} [as]';
-sc_props.h_axis_tick_spacing = 2;
+sc_props.h_axis_tick_spacing = 1;
 sc_props.v_axis_title = '{\itv} [as]';
-sc_props.v_axis_tick_spacing = 2;
+sc_props.v_axis_tick_spacing = 1;
 sc_props.extra_title_margin = 0.5;
 sc_props.font_size = 14;
 sc_props.color_map = bone(256);
@@ -106,7 +108,7 @@ sc_io_props.save_png = true;
 sc_io_props.eps_location = 'works3.eps';
 sc_io_props.png_location = 'works3.png';
 
-[sc_figure] = scPlot(sc, sc_props, [10 0], sc_io_props);
+[sc_figure] = scPlot(sc, sc_props, sc_io_props);
 
 
 % img = [0 1 2 3 4; 5 6 7 8 9; 10 11 12 13 14; 15 16 17 18 19] / 19.0;

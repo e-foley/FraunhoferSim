@@ -1,4 +1,4 @@
-function [figure_out] = scPlot(sc, imagesc_props, app_vis_mag_limits, imagesc_io_props)
+function [figure_out] = scPlot(sc, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
@@ -11,7 +11,7 @@ image = rot90(image);
 figure_out = figure;
 imagesc(sc.as_bounds(2,:), fliplr(sc.as_bounds(1,:)), image);
 formatImagescPlot(figure_out, s);
-caxis(fliplr(app_vis_mag_limits));
+caxis(fliplr(s.output_limits));
 h = colorbar;
 colormap(flipud(s.color_map));
 drawnow;  % MATLAB bug: colorbar colors don't update without this line.

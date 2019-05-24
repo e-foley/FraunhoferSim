@@ -1,4 +1,4 @@
-function [figure_out] = psfPlot(psf, imagesc_props, log_10_mag_limits, imagesc_io_props)
+function [figure_out] = psfPlot(psf, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
@@ -8,7 +8,7 @@ image = rot90(image);
 figure_out = figure;
 imagesc(psf.ld_bounds(2,:), fliplr(psf.ld_bounds(1,:)), image);
 formatImagescPlot(figure_out, s);
-caxis(log_10_mag_limits);
+caxis(s.output_limits);
 h = colorbar;
 drawnow;  % MATLAB bug: colorbar colors don't update without this line.
 colormap(s.color_map);
