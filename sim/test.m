@@ -19,12 +19,14 @@ aperture_props.v_axis_tick_spacing = 0.1;
 aperture_props.extra_title_margin = 0.02;
 aperture_props.font_size = 14;
 aperture_props.color_map = gray(256);
-save_aperture_eps = false;
-save_aperture_png = true;
+save_aperture_plot_eps = false;
+save_aperture_plot_png = true;
 
 % Define standard PSF generation properties
 psf_input_scale = 0.25;
-psf_fft_scale = 8; 
+psf_fft_scale = 8;
+save_psf_plain_eps = false;
+save_psf_plain_png = true;
 
 % Define standard formatting parameters for PSF figures.
 psf_props = ImagescProps;
@@ -39,8 +41,8 @@ psf_props.v_axis_tick_spacing = 2;
 psf_props.extra_title_margin = 0.5;
 psf_props.font_size = 14;
 psf_props.color_map = hot(256);
-save_psf_eps = false;
-save_psf_png = true;
+save_psf_plot_eps = false;
+save_psf_plot_png = true;
 
 % Define standard asterisms to generate star views of.
 central_star = Star([0 0], 0);
@@ -63,35 +65,69 @@ sv_props.v_axis_tick_spacing = 1;
 sv_props.extra_title_margin = 0.1;
 sv_props.font_size = 14;
 sv_props.color_map = bone(256);
-save_sv_eps = false;
-save_sv_png = true;
+save_sv_plot_eps = false;
+save_sv_plot_png = true;
 
+% Name index
+names = {
+  'apodization_0-18' 'apodizing mask'
+  'apodizing_screen_4-16' 'apodizing screen'
+  'beamed bowtie' 'beamed bowtie mask'
+  'bowtie' 'bowtie mask'
+  'C11 and structure' 'C11 with spokes'
+  'c11' 'C11 aperture'
+  'diamond' 'diamond aperture'
+  'full' 'circular aperture'
+  'Gaussian 18 donut and structure' 'Gaussian donut with spokes'
+  'gaussian-05' 'Gaussian aperture'
+  'gaussian-08' 'Gaussian aperture'
+  'gaussian-10' 'Gaussian aperture'
+  'gaussian-15' 'Gaussian aperture'
+  'gaussian-15_donut' 'Gaussian donut'
+  'gaussian-15_donut_45-deg_spokes' ['Gaussian donut (45' char(176) ' spokes)']
+  'gaussian-18' 'Gaussian aperture'
+  'gaussian-18_donut' 'Gaussian donut'
+  'hexagon_donut1' 'hex donut (vertex spokes)'
+  'hexagon_donut2' 'hex donut (edge spokes)'
+  'hexagon' 'hexagonal aperture'
+  'inner' 'C11 central obstruction'
+  'multigaussian-15' 'multi-Gaussian'
+  'multigaussian-18' 'multi-Gaussian'
+  'square' 'square aperture'
+  'triangle' 'triangular aperture'
+};
+
+% MAIN ACTION ARRAY ============================================================
 % column 1 = name
 % column 2 = [aperture_props ...]
 % column 3 = [psf_props ...]
 % column 4 = [cut_props ...]
-% column 5 = {{stars, diameter, wavelength, sv_props}, ...}
+% column 5 = {{stars, diameter, wavelength, sv_props} ...}
 actions = {
     'c11' aperture_props [] [] []
     'full' aperture_props psf_props [] {[sv_params {sv_props}] [sv_params2 {sv_props}]}
 };
+%===============================================================================
 
-% [[sv_params sv_props] [sv_params2 sv_props]]
 for i=1:size(actions, 1)
     action = actions(i,:);
-    name = action{1};
+    short_name = actions{i,1};
+    [n_row, ~] = find(strcmp(names, short_name));
+    long_name = names{n_row, 2};
     
-    aperture = imread(['../Inputs/' name '.png']);
+    %name = names(find(strcmp(names, action{1}));
+    
+    aperture = imread(['../Inputs/' short_name '.png']);
     
     % Aperture plotting actions
     for j=1:numel(action{2})
         props = action{2}(j);
-        props.plot_title = [name ' aperture'];
+        props.plot_title = long_name;
         io_props = ImagescIoProps;
-        io_props.save_eps = save_aperture_eps;
-        io_props.save_png = save_aperture_png;
-        io_props.eps_location = [output_prefix name ' aperture ' num2str(j) '.eps'];
-        io_props.png_location = [output_prefix name ' aperture ' num2str(j) '.png'];
+        io_props.save_eps = save_aperture_plot_eps;
+        io_props.save_png = save_aperture_plot_png;
+        io_props.eps_location = [output_prefix short_name ' plot ' num2str(j) '.eps'];
+        io_props.png_location = [output_prefix short_name ' plot ' num2str(j) '.png'];
         [aperture_figure] = plotAperture(aperture, props, io_props);
         close(aperture_figure);
     end
@@ -99,18 +135,28 @@ for i=1:size(actions, 1)
     % PSF calculation actions
     [psf, reduced_input_size, fft_size] = ...
         getCharacteristicPsf(aperture, psf_input_scale, psf_fft_scale);
-    
+
     % PSF plotting actions
     for j=1:numel(action{3})
+        % Formatted plot
         props = action{3}(j);
-        props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' name ' aperture'];
+        props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
         io_props = ImagescIoProps;
-        io_props.save_eps = save_psf_eps;
-        io_props.save_png = save_psf_png;
-        io_props.eps_location = [output_prefix name ' psf ' num2str(j) '.eps'];
-        io_props.png_location = [output_prefix name ' psf ' num2str(j) '.png'];
+        io_props.save_eps = save_psf_plot_eps;
+        io_props.save_png = save_psf_plot_png;
+        io_props.eps_location = [output_prefix short_name ' psf plot ' num2str(j) '.eps'];
+        io_props.png_location = [output_prefix short_name ' psf plot ' num2str(j) '.png'];
         [psf_figure] = psfPlot(psf, props, io_props);
         close(psf_figure);
+        
+        % Plain plot
+        image = psfGetImage(psf, props.field_limits, props.output_limits);
+        if (save_psf_plain_eps)
+            imwrite(image, [output_prefix short_name ' psf plain ' num2str(j) '.eps']);
+        end
+        if (save_psf_plain_png)
+            imwrite(image, [output_prefix short_name ' psf plain ' num2str(j) '.png']);
+        end
     end
     
     % Cut plotting actions
@@ -122,10 +168,10 @@ for i=1:size(actions, 1)
         props = action{5}{j}{4};
         props.plot_title = '';  % TODO: Enter something.
         io_props = ImagescIoProps;
-        io_props.save_eps = save_sv_eps;
-        io_props.save_png = save_sv_png;
-        io_props.eps_location = [output_prefix name ' sv ' num2str(j) '.eps'];
-        io_props.png_location = [output_prefix name ' sv ' num2str(j) '.png'];
+        io_props.save_eps = save_sv_plot_eps;
+        io_props.save_png = save_sv_plot_png;
+        io_props.eps_location = [output_prefix short_name ' sv ' num2str(j) '.eps'];
+        io_props.png_location = [output_prefix short_name ' sv ' num2str(j) '.png'];
         sv = getStarView(params{1}, psf, params{2}, params{3});
         [sv_figure] = svPlot(sv, props, io_props);
         close(sv_figure);
@@ -149,18 +195,6 @@ end
 % [u, w] = psfCut(psf, [-7 7]);
 % plot(u, w);
 
-
-% star1 = Star;
-% star1.as_pos = [0 0];
-% star1.app_vis_mag = 1;
-% 
-% star2 = Star;
-% star2.as_pos = [2 1];
-% star2.app_vis_mag = 4;
-% 
-% stars = [star1 star2];
-
-% stars = asterismFromDouble(3, [0 3], 90);
 
 % [sv] = getStarView(stars, psf, 6, 550);
 % image = svGetImage(sv, [-3 3; -3 3], [10 0]);
