@@ -90,26 +90,27 @@ close(plotAperture(aperture, aperture_props, aperture_io_props));
 [psf, reduced_input_size, fft_size] = getCharacteristicPsf(aperture, psf_input_scale, psf_fft_scale);
 close(psfPlot(psf, psf_props, psf_io_props));
 
-
-
 % Define cut properties
 cut_props = CutProps;
+cut_props.plot_title = 'Horizontal PSF cut';
+cut_props.nominal_plot_size = [620 528];
+cut_props.extra_title_margin = 0.14;  % extra vertical margin for plot title
+cut_props.u_title = '{\itu} [{\it\lambda}/{\itD}]';
+cut_props.u_limits = [0 psf_props.field_limits(1,2)];
+cut_props.u_spacing = 2;
+cut_props.w_title = 'log_1_0 contrast';
 cut_props.w_limits = [-8 0];
+cut_props.w_spacing = 1;
 cut_props.c_limits = [-4 -1];
 cut_props.c_spacing = 1;
-cut_props.font_size = 14;
-cut_props.w_spacing = 1;
-cut_props.cut_line_thickness = 2;
-cut_props.extra_title_margin_cut = 0.14;  % extra vertical margin for plot title
-cut_props.nominal_plot_size = [620 528];
+cut_props.label = 'LABEL';
 cut_props.primary_color = [0 1 0];
-cut_props.show_target = true;  % default: true
+cut_props.cut_line_thickness = 2;
+cut_props.font_size = 14;
+cut_props.show_target = true;
 cut_props.target = -2.6;  % base-10 magnitude
 cut_props.target_line_thickness = 1;
 cut_props.target_line_color = [0.4 0.4 0.4];
-cut_props.label = 'LABEL';
-cut_props.u_limits = [0 psf_props.field_limits(1,2)];  % TODO: CHANGE ME
-cut_props.u_spacing = 2;
 
 cut_io_props = ImagescIoProps;
 cut_io_props.save_eps = false;

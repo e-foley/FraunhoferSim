@@ -27,8 +27,8 @@ if (c.show_target)
 else
     legend(h1, c.label);
 end
-xlabel('{\itu} [{\it\lambda}/{\itD}]');
-ylabel('log_1_0 contrast');
+xlabel(c.u_title);
+ylabel(c.w_title);
 xlim(c.u_limits);  % Change this to something encoded in cut_props
 ylim(c.w_limits);
 set(gca,'FontSize',c.font_size,'fontWeight','bold');
@@ -50,11 +50,11 @@ set(cb, 'Ticks', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 % set(cb2, 'AxisLocation', 'in');
 % cb2.Position(1) = cb.Position(1) - cb.Position(3);
 % colormap(cb2, [linspace(0, colors(1,1), 256)' linspace(0, colors(1,2), 256)' linspace(0, colors(1,3), 256)']);
-my_title = title('Horizontal PSF cut');
+my_title = title(c.plot_title);
 title_pos = get(my_title, 'Position');
 set(gca,'FontSize',c.font_size,'fontWeight','bold');
 set(findall(gcf,'type','text'),'FontSize',c.font_size,'fontWeight','bold');
-set(my_title, 'Position', title_pos + [0 c.extra_title_margin_cut 0]);
+set(my_title, 'Position', title_pos + [0 c.extra_title_margin 0]);
 % print('-depsc', '-painters', o.eps_location);
 % print('-dpng', o.png_location);
 % if (persist_figures)
