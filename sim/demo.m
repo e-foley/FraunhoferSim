@@ -82,10 +82,16 @@ psf_props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
 psf_io_props.eps_location = [output_prefix short_name ' psf plot.eps'];
 psf_io_props.png_location = [output_prefix short_name ' psf plot.png'];
 
-aperture = imread([input_prefix short_name '.png']);
-close(plotAperture(aperture, aperture_props, aperture_io_props));
-[psf, reduced_input_size, fft_size] = getPsf(aperture, psf_input_scale, psf_fft_scale);
-close(psfPlot(psf, psf_props, psf_io_props));
+aperture1 = imread([input_prefix short_name '.png']);
+close(plotAperture(aperture1, aperture_props, aperture_io_props));
+aperture2 = imread([input_prefix 'bowtie' '.png']);
+close(plotAperture(aperture2, aperture_props, aperture_io_props));
+[psf1, ~, ~] = getPsf(aperture1, psf_input_scale, psf_fft_scale);
+[psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
+% close(psfPlot(psf, psf_props, psf_io_props));
+psfPlot([psf1 psf2], psf_props, psf_io_props);
+
+return;
 
 % Define cut properties
 cut_props = CutProps;

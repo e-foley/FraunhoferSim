@@ -2,11 +2,29 @@ function [figure_out] = psfPlot(psf, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
-image = log10(psf.data ./ max(max(psf.data)));
-image = rot90(image);
+num_psfs = numel(psf);
+psf_images = cell(num_psfs, 1);
+max_size_px = [0 0];
+for i=1:num_psfs
+    psf_images{i} = psfGetImage(psf(i), s.field_limits, s.output_limits);
+    max_size_px = max(max_size_px, size(psf_images{i}));
+end
+composite = zeros([max_size_px 3]);
+for i=1:num_psfs
+    map = s.color_map;  % TODO: INDEX
+    num_colors = size(map, 1);
+    psf_images{i} = imresize(psf_images{i}, max_size_px);
+    psf_images{i} = round(1 + (num_colors - 1) * max(0, min(1, psf_images{i})));
+    for x=1:size(psf_images{i}, 1)
+        for y=1:size(psf_images{i}, 2)
+            composite(x,y,:) = composite(x,y,:) + map(psf_images{i}(x,y,:));
+        end
+    end
+end
 
 figure_out = figure;
-imagesc(psf.ld_bounds(1,:), fliplr(psf.ld_bounds(2,:)), image);
+imshow(composite);
+%imagesc(psf.ld_bounds(1,:), fliplr(psf.ld_bounds(2,:)), image);
 formatImagescPlot(figure_out, s);
 caxis(s.output_limits);
 h = colorbar;
