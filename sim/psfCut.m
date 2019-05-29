@@ -35,7 +35,7 @@ set(gca,'FontSize',c.font_size,'fontWeight','bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 set(h1,'LineWidth',c.cut_line_thickness);
-caxis([c.w_limits(1) c.w_limits(2)]);
+caxis([c.c_limits(1) c.c_limits(2)]);
 cb = colorbar('westoutside');
 % colormap(cb, [linspace(0, colors(2,1), 256)' linspace(0, colors(2,2), 256)' linspace(0, colors(2,3), 256)']);
 colormap(cb, [linspace(0, 1, 256)' linspace(0, 1, 256)' linspace(0, 1, 256)']);

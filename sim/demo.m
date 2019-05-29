@@ -95,6 +95,8 @@ close(psfPlot(psf, psf_props, psf_io_props));
 % Define overlay-related properties
 cut_props = CutProps;  % Struct defined in CutProps.
 cut_props.w_limits = [-8 0];
+cut_props.c_limits = [-4 -1];
+cut_props.c_spacing = 1;
 cut_props.font_size = 14;
 cut_props.w_spacing = 1;
 cut_props.cut_line_thickness = 2;

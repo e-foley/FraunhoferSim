@@ -26,5 +26,7 @@ classdef CutProps
         u_spacing
         w_limits
         w_spacing
+        c_limits
+        c_spacing
     end
 end
