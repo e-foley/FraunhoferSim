@@ -19,7 +19,7 @@ if (c.show_target)
     h2 = plot(u, c.target * ones(1, size(u,2)), 'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', c.target_line_thickness);
 end
 
-h1 = plot(u, w, 'Color', c.primary_color);
+h1 = plot(u, w, 'Color', c.line_color);
 
 hold off;
 if (c.show_target)
@@ -38,7 +38,7 @@ set(h1,'LineWidth',c.cut_line_thickness);
 caxis([c.c_limits(1) c.c_limits(2)]);
 cb = colorbar('westoutside');
 % colormap(cb, [linspace(0, colors(2,1), 256)' linspace(0, colors(2,2), 256)' linspace(0, colors(2,3), 256)']);
-colormap(cb, [linspace(0, 1, 256)' linspace(0, 1, 256)' linspace(0, 1, 256)']);
+colormap(cb, c.color_map);
 set(cb, 'TickLabels', []);
 set(cb, 'AxisLocation', 'in');
 set(cb, 'Limits', c.w_limits);

@@ -9,10 +9,11 @@ classdef CutProps
         w_title
         w_limits
         w_spacing
+        color_map
         c_limits
         c_spacing
         label
-        primary_color
+        line_color
         cut_line_thickness
         font_size  % font size to use on plots
         show_target
