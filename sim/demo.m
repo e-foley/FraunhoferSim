@@ -8,17 +8,17 @@ standard_wavelength_nm = 550;  % [nm]
 
 % Define standard formatting parameters for aperture figures.
 aperture_props = ImagescProps;
-aperture_props.nominal_plot_size = [620 528];
 aperture_props.plot_title = '';  % overwritten inside loop
+aperture_props.nominal_plot_size = [620 528];
+aperture_props.extra_title_margin = 0.02;
 aperture_props.field_limits = [-0.5 0.5; -0.5 0.5];
 aperture_props.output_limits = [0 1];
 aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
 aperture_props.h_axis_tick_spacing = 0.1;
 aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 aperture_props.v_axis_tick_spacing = 0.1;
-aperture_props.extra_title_margin = 0.02;
-aperture_props.font_size = 14;
 aperture_props.color_map = gray(256);
+aperture_props.font_size = 14;
 
 % Define aperture plot I/O properties.
 aperture_io_props = ImagescIoProps;
@@ -33,17 +33,17 @@ save_psf_plain_png = true;
 
 % Define standard formatting parameters for PSF figures.
 psf_props = ImagescProps;
-psf_props.nominal_plot_size = [620 528];
 psf_props.plot_title = 'Power spectrum';
+psf_props.nominal_plot_size = [620 528];
+psf_props.extra_title_margin = 0.5;
 psf_props.field_limits = [-12 12; -12 12];
 psf_props.output_limits = [-4 -1];
 psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
 psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
-psf_props.extra_title_margin = 0.5;
-psf_props.font_size = 14;
 psf_props.color_map = hot(256);
+psf_props.font_size = 14;
 
 % Define PSF plot I/O properties.
 psf_io_props = ImagescIoProps;
@@ -60,20 +60,17 @@ sv_params2 = {close_double, standard_diameter_in, standard_wavelength_nm};
 
 % Define standard formatting parameters for star view figures.
 sv_props = ImagescProps;
-sv_props.nominal_plot_size = [620 528];
 sv_props.plot_title = 'Image';
+sv_props.nominal_plot_size = [620 528];
+sv_props.extra_title_margin = 0.1;
 sv_props.field_limits = [-3 3; -3 3];
 sv_props.output_limits = [10 2];
 sv_props.h_axis_title = '{\itu} [as]';
 sv_props.h_axis_tick_spacing = 1;
 sv_props.v_axis_title = '{\itv} [as]';
 sv_props.v_axis_tick_spacing = 1;
-sv_props.extra_title_margin = 0.1;
-sv_props.font_size = 14;
 sv_props.color_map = bone(256);
-save_sv_plot_eps = false;
-save_sv_plot_png = true;
-
+sv_props.font_size = 14;
 
 % ==============================================================================
 short_name = 'c11';
