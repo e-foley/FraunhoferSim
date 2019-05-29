@@ -16,7 +16,7 @@ set(figure_out, 'Position', [0 0 c.nominal_plot_size]);
 hold on;
 
 if (c.show_target)
-    h2 = plot(r_axis, c.target * ones(1, size(r_axis,2)), 'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', c.target_line_thickness);
+    h2 = plot(u, c.target * ones(1, size(u,2)), 'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', c.target_line_thickness);
 end
 
 h1 = plot(u, w, 'Color', c.primary_color);
