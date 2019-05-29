@@ -2,6 +2,10 @@ function [figure_out] = psfPlot(psf, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
+if (~iscell(s.color_map))
+    s.color_map = {s.color_map};
+end
+
 num_psfs = numel(psf);
 psf_images = cell(num_psfs, 1);
 max_size_px = [0 0];
@@ -11,7 +15,7 @@ for i=1:num_psfs
 end
 composite = zeros([max_size_px 3]);
 for i=1:num_psfs
-    map = s.color_map;  % TODO: INDEX
+    map = s.color_map{i};
     num_colors = size(map, 1);
     % Resize small images to size of largest.
     psf_images{i} = imresize(psf_images{i}, max_size_px);
@@ -28,14 +32,12 @@ for i=1:num_psfs
 end
 
 figure_out = figure;
-%imshow(composite);
-%imagesc(psf.ld_bounds(1,:), fliplr(psf.ld_bounds(2,:)), image);
 imagesc(s.field_limits(1,:), fliplr(s.field_limits(2,:)), composite);
 formatImagescPlot(figure_out, s);
 caxis(s.output_limits);
 h = colorbar;
 drawnow;  % MATLAB bug: colorbar colors don't update without this line.
-colormap(s.color_map);
+% colormap(s.color_map);
 ylabel(h, 'log_1_0 contrast');
 
 if o.save_eps

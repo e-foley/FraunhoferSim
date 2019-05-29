@@ -32,6 +32,7 @@ save_psf_plain_eps = false;
 save_psf_plain_png = true;
 
 % Define standard formatting parameters for PSF figures.
+col = [1 0 1];
 psf_props = ImagescProps;
 psf_props.plot_title = 'Power spectrum';
 psf_props.nominal_plot_size = [620 528];
@@ -42,7 +43,8 @@ psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
 psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
-psf_props.color_map = hot(256);
+%psf_props.color_map = {col.*gray(256) (1-col).*gray(256)};
+psf_props.color_map = jet(256);
 psf_props.font_size = 14;
 
 % Define PSF plot I/O properties.
@@ -88,8 +90,8 @@ aperture2 = imread([input_prefix 'bowtie' '.png']);
 close(plotAperture(aperture2, aperture_props, aperture_io_props));
 [psf1, ~, ~] = getPsf(aperture1, psf_input_scale, psf_fft_scale);
 [psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
-% close(psfPlot(psf, psf_props, psf_io_props));
-psfPlot([psf1 psf2], psf_props, psf_io_props);
+close(psfPlot(psf1, psf_props, psf_io_props));
+%psfPlot([psf1 psf2], psf_props, psf_io_props);
 
 return;
 
