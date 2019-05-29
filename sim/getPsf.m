@@ -1,5 +1,4 @@
-function [psf, scaled_input_size, fft_size] = ...
-    getCharacteristicPsf(aperture, input_scale, fft_scale)
+function [psf, scaled_input_size, fft_size] = getPsf(aperture, input_scale, fft_scale)
 
 psf = Psf;
 

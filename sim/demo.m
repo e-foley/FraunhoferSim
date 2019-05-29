@@ -84,7 +84,7 @@ psf_io_props.png_location = [output_prefix short_name ' psf plot.png'];
 
 aperture = imread([input_prefix short_name '.png']);
 close(plotAperture(aperture, aperture_props, aperture_io_props));
-[psf, reduced_input_size, fft_size] = getCharacteristicPsf(aperture, psf_input_scale, psf_fft_scale);
+[psf, reduced_input_size, fft_size] = getPsf(aperture, psf_input_scale, psf_fft_scale);
 close(psfPlot(psf, psf_props, psf_io_props));
 
 % Define cut properties
@@ -190,7 +190,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %     
 %     % PSF calculation actions
 %     [psf, reduced_input_size, fft_size] = ...
-%         getCharacteristicPsf(aperture, psf_input_scale, psf_fft_scale);
+%         getPsf(aperture, psf_input_scale, psf_fft_scale);
 % 
 %     % PSF plotting actions
 %     for j=1:numel(action{3})
