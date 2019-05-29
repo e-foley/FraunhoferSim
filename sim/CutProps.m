@@ -6,7 +6,7 @@ classdef CutProps
 %         mag_lims
 %         ld_u_axis_tick_spacing
 %         ld_v_axis_tick_spacing
-        cut_y_axis_spacing
+%        cut_y_axis_spacing
         cut_line_thickness
 %         extra_title_margin_psf
         extra_title_margin_cut
@@ -23,6 +23,8 @@ classdef CutProps
         target_line_color
         label
         u_limits
-        u_axis_tick_spacing
+        u_spacing
+        w_limits
+        w_spacing
     end
 end
