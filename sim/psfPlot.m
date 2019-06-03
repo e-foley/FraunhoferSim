@@ -2,14 +2,18 @@ function [figure_out] = psfPlot(psf, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
-% Condition color_map into cell array so that it works inside loops.
+% Condition color_map and labels into cell arrays so that they work in loops.
 if (~iscell(s.color_map))
     s.color_map = {s.color_map};
+end
+if (~iscell(s.labels))
+    s.labels = {s.labels};
 end
 
 num_psfs = numel(psf);
 psf_images = cell(num_psfs, 1);
 num_maps = numel(s.color_map);
+num_labels = numel(s.labels);
 
 % Seek the PSF that's the largest size and record its size.
 max_size_px = [0 0];
@@ -40,6 +44,22 @@ figure_out = figure;
 ax = axes;
 imagesc(s.field_limits(1,:), fliplr(s.field_limits(2,:)), composite);
 formatImagescPlot(figure_out, s);
+
+% If we have PSFs to label, create a legend.
+if (num_labels > 0)
+    hold on;
+    h = zeros(num_labels, 1);
+    
+    for i=1:num_labels
+        h(i) = plot(NaN, NaN, 'Marker', 's', 'MarkerSize', 8, 'MarkerFaceColor', s.color_map{i}(end, :), 'MarkerEdgeColor', 'none', 'LineStyle', 'none');
+    end
+    
+    l = legend(h, s.labels);
+    l.Color = 'none';
+    l.TextColor = [0.99 0.99 0.99];  % Pure white doesn't display.
+    l.EdgeColor = [0.99 0.99 0.99];  % Pure white doesn't display.
+    hold off;
+end
 
 % Establish baseline colorbar position so we can position extras (if needed).
 cb = colorbar(ax);

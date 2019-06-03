@@ -9,6 +9,7 @@ classdef ImagescProps
         h_axis_tick_spacing
         v_axis_title
         v_axis_tick_spacing
+        labels
         color_map
         font_size
     end
