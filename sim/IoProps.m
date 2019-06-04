@@ -1,4 +1,4 @@
-classdef ImagescIoProps
+classdef IoProps
     properties
         save_eps = true;
         save_png = true;

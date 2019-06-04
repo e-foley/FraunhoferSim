@@ -23,7 +23,7 @@ aperture_props.color_map = gray(256);
 aperture_props.font_size = 14;
 
 % Define aperture plot I/O properties.
-aperture_io_props = ImagescIoProps;
+aperture_io_props = IoProps;
 aperture_io_props.save_eps = false;
 aperture_io_props.save_png = true;
 
@@ -53,7 +53,7 @@ psf_props.color_map = {col.*gray(256) (1-col).*gray(256)};
 psf_props.font_size = 14;
 
 % Define PSF plot I/O properties.
-psf_io_props = ImagescIoProps;
+psf_io_props = IoProps;
 psf_io_props.save_eps = false;
 psf_io_props.save_png = true;
 
@@ -128,7 +128,7 @@ cut_props.target = -2.6;  % base-10 magnitude
 cut_props.target_line_thickness = 1;
 cut_props.target_line_color = [0.4 0.4 0.4];
 
-cut_io_props = ImagescIoProps;
+cut_io_props = IoProps;
 cut_io_props.save_eps = false;
 cut_io_props.save_png = true;
 cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
@@ -199,7 +199,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %     for j=1:numel(action{2})
 %         props = action{2}(j);
 %         props.plot_title = long_name;
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_aperture_plot_eps;
 %         aperture_io_props.save_png = save_aperture_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' plot ' num2str(j) '.eps'];
@@ -217,7 +217,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %         % Formatted plot
 %         props = action{3}(j);
 %         props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_psf_plot_eps;
 %         aperture_io_props.save_png = save_psf_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' psf plot ' num2str(j) '.eps'];
@@ -243,7 +243,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %         params = action{5}{j}(1:3);
 %         props = action{5}{j}{4};
 %         props.plot_title = '';  % TODO: Enter something.
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_sv_plot_eps;
 %         aperture_io_props.save_png = save_sv_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' sv ' num2str(j) '.eps'];
