@@ -15,7 +15,7 @@ psf_images = cell(num_psfs, 1);
 num_maps = numel(s.color_map);
 num_labels = numel(s.labels);
 
-% Seek the PSF that's the largest size and record its size.
+% Seek the PSF that has the largest pixel dimensions and record its size.
 max_size_px = [0 0];
 for i=1:num_psfs
     psf_images{i} = psfGetImage(psf(i), s.field_limits, s.output_limits);
@@ -40,8 +40,9 @@ for i=1:num_psfs
 end
 
 figure_out = figure;
-
 ax = axes;
+
+% Display and do inital formatting on plot.
 imagesc(s.field_limits(1,:), fliplr(s.field_limits(2,:)), composite);
 formatImagescPlot(figure_out, s);
 
@@ -51,7 +52,9 @@ if (num_labels > 0)
     h = zeros(num_labels, 1);
     
     for i=1:num_labels
-        h(i) = plot(NaN, NaN, 'Marker', 's', 'MarkerSize', 8, 'MarkerFaceColor', s.color_map{i}(end, :), 'MarkerEdgeColor', 'none', 'LineStyle', 'none');
+        h(i) = plot(NaN, NaN, 'Marker', 's', 'MarkerSize', 8, ...
+            'MarkerFaceColor', s.color_map{i}(end, :), 'MarkerEdgeColor', ...
+            'none', 'LineStyle', 'none');
     end
     
     l = legend(h, s.labels);
@@ -62,32 +65,34 @@ if (num_labels > 0)
 end
 
 % Establish baseline colorbar position so we can position extras (if needed).
-cb = colorbar(ax);
-colormap(cb, s.color_map{1});
-caxis(s.output_limits);
-color_bar_pos = cb.Position;
+if (s.show_color_bar)
+    cb = colorbar(ax);
+    colormap(cb, s.color_map{1});
+    caxis(s.output_limits);
+    color_bar_pos = cb.Position;
 
-for i=2:num_maps
-     % Cancel last colorbar's labels if more bars to show. 
-     set(cb, 'TickLabels', []);
-     
-     % Must create dummy hidden axes to place extra colorbar.
-     ax = axes;
-     ax.Visible = 'off';
-     ax.XTick = [];
-     ax.YTick = [];
-     
-     % Create and format new colorbar on dummy axes.
-     cb = colorbar(ax);
-     colormap(cb, s.color_map{i});
-     caxis(s.output_limits);
-     
-     % Match colorbar's dimensions to baseline, translating it by its width.
-     cb.Position = color_bar_pos + [(i-1)*color_bar_pos(3) 0 0 0];
+    for i=2:num_maps
+         % Cancel last colorbar's labels if more bars to show. 
+         set(cb, 'TickLabels', []);
+
+         % Must create dummy hidden axes to place extra colorbar.
+         ax = axes;
+         ax.Visible = 'off';
+         ax.XTick = [];
+         ax.YTick = [];
+
+         % Create and format new colorbar on dummy axes.
+         cb = colorbar(ax);
+         colormap(cb, s.color_map{i});
+         caxis(s.output_limits);
+
+         % Match colorbar's dimensions to baseline, translating it by its width.
+         cb.Position = color_bar_pos + [(i-1)*color_bar_pos(3) 0 0 0];
+    end
+
+    set(cb,'FontSize', s.font_size, 'fontWeight', 'bold');
+    ylabel(cb, 'log_1_0 contrast');
 end
-
-set(cb,'FontSize', s.font_size, 'fontWeight', 'bold');
-ylabel(cb, 'log_1_0 contrast');
 
 if o.save_eps
     print('-depsc', '-painters', o.eps_location);

@@ -10,6 +10,7 @@ classdef ImagescProps
         v_axis_title
         v_axis_tick_spacing
         labels
+        show_color_bar
         color_map
         font_size
     end

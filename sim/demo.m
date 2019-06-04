@@ -18,6 +18,7 @@ aperture_props.h_axis_tick_spacing = 0.1;
 aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 aperture_props.v_axis_tick_spacing = 0.1;
 aperture_props.labels = {''};  % no label needed
+aperture_props.show_color_bar = false;
 aperture_props.color_map = gray(256);
 aperture_props.font_size = 14;
 
@@ -45,6 +46,7 @@ psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
 psf_props.labels = {'Test', 'ing'};
+psf_props.show_color_bar = true;
 %psf_props.color_map = hot(256);
 psf_props.color_map = {col.*gray(256) (1-col).*gray(256)};
 %psf_props.color_map = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
@@ -74,6 +76,8 @@ sv_props.h_axis_title = '{\itu} [as]';
 sv_props.h_axis_tick_spacing = 1;
 sv_props.v_axis_title = '{\itv} [as]';
 sv_props.v_axis_tick_spacing = 1;
+sv_props.labels = {'Test', 'ing'};
+sv_props.show_color_bar = false;
 sv_props.color_map = bone(256);
 sv_props.font_size = 14;
 
@@ -97,10 +101,8 @@ close(plotAperture(aperture3, aperture_props, aperture_io_props));
 [psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
 [psf3, ~, ~] = getPsf(aperture3, psf_input_scale, psf_fft_scale);
 %close(psfPlot(psf1, psf_props, psf_io_props));
-psfPlot([psf1 psf2], psf_props, psf_io_props);
+%psfPlot([psf1 psf2], psf_props, psf_io_props);
 %psfPlot([psf1 psf2 psf3], psf_props, psf_io_props);
-
-return;
 
 % Define cut properties
 cut_props = CutProps;
@@ -131,7 +133,8 @@ cut_io_props.save_png = true;
 cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
-[my_figure] = psfCut(psf, cut_props, cut_io_props);
+[my_figure] = psfCut(psf1, cut_props, cut_io_props);
+%[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
 
 % [my_figure] = plotCut(cutu, cutw, cut_props, cut_io_props);
 
