@@ -115,11 +115,12 @@ cut_props.u_spacing = 2;
 cut_props.w_title = 'log_1_0 contrast';
 cut_props.w_limits = [-8 0];
 cut_props.w_spacing = 1;
-cut_props.color_map = parula(256);
+cut_props.show_color_bar = true;
+cut_props.color_map = {[0 1 0].*gray(256) [1 0 1].*gray(256)};
 cut_props.c_limits = [-4 -1];
 cut_props.c_spacing = 1;
-cut_props.label = 'LABEL';
-cut_props.line_color = [0 0 0];
+cut_props.labels = {'LABEL', 'LABEL2'};
+cut_props.line_colors = {[0 1 0], [1 0 1]};
 cut_props.cut_line_thickness = 2;
 cut_props.font_size = 14;
 cut_props.show_target = true;
@@ -133,8 +134,8 @@ cut_io_props.save_png = true;
 cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
-[my_figure] = psfCut(psf1, cut_props, cut_io_props);
-%[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
+%[my_figure] = psfCut(psf1, cut_props, cut_io_props);
+[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
 
 % [my_figure] = plotCut(cutu, cutw, cut_props, cut_io_props);
 
