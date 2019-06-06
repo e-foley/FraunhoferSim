@@ -1,6 +1,6 @@
-function [figure_num] = runOverlay(overlay_props, psf_props, crop_scale_props, imagesc_props, overlay_io_props, primary_label, secondary_label, persist_figures, figure_num)
+function [figure_num] = runOverlay(cut_props, psf_props, crop_scale_props, imagesc_props, overlay_io_props, primary_label, secondary_label, persist_figures, figure_num)
 
-p = overlay_props;
+p = cut_props;
 f = psf_props;
 c = crop_scale_props;
 s = imagesc_props;

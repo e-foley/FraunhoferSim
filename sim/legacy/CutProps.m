@@ -1,4 +1,4 @@
-classdef OverlayProps
+classdef CutProps
     properties
         cut_vert_lims
         font_size_const  % font size to use on plots
