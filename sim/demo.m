@@ -97,7 +97,10 @@ aperture2 = imread([input_prefix 'bowtie' '.png']);
 close(plotAperture(aperture2, aperture_props, aperture_io_props));
 aperture3 = imread([input_prefix 'hexagon' '.png']);
 close(plotAperture(aperture3, aperture_props, aperture_io_props));
-[psf1, ~, ~] = getPsf(aperture1, psf_input_scale, psf_fft_scale);
+[psf1, scaled_aperture_size_px, fft_size_px] = ...
+    getPsf(aperture1, psf_input_scale, psf_fft_scale);
+savePsfSpecs(size(aperture1), psf_input_scale, scaled_aperture_size_px, ...
+    psf_fft_scale, fft_size_px, [output_prefix short_name ' psf specs.txt']); 
 [psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
 [psf3, ~, ~] = getPsf(aperture3, psf_input_scale, psf_fft_scale);
 %close(psfPlot(psf1, psf_props, psf_io_props));
