@@ -138,8 +138,8 @@ cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
 %[my_figure] = psfCut(psf1, cut_props, cut_io_props);
-[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
-
+% [my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
+% close(my_figure);
 % [my_figure] = plotCut(cutu, cutw, cut_props, cut_io_props);
 
 % plot(cutu, cutw);
@@ -275,9 +275,10 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 % % plot(u, w);
 % 
 % 
-% % [sv] = getStarView(stars, psf, 6, 550);
-% % image = svGetImage(sv, [-3 3; -3 3], [10 0]);
-% % imshow(image);
+stars = asterismFromDouble(4, [0 0], 90, 7000, 7000);
+[sv] = getStarView(stars, psf1, 6, 550);
+image = svGetImage(sv, [-6 6; -6 6], [10 0]);
+imshow(image);
 % 
 % 
 % 
