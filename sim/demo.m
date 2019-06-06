@@ -17,11 +17,13 @@ aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
 aperture_props.h_axis_tick_spacing = 0.1;
 aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 aperture_props.v_axis_tick_spacing = 0.1;
+aperture_props.labels = {''};  % no label needed
+aperture_props.show_color_bar = false;
 aperture_props.color_map = gray(256);
 aperture_props.font_size = 14;
 
 % Define aperture plot I/O properties.
-aperture_io_props = ImagescIoProps;
+aperture_io_props = IoProps;
 aperture_io_props.save_eps = false;
 aperture_io_props.save_png = true;
 
@@ -32,9 +34,10 @@ save_psf_plain_eps = false;
 save_psf_plain_png = true;
 
 % Define standard formatting parameters for PSF figures.
+col = [1 0 1];
 psf_props = ImagescProps;
 psf_props.plot_title = 'Power spectrum';
-psf_props.nominal_plot_size = [620 528];
+psf_props.nominal_plot_size = [660 528];
 psf_props.extra_title_margin = 0.5;
 psf_props.field_limits = [-12 12; -12 12];
 psf_props.output_limits = [-4 -1];
@@ -42,11 +45,15 @@ psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
 psf_props.h_axis_tick_spacing = 2;
 psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
-psf_props.color_map = hot(256);
+psf_props.labels = {'Test', 'ing'};
+psf_props.show_color_bar = true;
+%psf_props.color_map = hot(256);
+psf_props.color_map = {col.*gray(256) (1-col).*gray(256)};
+%psf_props.color_map = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
 psf_props.font_size = 14;
 
 % Define PSF plot I/O properties.
-psf_io_props = ImagescIoProps;
+psf_io_props = IoProps;
 psf_io_props.save_eps = false;
 psf_io_props.save_png = true;
 
@@ -69,6 +76,8 @@ sv_props.h_axis_title = '{\itu} [as]';
 sv_props.h_axis_tick_spacing = 1;
 sv_props.v_axis_title = '{\itv} [as]';
 sv_props.v_axis_tick_spacing = 1;
+sv_props.labels = {'Test', 'ing'};
+sv_props.show_color_bar = false;
 sv_props.color_map = bone(256);
 sv_props.font_size = 14;
 
@@ -82,10 +91,21 @@ psf_props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
 psf_io_props.eps_location = [output_prefix short_name ' psf plot.eps'];
 psf_io_props.png_location = [output_prefix short_name ' psf plot.png'];
 
-aperture = imread([input_prefix short_name '.png']);
-close(plotAperture(aperture, aperture_props, aperture_io_props));
-[psf, reduced_input_size, fft_size] = getPsf(aperture, psf_input_scale, psf_fft_scale);
-close(psfPlot(psf, psf_props, psf_io_props));
+aperture1 = imread([input_prefix short_name '.png']);
+close(plotAperture(aperture1, aperture_props, aperture_io_props));
+aperture2 = imread([input_prefix 'bowtie' '.png']);
+close(plotAperture(aperture2, aperture_props, aperture_io_props));
+aperture3 = imread([input_prefix 'hexagon' '.png']);
+close(plotAperture(aperture3, aperture_props, aperture_io_props));
+[psf1, scaled_aperture_size_px, fft_size_px] = ...
+    getPsf(aperture1, psf_input_scale, psf_fft_scale);
+savePsfSpecs(size(aperture1), psf_input_scale, scaled_aperture_size_px, ...
+    psf_fft_scale, fft_size_px, [output_prefix short_name ' psf specs.txt']); 
+[psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
+[psf3, ~, ~] = getPsf(aperture3, psf_input_scale, psf_fft_scale);
+%close(psfPlot(psf1, psf_props, psf_io_props));
+%psfPlot([psf1 psf2], psf_props, psf_io_props);
+%psfPlot([psf1 psf2 psf3], psf_props, psf_io_props);
 
 % Define cut properties
 cut_props = CutProps;
@@ -98,11 +118,12 @@ cut_props.u_spacing = 2;
 cut_props.w_title = 'log_1_0 contrast';
 cut_props.w_limits = [-8 0];
 cut_props.w_spacing = 1;
-cut_props.color_map = parula(256);
+cut_props.show_color_bar = true;
+cut_props.color_map = {[0 1 0].*gray(256) [1 0 1].*gray(256)};
 cut_props.c_limits = [-4 -1];
 cut_props.c_spacing = 1;
-cut_props.label = 'LABEL';
-cut_props.line_color = [0 0 0];
+cut_props.labels = {'LABEL', 'LABEL2'};
+cut_props.line_colors = {[0 1 0], [1 0 1]};
 cut_props.cut_line_thickness = 2;
 cut_props.font_size = 14;
 cut_props.show_target = true;
@@ -110,13 +131,14 @@ cut_props.target = -2.6;  % base-10 magnitude
 cut_props.target_line_thickness = 1;
 cut_props.target_line_color = [0.4 0.4 0.4];
 
-cut_io_props = ImagescIoProps;
+cut_io_props = IoProps;
 cut_io_props.save_eps = false;
 cut_io_props.save_png = true;
 cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
-[my_figure] = psfCut(psf, cut_props, cut_io_props);
+%[my_figure] = psfCut(psf1, cut_props, cut_io_props);
+[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
 
 % [my_figure] = plotCut(cutu, cutw, cut_props, cut_io_props);
 
@@ -180,7 +202,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %     for j=1:numel(action{2})
 %         props = action{2}(j);
 %         props.plot_title = long_name;
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_aperture_plot_eps;
 %         aperture_io_props.save_png = save_aperture_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' plot ' num2str(j) '.eps'];
@@ -198,7 +220,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %         % Formatted plot
 %         props = action{3}(j);
 %         props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_psf_plot_eps;
 %         aperture_io_props.save_png = save_psf_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' psf plot ' num2str(j) '.eps'];
@@ -224,7 +246,7 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 %         params = action{5}{j}(1:3);
 %         props = action{5}{j}{4};
 %         props.plot_title = '';  % TODO: Enter something.
-%         aperture_io_props = ImagescIoProps;
+%         aperture_io_props = IoProps;
 %         aperture_io_props.save_eps = save_sv_plot_eps;
 %         aperture_io_props.save_png = save_sv_plot_png;
 %         aperture_io_props.eps_location = [output_prefix short_name ' sv ' num2str(j) '.eps'];

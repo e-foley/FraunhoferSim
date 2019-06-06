@@ -3,65 +3,88 @@ function [figure_out] = psfCut(psf, cut_props, cut_io_props)
 c = cut_props;
 o = cut_io_props;
 
-image = log10(psf.data ./ max(max(psf.data)));
+% Condition color_map and labels into cell arrays so that they work in loops.
+if (~iscell(c.color_map))
+    c.color_map = {c.color_map};
+end
+if (~iscell(c.labels))
+    c.labels = {c.labels};
+end
 
-upx_min = 1 + round(psf.pixels_per_ld * (c.u_limits(1) - psf.ld_bounds(1,1)));
-upx_max = 1 + round(psf.pixels_per_ld * (c.u_limits(2) - psf.ld_bounds(1,1)));
-v_px =    1 + round(psf.pixels_per_ld * (0 - psf.ld_bounds(1,1)));
-u = psf.ld_bounds(1,1) + ((upx_min:upx_max) - 1) / psf.pixels_per_ld;
-w = image(upx_min:upx_max,v_px);
+num_psfs = numel(psf);
+num_maps = numel(c.color_map);
+u = cell(1, num_psfs);
+w = cell(1, num_psfs);
+
+for i=1:num_psfs
+    image = log10(psf(i).data ./ max(max(psf(i).data)));
+    upx_min = 1 + round(psf(i).pixels_per_ld * (c.u_limits(1) - psf(i).ld_bounds(1,1)));
+    upx_max = 1 + round(psf(i).pixels_per_ld * (c.u_limits(2) - psf(i).ld_bounds(1,1)));
+    v_px =    1 + round(psf(i).pixels_per_ld * (0 - psf(i).ld_bounds(1,1)));
+    u{i} = psf(i).ld_bounds(1,1) + ((upx_min:upx_max) - 1) / psf(i).pixels_per_ld;
+    w{i} = image(upx_min:upx_max,v_px);
+end
 
 figure_out = figure;
 set(figure_out, 'Position', [0 0 c.nominal_plot_size]);
 hold on;
 
+h = zeros(1, num_psfs + c.show_target);
+
 if (c.show_target)
-    h2 = plot(u, c.target * ones(1, size(u,2)), 'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', c.target_line_thickness);
+    h(end) = plot([c.u_limits(1) c.u_limits(2)], [c.target c.target], ...
+        'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', ...
+        c.target_line_thickness);
 end
 
-h1 = plot(u, w, 'Color', c.line_color);
-
+line_styles = {'-', '--', ':', '-.'};
+for i=num_psfs:-1:1
+    h(i) = plot(u{i}, w{i}, 'Color', c.line_colors{i});
+    set(h(i), 'LineWidth', c.cut_line_thickness);
+    set(h(i), 'LineStyle', line_styles{i});
+end
+    
 hold off;
 if (c.show_target)
-    legend([h1 h2], c.label, 'contrast target');
+    legend(h, c.labels, 'contrast target');
 else
-    legend(h1, c.label);
+    legend(h, c.labels);
 end
 xlabel(c.u_title);
 ylabel(c.w_title);
-xlim(c.u_limits);  % Change this to something encoded in cut_props
+xlim(c.u_limits);
 ylim(c.w_limits);
-set(gca,'FontSize',c.font_size,'fontWeight','bold');
+set(gca,'FontSize', c.font_size, 'fontWeight', 'bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
-set(h1,'LineWidth',c.cut_line_thickness);
-caxis([c.c_limits(1) c.c_limits(2)]);
-cb = colorbar('westoutside');
-% colormap(cb, [linspace(0, colors(2,1), 256)' linspace(0, colors(2,2), 256)' linspace(0, colors(2,3), 256)']);
-colormap(cb, c.color_map);
-set(cb, 'TickLabels', []);
-set(cb, 'AxisLocation', 'in');
-set(cb, 'Limits', c.w_limits);
-set(cb, 'Ticks', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
-% cb2 = colorbar;
-% set(cb2, 'Limits', p.cut_vert_lims);
-% set(cb2, 'Ticks', (p.cut_vert_lims(1)):p.cut_y_axis_spacing:p.cut_vert_lims(2));
-% set(cb2, 'TickLabels', []);
-% set(cb2, 'AxisLocation', 'in');
-% cb2.Position(1) = cb.Position(1) - cb.Position(3);
-% colormap(cb2, [linspace(0, colors(1,1), 256)' linspace(0, colors(1,2), 256)' linspace(0, colors(1,3), 256)']);
+
+if (c.show_color_bar)
+    cb = colorbar('westoutside');
+    colormap(cb, c.color_map{end});
+    caxis(c.c_limits);
+    color_bar_pos = cb.Position;
+    set(cb, 'TickLabels', []);
+    set(cb, 'AxisLocation', 'in');
+    set(cb, 'Limits', c.w_limits);
+    set(cb, 'Ticks', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
+    
+    for i=1:(num_maps-1)
+        cb = colorbar;
+        colormap(cb, c.color_map{i});
+        caxis(c.c_limits);
+        cb.Position = color_bar_pos - [(num_maps-i)*color_bar_pos(3) 0 0 0];
+        set(cb, 'TickLabels', []);
+        set(cb, 'AxisLocation', 'in');
+        set(cb, 'Limits', c.w_limits);
+        set(cb, 'Ticks', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
+    end
+end
+
 my_title = title(c.plot_title);
 title_pos = get(my_title, 'Position');
 set(gca,'FontSize',c.font_size,'fontWeight','bold');
 set(findall(gcf,'type','text'),'FontSize',c.font_size,'fontWeight','bold');
 set(my_title, 'Position', title_pos + [0 c.extra_title_margin 0]);
-% print('-depsc', '-painters', o.eps_location);
-% print('-dpng', o.png_location);
-% if (persist_figures)
-%     figure_num = figure_num + 1;
-% else
-%     close(figure_out);
-% end
 
 if o.save_eps
     print('-depsc', '-painters', o.eps_location);
