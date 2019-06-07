@@ -3,14 +3,14 @@
 % (u, v) = (0, 0); the secondary star will be placed according to the separation
 % and position angle arguments.
 %
-% separation_as  The angular separation of the stars [arcseconds]
-% app_vis_mags   Apparent visual magnitudes of the stars (2-element array).
-%                Larger numbers correspond to dimmer stars.
-% pa_deg         Position angle of second star relative to first star [degrees].
+% separation_as  The angular separation of the stars (arcseconds)
+% app_vis_mags   Apparent visual magnitudes of the stars [m1,m2]. Larger numbers
+%                correspond to dimmer stars.
+% pa_deg         Position angle of second star relative to first star (degrees).
 %                Angles of 0, 90, 180, 270 degrees will place second star along
 %                -v, +u, +v, and -u.
 %
-% asterism       A 2-element array of Star objects representing the system.
+% asterism       Star objects representing the system [Star1,Star2]
 
 function [asterism] = asterismFromDouble(separation_as, app_vis_mags, pa_deg)
 
