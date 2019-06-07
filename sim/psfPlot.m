@@ -2,9 +2,9 @@ function [figure_out] = psfPlot(psf, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
-% Condition color_map and labels into cell arrays so that they work in loops.
-if (~iscell(s.color_map))
-    s.color_map = {s.color_map};
+% Condition color_maps and labels into cell arrays so that they work in loops.
+if (~iscell(s.color_maps))
+    s.color_maps = {s.color_maps};
 end
 if (~iscell(s.labels))
     s.labels = {s.labels};
@@ -12,7 +12,7 @@ end
 
 num_psfs = numel(psf);
 psf_images = cell(num_psfs, 1);
-num_maps = numel(s.color_map);
+num_maps = numel(s.color_maps);
 num_labels = numel(s.labels);
 
 % Seek the PSF that has the largest pixel dimensions and record its size.
@@ -23,7 +23,7 @@ for i=1:num_psfs
 end
 composite = zeros([max_size_px 3]);
 for i=1:num_psfs
-    map = s.color_map{i};
+    map = s.color_maps{i};
     num_colors = size(map, 1);
     % Resize small images to size of largest.
     psf_images{i} = imresize(psf_images{i}, max_size_px);
@@ -53,7 +53,7 @@ if (num_labels > 0)
     
     for i=1:num_labels
         h(i) = plot(NaN, NaN, 'Marker', 's', 'MarkerSize', 8, ...
-            'MarkerFaceColor', s.color_map{i}(end, :), 'MarkerEdgeColor', ...
+            'MarkerFaceColor', s.color_maps{i}(end, :), 'MarkerEdgeColor', ...
             'none', 'LineStyle', 'none');
     end
     
@@ -67,7 +67,7 @@ end
 % Establish baseline colorbar position so we can position extras (if needed).
 if (s.show_color_bar)
     cb = colorbar(ax);
-    colormap(cb, s.color_map{1});
+    colormap(cb, s.color_maps{1});
     caxis(s.output_limits);
     color_bar_pos = cb.Position;
 
@@ -83,7 +83,7 @@ if (s.show_color_bar)
 
          % Create and format new colorbar on dummy axes.
          cb = colorbar(ax);
-         colormap(cb, s.color_map{i});
+         colormap(cb, s.color_maps{i});
          caxis(s.output_limits);
 
          % Match colorbar's dimensions to baseline, translating it by its width.

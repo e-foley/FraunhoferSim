@@ -2,7 +2,7 @@
 function formatImagescPlot(the_figure, imagesc_props)
 s = imagesc_props;
 
-set(the_figure, 'Position', [0 0 s.nominal_plot_size]);
+set(the_figure, 'Position', [0 0 s.nominal_plot_size_px]);
 axis on;
 % these seem redundant, but performance consistent only with them all
 axis square;

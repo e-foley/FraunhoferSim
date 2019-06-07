@@ -3,16 +3,16 @@ function [figure_out] = psfCut(psf, cut_props, cut_io_props)
 c = cut_props;
 o = cut_io_props;
 
-% Condition color_map and labels into cell arrays so that they work in loops.
-if (~iscell(c.color_map))
-    c.color_map = {c.color_map};
+% Condition color_maps and labels into cell arrays so that they work in loops.
+if (~iscell(c.color_maps))
+    c.color_maps = {c.color_maps};
 end
 if (~iscell(c.labels))
     c.labels = {c.labels};
 end
 
 num_psfs = numel(psf);
-num_maps = numel(c.color_map);
+num_maps = numel(c.color_maps);
 u = cell(1, num_psfs);
 w = cell(1, num_psfs);
 
@@ -26,7 +26,7 @@ for i=1:num_psfs
 end
 
 figure_out = figure;
-set(figure_out, 'Position', [0 0 c.nominal_plot_size]);
+set(figure_out, 'Position', [0 0 c.nominal_plot_size_px]);
 hold on;
 
 h = zeros(1, num_psfs + c.show_target);
@@ -34,13 +34,13 @@ h = zeros(1, num_psfs + c.show_target);
 if (c.show_target)
     h(end) = plot([c.u_limits(1) c.u_limits(2)], [c.target c.target], ...
         'Color', c.target_line_color, 'LineStyle', '--', 'LineWidth', ...
-        c.target_line_thickness);
+        c.target_line_thickness_pt);
 end
 
 line_styles = {'-', '--', ':', '-.'};
 for i=num_psfs:-1:1
     h(i) = plot(u{i}, w{i}, 'Color', c.line_colors{i});
-    set(h(i), 'LineWidth', c.cut_line_thickness);
+    set(h(i), 'LineWidth', c.cut_line_thickness_pt);
     set(h(i), 'LineStyle', line_styles{i});
 end
     
@@ -60,7 +60,7 @@ set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 
 if (c.show_color_bar)
     cb = colorbar('westoutside');
-    colormap(cb, c.color_map{end});
+    colormap(cb, c.color_maps{end});
     caxis(c.c_limits);
     color_bar_pos = cb.Position;
     set(cb, 'TickLabels', []);
@@ -70,7 +70,7 @@ if (c.show_color_bar)
     
     for i=1:(num_maps-1)
         cb = colorbar;
-        colormap(cb, c.color_map{i});
+        colormap(cb, c.color_maps{i});
         caxis(c.c_limits);
         cb.Position = color_bar_pos - [(num_maps-i)*color_bar_pos(3) 0 0 0];
         set(cb, 'TickLabels', []);

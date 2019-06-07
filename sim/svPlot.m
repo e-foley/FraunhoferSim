@@ -11,7 +11,7 @@ imagesc(sv.as_bounds(1,:), fliplr(sv.as_bounds(2,:)), image);
 formatImagescPlot(figure_out, s);
 caxis(fliplr(s.output_limits));
 h = colorbar;
-colormap(flipud(s.color_map));
+colormap(flipud(s.color_maps));
 drawnow;  % MATLAB bug: colorbar colors don't update without this line.
 set(h, 'YDir', 'reverse');
 ylabel(h, 'apparent visual magnitude');

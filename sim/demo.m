@@ -9,7 +9,7 @@ standard_wavelength_nm = 550;  % [nm]
 % Define standard formatting parameters for aperture figures.
 aperture_props = ImagescProps;
 aperture_props.plot_title = '';  % overwritten inside loop
-aperture_props.nominal_plot_size = [620 528];
+aperture_props.nominal_plot_size_px = [620 528];
 aperture_props.extra_title_margin = 0.02;
 aperture_props.field_limits = [-0.5 0.5; -0.5 0.5];
 aperture_props.output_limits = [0 1];
@@ -19,7 +19,7 @@ aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 aperture_props.v_axis_tick_spacing = 0.1;
 aperture_props.labels = {''};  % no label needed
 aperture_props.show_color_bar = false;
-aperture_props.color_map = gray(256);
+aperture_props.color_maps = gray(256);
 aperture_props.font_size = 14;
 
 % Define aperture plot I/O properties.
@@ -37,7 +37,7 @@ save_psf_plain_png = true;
 col = [1 0 1];
 psf_props = ImagescProps;
 psf_props.plot_title = 'Power spectrum';
-psf_props.nominal_plot_size = [660 528];
+psf_props.nominal_plot_size_px = [660 528];
 psf_props.extra_title_margin = 0.5;
 psf_props.field_limits = [-12 12; -12 12];
 psf_props.output_limits = [-4 -1];
@@ -47,9 +47,9 @@ psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
 psf_props.v_axis_tick_spacing = 2;
 psf_props.labels = {'Test', 'ing'};
 psf_props.show_color_bar = true;
-%psf_props.color_map = hot(256);
-psf_props.color_map = {col.*gray(256) (1-col).*gray(256)};
-%psf_props.color_map = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
+%psf_props.color_maps = hot(256);
+psf_props.color_maps = {col.*gray(256) (1-col).*gray(256)};
+%psf_props.color_maps = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
 psf_props.font_size = 14;
 
 % Define PSF plot I/O properties.
@@ -68,7 +68,7 @@ sv_params2 = {close_double, standard_diameter_in, standard_wavelength_nm};
 % Define standard formatting parameters for star view figures.
 sv_props = ImagescProps;
 sv_props.plot_title = 'Image';
-sv_props.nominal_plot_size = [620 528];
+sv_props.nominal_plot_size_px = [620 528];
 sv_props.extra_title_margin = 0.1;
 sv_props.field_limits = [-3 3; -3 3];
 sv_props.output_limits = [10 2];
@@ -78,7 +78,7 @@ sv_props.v_axis_title = '{\itv} [as]';
 sv_props.v_axis_tick_spacing = 1;
 sv_props.labels = {'Test', 'ing'};
 sv_props.show_color_bar = false;
-sv_props.color_map = bone(256);
+sv_props.color_maps = bone(256);
 sv_props.font_size = 14;
 
 % ==============================================================================
@@ -110,7 +110,7 @@ savePsfSpecs(size(aperture1), psf_input_scale, scaled_aperture_size_px, ...
 % Define cut properties
 cut_props = CutProps;
 cut_props.plot_title = 'Horizontal PSF cut';
-cut_props.nominal_plot_size = [620 528];
+cut_props.nominal_plot_size_px = [620 528];
 cut_props.extra_title_margin = 0.14;  % extra vertical margin for plot title
 cut_props.u_title = '{\itu} [{\it\lambda}/{\itD}]';
 cut_props.u_limits = [0 psf_props.field_limits(1,2)];
@@ -119,16 +119,16 @@ cut_props.w_title = 'log_1_0 contrast';
 cut_props.w_limits = [-8 0];
 cut_props.w_spacing = 1;
 cut_props.show_color_bar = true;
-cut_props.color_map = {[0 1 0].*gray(256) [1 0 1].*gray(256)};
+cut_props.color_maps = {[0 1 0].*gray(256) [1 0 1].*gray(256)};
 cut_props.c_limits = [-4 -1];
 cut_props.c_spacing = 1;
 cut_props.labels = {'LABEL', 'LABEL2'};
 cut_props.line_colors = {[0 1 0], [1 0 1]};
-cut_props.cut_line_thickness = 2;
+cut_props.cut_line_thickness_pt = 2;
 cut_props.font_size = 14;
 cut_props.show_target = true;
 cut_props.target = -2.6;  % base-10 magnitude
-cut_props.target_line_thickness = 1;
+cut_props.target_line_thickness_pt = 1;
 cut_props.target_line_color = [0.4 0.4 0.4];
 
 cut_io_props = IoProps;
@@ -138,13 +138,16 @@ cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
 %[my_figure] = psfCut(psf1, cut_props, cut_io_props);
-[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
+%[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
 
 % [my_figure] = plotCut(cutu, cutw, cut_props, cut_io_props);
 
 % plot(cutu, cutw);
 
-
+stars = asterismFromDouble(2, [0 4], 90);
+sv = getStarView(stars, psf2, 6, 550);
+image = svGetImage(sv, [-6 6; -6 6], [10 0]);
+imshow(image);
 
 
 % % Name index
@@ -297,14 +300,14 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 % % plot(testing);
 % 
 % % aperture_props = ImagescProps;
-% % aperture_props.nominal_plot_size = [620 528];
+% % aperture_props.nominal_plot_size_px = [620 528];
 % % aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
 % % aperture_props.h_axis_tick_spacing = 0.1;
 % % aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 % % aperture_props.v_axis_tick_spacing = 0.1;
 % % aperture_props.extra_title_margin = 0.02;
 % % aperture_props.font_size = 14;
-% % aperture_props.color_map = gray(256);
+% % aperture_props.color_maps = gray(256);
 % % 
 % % aperture_title = 'test';
 % % persist_aperture = true;

@@ -1,7 +1,7 @@
 classdef ImagescProps
     properties
         plot_title
-        nominal_plot_size
+        nominal_plot_size_px  % Plot size (pixels) [width,height]
         extra_title_margin
         field_limits  % [x1 x2; y1 y2]
         output_limits
@@ -11,7 +11,7 @@ classdef ImagescProps
         v_axis_tick_spacing
         labels
         show_color_bar
-        color_map
+        color_maps  % Color maps to use on plotted objects {map1,map2,...,mapN}
         font_size
     end
 end
