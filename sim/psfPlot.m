@@ -65,7 +65,7 @@ if (num_labels > 0)
 end
 
 % Establish baseline colorbar position so we can position extras (if needed).
-if (s.show_color_bar)
+if (s.show_color_bars)
     cb = colorbar(ax);
     colormap(cb, s.color_maps{1});
     caxis(s.output_limits);

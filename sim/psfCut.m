@@ -58,7 +58,7 @@ set(gca,'FontSize', c.font_size_pt, 'fontWeight', 'bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 
-if (c.show_color_bar)
+if (c.show_color_bars)
     cb = colorbar('westoutside');
     colormap(cb, c.color_maps{end});
     caxis(c.c_limits);

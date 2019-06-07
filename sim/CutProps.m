@@ -10,7 +10,7 @@ classdef CutProps
         % numbers in unexpected ways.
         nominal_plot_size_px = [620 528]
         
-        % Fudge factor for vertically aligning plot title 
+        % Fudge factor for vertically aligning plot title
         extra_title_margin = 0.14
         
         % u-axis label, axis limits [low,high], and tick spacing
@@ -24,7 +24,7 @@ classdef CutProps
         w_spacing = 1
         
         % Whether to show color bars beside the plot
-        show_color_bar = false
+        show_color_bars = false
         
         % Color maps to use for color bars {map1,map2,...,mapN}
         color_maps = {}
