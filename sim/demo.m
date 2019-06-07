@@ -20,7 +20,7 @@ aperture_props.v_axis_tick_spacing = 0.1;
 aperture_props.labels = {''};  % no label needed
 aperture_props.show_color_bar = false;
 aperture_props.color_maps = gray(256);
-aperture_props.font_size = 14;
+aperture_props.font_size_pt = 14;
 
 % Define aperture plot I/O properties.
 aperture_io_props = IoProps;
@@ -50,7 +50,7 @@ psf_props.show_color_bar = true;
 %psf_props.color_maps = hot(256);
 psf_props.color_maps = {col.*gray(256) (1-col).*gray(256)};
 %psf_props.color_maps = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
-psf_props.font_size = 14;
+psf_props.font_size_pt = 14;
 
 % Define PSF plot I/O properties.
 psf_io_props = IoProps;
@@ -79,7 +79,7 @@ sv_props.v_axis_tick_spacing = 1;
 sv_props.labels = {'Test', 'ing'};
 sv_props.show_color_bar = false;
 sv_props.color_maps = bone(256);
-sv_props.font_size = 14;
+sv_props.font_size_pt = 14;
 
 % ==============================================================================
 short_name = 'c11';
@@ -125,7 +125,7 @@ cut_props.c_spacing = 1;
 cut_props.labels = {'LABEL', 'LABEL2'};
 cut_props.line_colors = {[0 1 0], [1 0 1]};
 cut_props.cut_line_thickness_pt = 2;
-cut_props.font_size = 14;
+cut_props.font_size_pt = 14;
 cut_props.show_target = true;
 cut_props.target = -2.6;  % base-10 magnitude
 cut_props.target_line_thickness_pt = 1;
@@ -306,7 +306,7 @@ imshow(image);
 % % aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
 % % aperture_props.v_axis_tick_spacing = 0.1;
 % % aperture_props.extra_title_margin = 0.02;
-% % aperture_props.font_size = 14;
+% % aperture_props.font_size_pt = 14;
 % % aperture_props.color_maps = gray(256);
 % % 
 % % aperture_title = 'test';

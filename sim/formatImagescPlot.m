@@ -18,7 +18,7 @@ ylabel(s.v_axis_title);
 my_title = title(s.plot_title);
 title_pos = get(my_title, 'Position');
 set(my_title, 'Position', title_pos + [0 s.extra_title_margin 0]);
-set(gca,'FontSize',s.font_size,'fontWeight','bold');
-set(findall(gcf,'type','text'),'FontSize',s.font_size,'fontWeight','bold');
+set(gca,'FontSize',s.font_size_pt,'fontWeight','bold');
+set(findall(gcf,'type','text'),'FontSize',s.font_size_pt,'fontWeight','bold');
 
 end

@@ -54,7 +54,7 @@ xlabel(c.u_title);
 ylabel(c.w_title);
 xlim(c.u_limits);
 ylim(c.w_limits);
-set(gca,'FontSize', c.font_size, 'fontWeight', 'bold');
+set(gca,'FontSize', c.font_size_pt, 'fontWeight', 'bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 
@@ -82,8 +82,8 @@ end
 
 my_title = title(c.plot_title);
 title_pos = get(my_title, 'Position');
-set(gca,'FontSize',c.font_size,'fontWeight','bold');
-set(findall(gcf,'type','text'),'FontSize',c.font_size,'fontWeight','bold');
+set(gca,'FontSize',c.font_size_pt,'fontWeight','bold');
+set(findall(gcf,'type','text'),'FontSize',c.font_size_pt,'fontWeight','bold');
 set(my_title, 'Position', title_pos + [0 c.extra_title_margin 0]);
 
 if o.save_eps

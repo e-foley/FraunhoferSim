@@ -12,6 +12,6 @@ classdef ImagescProps
         labels
         show_color_bar
         color_maps  % Color maps to use on plotted objects {map1,map2,...,mapN}
-        font_size
+        font_size_pt
     end
 end

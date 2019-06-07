@@ -90,7 +90,7 @@ if (s.show_color_bar)
          cb.Position = color_bar_pos + [(i-1)*color_bar_pos(3) 0 0 0];
     end
 
-    set(cb,'FontSize', s.font_size, 'fontWeight', 'bold');
+    set(cb,'FontSize', s.font_size_pt, 'fontWeight', 'bold');
     ylabel(cb, 'log_1_0 contrast');
 end
 

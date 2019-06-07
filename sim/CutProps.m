@@ -23,17 +23,37 @@ classdef CutProps
         w_limits = [-8 0]
         w_spacing = 1
         
+        % Whether to show color bars beside the plot
+        show_color_bar
         
-        show_color_bar  % Whether to show color bars beside the plot
-        color_maps  % Color maps to use for color bars {map1,map2,...,mapN}
-        c_limits  % w-axis limits over which colorbar range is applied
-        c_spacing  % Color bar tick spacing
-        labels  % Legend entries describing plotted lines
-        line_colors  % Line colors {[r1,g1,b1],[r2,g2,b2],...,[rN,gN,bN]}
-        cut_line_thickness_pt  % Thickness of cut profile lines (points)
-        font_size  %
+        % Color maps to use for color bars {map1,map2,...,mapN}
+        color_maps
+        
+        % w-axis limits over which colorbar range is applied
+        c_limits
+        
+        % Color bar tick spacing
+        c_spacing
+        
+        % Legend entries describing plotted lines {label1,label2,...,labelN}
+        labels
+        
+        % Line colors {[r1,g1,b1],[r2,g2,b2],...,[rN,gN,bN]}
+        line_colors
+        
+        % Thickness of cut profile lines (points)
+        cut_line_thickness_pt  
+        
+        % Font size of all text in figure (points)
+        font_size_pt
+        
+        % Whether to draw a horizontal "contrast target" line on the plot
         show_target
+        
+        % The place along the w-axis to draw a contrast target line
         target
+        
+        % Thickness of target line (points) and its color [r,g,b]
         target_line_thickness_pt
         target_line_color
     end
