@@ -1,3 +1,15 @@
+% Produces a StarView object that captures the convolution of stars as viewed
+% through an aperture producing the supplied point spread function.
+%
+% stars          An array of Star objects that are to appear in the star view
+% psf            A Psf object describing the characteristic point spread
+%                function of the aperture the stars are being viewed through
+% diameter_in    The aperture diameter of the telescope (inches)
+% wavelength_nm  The wavelength of light to use to draw the convolved power
+%                spectra (nanometers)
+%
+% sv             The StarView object produced
+
 function [sv] = getStarView(stars, psf, diameter_in, wavelength_nm)    
 
 sv = StarView;
@@ -5,16 +17,17 @@ sv = StarView;
 % Cache (L/D -> arcsecond) factor for easy reference.
 as_from_ld = asFromLd(wavelength_nm, diameter_in);
 
-% Calculate pixel scale in pixels per arcseconds
+% Calculate pixel scale in pixels per arcseconds.
 sv.pixels_per_as = psf.pixels_per_ld / as_from_ld;
 
+% If no stars, no result.
 if numel(stars) == 0
     return;
 end
 
-% Precompute the bounds of the domain we'll want to fill. Since the PSF for
-% each star will be the same, the result comes down to how the star
-% positions expand the region.
+% Precompute the bounds of the domain we'll want to fill. Since the PSF for each
+% star will be the same, the result comes down to how the star positions expand
+% the region.
 min_star_u =  inf();
 max_star_u = -inf();
 min_star_v =  inf();
