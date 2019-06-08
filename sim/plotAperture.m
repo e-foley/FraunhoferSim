@@ -16,9 +16,11 @@ if (~iscell(s.color_maps))
 end
 
 % Create and scale figure. Aperture image is assumed to represent exactly the
-% entire aperture--no more, no less.
+% entire aperture--no more, no less. Larger dimension establishes diameter.
 figure_out = figure;
-imagesc([-0.5 0.5], [0.5 -0.5], aperture);
+d_px = max(size(aperture));
+imagesc([-0.5 0.5] .* size(aperture, 2) / d_px, ...
+        [0.5 -0.5] .* size(aperture, 1) / d_px, aperture);
 formatImagescPlot(figure_out, s);
 
 % Apply color map. We can only plot one thing, so we use first map in the list.

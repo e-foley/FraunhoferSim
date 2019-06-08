@@ -33,10 +33,11 @@ if (size(aperture, 3) > 1)
 end
 
 % Scale dims of the mask/aperture. Scaling down allows FFT to use less memory.
-% We rotate the matrix such that we can store the PSF with (u, v) indices. 
-scaled_aperture = imresize(rot90(aperture, 3), aperture_scale);
+% We rotate the matrix such that we can store the PSF with (u, v) indices.
+scaled_aperture = imresize(aperture, aperture_scale);
 scaled_aperture_size_px = size(scaled_aperture);
-fft_size_px = fft_scale * scaled_aperture_size_px;
+scaled_aperture = rot90(scaled_aperture, 3);
+fft_size_px = fft_scale * [1 1] * max(size(scaled_aperture));
 
 % Find FFT of this mask/aperture (not power spectrum yet), padding the FFT to
 % dimensions of fft_size_px and placing zero-frequency component in the center
