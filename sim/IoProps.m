@@ -1,8 +1,13 @@
+% Holds properties related to the saving of figures to disc.
+
 classdef IoProps
     properties
-        save_eps = true;
+        % Whether and where to save a portable network graphics (PNG) file
         save_png = true;
-        eps_location = 'output.eps';
         png_location = 'output.png';
+        
+        % Whether and where to save an encapsulated postscript (EPS) file
+        save_eps = true;
+        eps_location = 'output.eps';
     end
 end
