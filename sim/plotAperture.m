@@ -1,11 +1,22 @@
-function [figure_out] = plotAperture(aperture, imagesc_props, imagesc_io_props)
-s = imagesc_props;
-o = imagesc_io_props;
+% Plots an aperture image with labeled coordinate axes.
+%
+% aperture       The aperture image to plot
+% imagesc_props  An ImagescProps object governing how the plot will appear
+% io_props       An IoProps object governing whether and how the output is saved
+%
+% figure_out     A handle to the figure created by this function
 
+function [figure_out] = plotAperture(aperture, imagesc_props, io_props)
+s = imagesc_props;
+o = io_props;
+
+% Convert color_maps to cell array to allow proper indexing later.
 if (~iscell(s.color_maps))
     s.color_maps = {s.color_maps};
 end
 
+% Create and scale figure. Aperture image is assumed to represent exactly the
+% entire aperture--no more, no less.
 figure_out = figure;
 imagesc([-0.5 0.5], [0.5 -0.5], aperture);
 formatImagescPlot(figure_out, s);
@@ -13,6 +24,7 @@ formatImagescPlot(figure_out, s);
 % Apply color map. We can only plot one thing, so we use first map in the list.
 colormap(s.color_maps{1});
 
+% Save the image to disc if needed.
 if o.save_eps
     print('-depsc', '-painters', o.eps_location);
 end
