@@ -1,3 +1,5 @@
+% Properties for formatting plots created from the imagesc function.
+
 classdef ImagescProps
     properties
         % Title of the plot
