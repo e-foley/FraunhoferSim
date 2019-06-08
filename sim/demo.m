@@ -87,7 +87,7 @@ long_name = 'C11 aperture';
 aperture_props.plot_title = long_name;
 aperture_io_props.eps_location = [output_prefix short_name ' plot.eps'];
 aperture_io_props.png_location = [output_prefix short_name ' plot.png'];
-psf_props.plot_title = ['Ideal, monochromatic, on-axis PSF of ' long_name];
+psf_props.plot_title = ['Ideal monochromatic, on-axis PSF of ' long_name];
 psf_io_props.eps_location = [output_prefix short_name ' psf plot.eps'];
 psf_io_props.png_location = [output_prefix short_name ' psf plot.png'];
 
