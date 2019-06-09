@@ -1,13 +1,13 @@
 % Creates a figure displaying the intensity of the electromagnetic field along
-% the u-axis of a point spread function.
+% the u-axis of one or more point spread functions.
 %
-% psf         The Psf object representing the PSF to cut
+% psfs        Psf objects representing the PSFs to cut
 % cut_props   A CutProps object describing how to format the figur.
 % io_props    An IoProps object determining whether and how the figure is saved
 %
 % figure_out  A handle to the generated figure.
 
-function [figure_out] = psfCut(psf, cut_props, io_props)
+function [figure_out] = psfCut(psfs, cut_props, io_props)
 c = cut_props;
 o = io_props;
 
@@ -19,7 +19,7 @@ if (~iscell(c.labels))
     c.labels = {c.labels};
 end
 
-num_psfs = numel(psf);
+num_psfs = numel(psfs);
 num_maps = numel(c.color_maps);
 
 % Create cell arrays that will store values of u and intensity for each PSF cut.
@@ -28,14 +28,14 @@ w = cell(1, num_psfs);
 
 % For each PSF, log-normalize the intensities and collect data along the u-axis.
 for i=1:num_psfs
-    image = log10(psf(i).data ./ max(max(psf(i).data)));
-    upx_min = 1 + round(psf(i).pixels_per_ld * (c.u_limits(1) - psf(i).ld_bounds(1,1)));
-    upx_max = 1 + round(psf(i).pixels_per_ld * (c.u_limits(2) - psf(i).ld_bounds(1,1)));
-    v_px =    1 + round(psf(i).pixels_per_ld * (0 - psf(i).ld_bounds(1,1)));
+    image = log10(psfs(i).data ./ max(max(psfs(i).data)));
+    upx_min = 1 + round(psfs(i).pixels_per_ld * (c.u_limits(1) - psfs(i).ld_bounds(1,1)));
+    upx_max = 1 + round(psfs(i).pixels_per_ld * (c.u_limits(2) - psfs(i).ld_bounds(1,1)));
+    v_px =    1 + round(psfs(i).pixels_per_ld * (0 - psfs(i).ld_bounds(1,1)));
     
     % Because we rounded to find u bound indices closest to requested limits, we
     % calculate what values of u *actually* correspond to those indices.
-    u{i} = psf(i).ld_bounds(1,1) + ((upx_min:upx_max) - 1) / psf(i).pixels_per_ld;
+    u{i} = psfs(i).ld_bounds(1,1) + ((upx_min:upx_max) - 1) / psfs(i).pixels_per_ld;
     w{i} = image(upx_min:upx_max,v_px);
 end
 
