@@ -57,10 +57,10 @@ end
 
 % Actually plot the cut data.
 line_styles = {'-', '--', ':', '-.'};
-for i=num_psfs:-1:1
+for i=1:num_psfs
     h(i) = plot(u{i}, w{i}, 'Color', c.line_colors{i});
     set(h(i), 'LineWidth', c.cut_line_thickness_pt);
-    set(h(i), 'LineStyle', line_styles{i});
+    set(h(i), 'LineStyle', line_styles{1 + num_psfs - i});
 end
 
 hold off;
