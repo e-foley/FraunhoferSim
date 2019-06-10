@@ -28,8 +28,8 @@ aperture_io_props.save_eps = false;
 aperture_io_props.save_png = true;
 
 % Define standard PSF generation properties
-psf_input_scale = 0.25;
-psf_fft_scale = 8;
+aperture_scale = 0.25;
+fft_scale = 8;
 save_psf_plain_eps = false;
 save_psf_plain_png = true;
 
@@ -87,7 +87,7 @@ long_name = 'C11 aperture';
 aperture_props.plot_title = long_name;
 aperture_io_props.eps_location = [output_prefix short_name ' plot.eps'];
 aperture_io_props.png_location = [output_prefix short_name ' plot.png'];
-psf_props.plot_title = ['Ideal monochromatic, on-axis PSF of ' long_name];
+psf_props.plot_title = ['Ideal monochromatic, on-axis PSF comparison'];
 psf_io_props.eps_location = [output_prefix short_name ' psf plot.eps'];
 psf_io_props.png_location = [output_prefix short_name ' psf plot.png'];
 
@@ -98,11 +98,11 @@ close(plotAperture(aperture2, aperture_props, aperture_io_props));
 aperture3 = imread([input_prefix 'hexagon' '.png']);
 close(plotAperture(aperture3, aperture_props, aperture_io_props));
 [psf1, scaled_aperture_size_px, fft_size_px] = ...
-    getPsf(aperture1, psf_input_scale, psf_fft_scale);
-savePsfSpecs(size(aperture1), psf_input_scale, scaled_aperture_size_px, ...
-    psf_fft_scale, fft_size_px, [output_prefix short_name ' psf specs.txt']); 
-[psf2, ~, ~] = getPsf(aperture2, psf_input_scale, psf_fft_scale);
-[psf3, ~, ~] = getPsf(aperture3, psf_input_scale, psf_fft_scale);
+    getPsf(aperture1, aperture_scale, fft_scale);
+savePsfSpecs(size(aperture1), aperture_scale, scaled_aperture_size_px, ...
+    fft_scale, fft_size_px, [output_prefix short_name ' psf specs.txt']); 
+[psf2, ~, ~] = getPsf(aperture2, aperture_scale, fft_scale);
+[psf3, ~, ~] = getPsf(aperture3, aperture_scale, fft_scale);
 %close(psfPlot(psf1, psf_props, psf_io_props));
 %psfPlot([psf1 psf2], psf_props, psf_io_props);
 %psfPlot([psf1 psf2 psf3], psf_props, psf_io_props);
@@ -119,11 +119,11 @@ cut_props.w_title = 'log_1_0 contrast';
 cut_props.w_limits = [-8 0];
 cut_props.w_spacing = 1;
 cut_props.show_color_bars = true;
-cut_props.color_maps = {[0 1 0].*gray(256) [1 0 1].*gray(256)};
+cut_props.color_maps = {col.*gray(256) (1-col).*gray(256)};
 cut_props.c_limits = [-4 -1];
 cut_props.c_spacing = 1;
-cut_props.labels = {'LABEL', 'LABEL2'};
-cut_props.line_colors = {[0 1 0], [1 0 1]};
+cut_props.labels = {'C11', 'double Gaussian'};
+cut_props.line_colors = {col, 1-col};
 cut_props.cut_line_thickness_pt = 2;
 cut_props.font_size_pt = 14;
 cut_props.show_target = true;
@@ -137,6 +137,14 @@ cut_io_props.save_png = true;
 cut_io_props.eps_location = [output_prefix short_name ' cut plot.eps'];
 cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
+c11 = imread([input_prefix 'c11.png']);
+c11_psf = getPsf(c11, aperture_scale, fft_scale);
+gaussian_donut = imread([input_prefix 'gaussian-18_donut.png']);
+gaussian_donut_psf = getPsf(gaussian_donut, aperture_scale, fft_scale);
+psf_props.labels = {'C11', 'double Gaussian'};
+gaussian_donut_psf_plot = psfPlot([c11_psf gaussian_donut_psf], psf_props, psf_io_props);
+cut_plot = psfCut([c11_psf gaussian_donut_psf], cut_props, cut_io_props);
+
 %[my_figure] = psfCut(psf1, cut_props, cut_io_props);
 %[my_figure] = psfCut([psf1 psf2], cut_props, cut_io_props);
 
@@ -144,10 +152,10 @@ cut_io_props.png_location = [output_prefix short_name ' cut plot.png'];
 
 % plot(cutu, cutw);
 
-stars = asterismFromDouble(2, [0 4], 90);
-sv = getStarView(stars, psf2, 6, 550);
-image = svGetImage(sv, [-6 6; -6 6], [10 0]);
-imshow(image);
+% stars = asterismFromDouble(2, [0 4], 90);
+% sv = getStarView(stars, psf2, 6, 550);
+% image = svGetImage(sv, [-6 6; -6 6], [10 0]);
+% imshow(image);
 
 
 % % Name index
