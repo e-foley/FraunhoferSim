@@ -12,7 +12,7 @@
 %
 % canvas_size_px  Dimensions of the image to create (pixels) [height,width]
 % rel_std_dev     The standard deviation of the Gaussian distribution as a ratio
-%                 of the larger canvas size dimension
+%                 of the larger canvas dimension
 %
 % M               The Gaussian apodization profile image, with transparent areas
 %                 1, opaque areas 0, and intermediate values corresponding to
