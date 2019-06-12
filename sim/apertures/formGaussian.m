@@ -11,11 +11,11 @@
 % M                The resulting image, with transparent regions 1 and opaque
 %                  regions 0 (2D array)
 
-function [M] = formGaussian(canvas_size_px, rel_peak_height, std_factor)
+function [M] = formGaussian(canvas_size_px, rel_peak_height, rel_std_dev)
 
 M = ones(canvas_size_px);
 peak_height_px = rel_peak_height * canvas_size_px(1);
-std_dev_px = std_factor * peak_height_px;
+std_dev_px = rel_std_dev * peak_height_px;
 mean_px = (canvas_size_px(2) + 1) / 2;
 vert_center_px = (canvas_size_px(1) + 1) / 2;
 
