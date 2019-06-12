@@ -1,4 +1,4 @@
-function [M] = formPolygon( img_size, max_rel_radius, num_sides, delta_rot)
+function [M] = formPolygon(img_size, max_rel_radius, num_sides, delta_rot)
 
 M = zeros(img_size);
 theta = deg2rad(delta_rot) + linspace(0, 2*pi, num_sides + 1);

@@ -1,4 +1,4 @@
-function [M] = formCircle( img_size, rel_radius )
+function [M] = formCircle(img_size, rel_radius)
     % create matrix with values ascending along columns
     A = ones(img_size, 1) * (-(img_size-1)/2:(img_size-1)/2);
     % sum of A and A' squares gives distance to center squared

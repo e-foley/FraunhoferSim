@@ -1,4 +1,4 @@
-function [M] = formMultigaussian( master_size, rel_centers, rel_peak_height, std_factor, combine_as_product )
+function [M] = formMultigaussian(master_size, rel_centers, rel_peak_height, std_factor, combine_as_product)
 
 M = zeros(master_size);
 
