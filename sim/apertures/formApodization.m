@@ -1,4 +1,4 @@
-function [ M ] = formApodization(img_size, rel_std_dev)
+function [M] = formApodization(img_size, rel_std_dev)
     M = zeros(img_size);
     center = (img_size + 1) / 2;
     for x = 1:img_size
