@@ -1,21 +1,40 @@
+% Forms an image showing the region enclosed by a Gaussian profile and its
+% reflection across the horizontal axis as transparent, and other areas opaque.
+% No anti-aliasing is applied.
+%
+% canvas_size_px   Dimensions of the image to create (pixels) [height,width]
+% rel_peak_height  Amplitude of the Gaussian function (a half that's reflected)
+%                  as a ratio of the canvas height
+% rel_std_dev      The standard deviation of the Gaussian distribution as a
+%                  ratio of the peak height
+%
+% M                The resulting image, with transparent regions 1 and opaque
+%                  regions 0 (2D array)
+
 function [M] = formGaussian(canvas_size_px, rel_peak_height, std_factor)
 
 M = ones(canvas_size_px);
-peakheight = rel_peak_height * canvas_size_px / 2;
-mean = canvas_size_px/2;
-stdev = std_factor * rel_peak_height * canvas_size_px;
-x = 1:canvas_size_px;
+peak_height_px = rel_peak_height * canvas_size_px(1);
+std_dev_px = std_factor * peak_height_px;
+mean_px = (canvas_size_px(2) + 1) / 2;
+vert_center_px = (canvas_size_px(1) + 1) / 2;
 
-norm = (peakheight / normpdf(mean, mean, stdev)) * normpdf(x, mean, stdev);
+% Calculate Gaussian in pixel scale.
+h = 1:canvas_size_px(2);
+vert_scaling = peak_height_px / normpdf(mean_px, mean_px, std_dev_px);
+norm_px = vert_center_px + vert_scaling * normpdf(h, mean_px, std_dev_px);
 
-for i=1:mean
-    for j=1:canvas_size_px
-        if i >= norm(j)
-            M(mean-i+1, j) = 0;
+% Only calculate values for top half, then reflect result.
+x_limit_px = round(canvas_size_px(1) / 2);
+for x=1:x_limit_px
+    for y=h
+        if x < (canvas_size_px(1) + 1 - norm_px(y))
+            M(x,y) = 0;
         end
     end
 end
 
-M = M.* flipud(M);
+% Duplicate result about horizontal axis.
+M = M .* flipud(M);
 
 end
