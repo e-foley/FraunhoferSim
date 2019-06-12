@@ -10,9 +10,9 @@
 % Gaussian function output to form a transparent region representing a normal
 % distribution rather than to modify translucency in a continuous profile.
 %
-% canvas_size_px  Square dimension of the image to create (pixels)
+% canvas_size_px  Dimensions of the image to create (pixels) [height,width]
 % rel_std_dev     The standard deviation of the Gaussian distribution as a ratio
-%                 of the canvas size
+%                 of the larger canvas size dimension
 %
 % M               The Gaussian apodization profile image, with transparent areas
 %                 1, opaque areas 0, and intermediate values corresponding to
@@ -20,11 +20,13 @@
 
 function [M] = formApodization(canvas_size_px, rel_std_dev)
     M = zeros(canvas_size_px);
-    center = (canvas_size_px + 1) / 2;
+    center_px = (canvas_size_px + 1) / 2;
+    max_dim_px = max(canvas_size_px);
     % Translucency decays as a Gaussian function of distance to image center.
-    for x = 1:canvas_size_px
-        for y = 1:canvas_size_px
-            M(x,y) = exp(-(((x-center)^2 + (y-center)^2) / (2*(rel_std_dev*canvas_size_px)^2)));
+    for x = 1:canvas_size_px(1)
+        for y = 1:canvas_size_px(2)
+            M(x,y) = exp(-(((x-center_px(1))^2 + (y-center_px(2))^2) / ...
+                (2*(rel_std_dev*max_dim_px)^2)));
         end
     end
 end
