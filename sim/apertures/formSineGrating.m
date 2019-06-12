@@ -1,9 +1,9 @@
-function [M] = formSineGrating(dims, spatfreq, phase, angle)
+function [M] = formSineGrating(canvas_size_px, spatfreq, phase, angle)
 
 % Creates a sinusoid at a given spatial frequency, phase, and propogation
 % angle, TREATING TOP-LEFT CORNER AS (0, 0)
 
-M = zeros(dims);  % creates a matrix filled with zeros of size 'dims'.
+M = zeros(canvas_size_px);  % creates a matrix filled with zeros of size 'canvas_size_px'.
 
 n = [-sin(angle) cos(angle)];  % finds normal unit vector for purposes of calculating distances
 

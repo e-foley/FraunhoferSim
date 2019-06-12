@@ -1,6 +1,6 @@
-function [M] = formScreen(img_size, line_width, spacing)
-    M = ones(img_size);
+function [M] = formScreen(canvas_size_px, line_width, spacing)
+    M = ones(canvas_size_px);
     for i = 1:line_width
-        M(:,i:spacing:img_size) = 0;
+        M(:,i:spacing:canvas_size_px) = 0;
     end
 end

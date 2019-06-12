@@ -1,15 +1,15 @@
-function [M] = formMultigaussian(master_size, rel_centers, rel_peak_height, std_factor, combine_as_product)
+function [M] = formMultigaussian(canvas_size_px, rel_centers, rel_peak_height, std_factor, combine_as_product)
 
-M = zeros(master_size);
+M = zeros(canvas_size_px);
 
 for i = 1:size(rel_centers, 1)
-    single = formGaussion(master_size, rel_peak_height, std_factor);
+    single = formGaussion(canvas_size_px, rel_peak_height, std_factor);
     
-    pixel_shift = -round(rel_centers(i, :) .* master_size);
-    for j=1:master_size
-        for k=1:master_size
+    pixel_shift = -round(rel_centers(i, :) .* canvas_size_px);
+    for j=1:canvas_size_px
+        for k=1:canvas_size_px
             
-            if (j + pixel_shift(1) >= 1 && j + pixel_shift(1) <= master_size && k + pixel_shift(2) >= 1 && k + pixel_shift(2) <= master_size)
+            if (j + pixel_shift(1) >= 1 && j + pixel_shift(1) <= canvas_size_px && k + pixel_shift(2) >= 1 && k + pixel_shift(2) <= canvas_size_px)
                 M(j, k) = M(j, k) + single(j + pixel_shift(1), k + pixel_shift(2));
             end
         end
