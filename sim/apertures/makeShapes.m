@@ -1,6 +1,8 @@
 close all;
 clear;
 
+canvas_size_px = [1024 1024];
+
 % GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
 % A = A .* formCircle(1024, 0.5);
@@ -15,20 +17,20 @@ clear;
 %
 
 % GAUSSIAN 15 DONUT WITH 45-DEG SPOKES
-B = ones(1024);
-bar_size = 3/16;  % [in]
-gaussian_factor = 0.15;
-% 0.56 works for 0.18
-% 0.64 worls for 0.15
-secondary_height = 0.64;
-B = B .* formCircle(1024, 0.5);
-B = B .* (1-formCircle(1024, 3.881/11*0.5));
-B = B .* formGaussian(1024, 1.0, gaussian_factor);
-B = B .* (1-formGaussian(1024, secondary_height, gaussian_factor));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 45, 'nearest', 'crop'));
-B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 135, 'nearest', 'crop'));
-imshow(B);
-imwrite(B, 'Gaussian 15 donut and 45-deg spokes.png');
+% B = ones(1024);
+% bar_size = 3/16;  % [in]
+% gaussian_factor = 0.15;
+% % 0.56 works for 0.18
+% % 0.64 worls for 0.15
+% secondary_height = 0.64;
+% B = B .* formCircle(1024, 0.5);
+% B = B .* (1-formCircle(1024, 3.881/11*0.5));
+% B = B .* formGaussian(1024, 1.0, gaussian_factor);
+% B = B .* (1-formGaussian(1024, secondary_height, gaussian_factor));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 45, 'nearest', 'crop'));
+% B = B .* (1-imrotate(formRectangle(1024, [0 0], [(bar_size/11) 1]), 135, 'nearest', 'crop'));
+% imshow(B);
+% imwrite(B, 'Gaussian 15 donut and 45-deg spokes.png');
 
 % Z = ones(1024);
 % Z = Z .* (1-formCircle(1024, 3.881/11*0.5));
@@ -101,14 +103,15 @@ imwrite(B, 'Gaussian 15 donut and 45-deg spokes.png');
 % L = cat(3, J, J, A_alt);
 % imshow(L);
 
-% horiz = 0.225;
-% vert = 0.225;
-% rel_height = 0.435;
-% matrix = [-vert -horiz
-%           vert -horiz
-%           -vert horiz
-%           vert horiz];
-% K = formMultigaussian(1024, matrix, rel_height, 0.15, false);
+horiz = 0.225;
+vert = 0.225;
+rel_height = 0.2175;
+matrix = [-vert -horiz
+          vert -horiz
+          -vert horiz
+          vert horiz];
+K = formMultigaussian(canvas_size_px, matrix, rel_height, 0.30);
+imshow(K);
 % L = cat(3, K, K, A_alt);
 % imshow(L);
 % imwrite(K, 'multigaussian-15.png');
