@@ -1,4 +1,4 @@
-% Creates an image representing a gradiated mask whose translucency varies
+% Creates an image representing a gradated mask whose translucency varies
 % sinusoidally along a specified axis at a specified spatial frequency and
 % phase.
 %
