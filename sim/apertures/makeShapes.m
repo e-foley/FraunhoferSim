@@ -1,7 +1,7 @@
 close all;
 clear;
 
-canvas_size_px = [1024 1024];
+canvas_size_px = [1024 512];
 
 % GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
@@ -79,8 +79,8 @@ canvas_size_px = [1024 1024];
 % B([512-delta : 512+delta], [512-delta : 512 + delta]) = 1;
 % imwrite(B, 'square.png');
 % 
-% C = formPolygon(1024, 0.5, 3, 90);
-% imwrite(C, 'triangle.png');
+C = formPolygon(canvas_size_px, 0.5, 3, 90);
+imshow(C);
 % 
 % D = formPolygon(1024, 0.5, 6, 0);
 % imwrite(D, 'hexagon.png');
@@ -103,15 +103,15 @@ canvas_size_px = [1024 1024];
 % L = cat(3, J, J, A_alt);
 % imshow(L);
 
-horiz = 0.225;
-vert = 0.225;
-rel_height = 0.2175;
-matrix = [-vert -horiz
-          vert -horiz
-          -vert horiz
-          vert horiz];
-K = formMultigaussian(canvas_size_px, matrix, rel_height, 0.30);
-imshow(K);
+% horiz = 0.225;
+% vert = 0.225;
+% rel_height = 0.2175;
+% matrix = [-vert -horiz
+%           vert -horiz
+%           -vert horiz
+%           vert horiz];
+% K = formMultigaussian(canvas_size_px, matrix, rel_height, 0.30);
+% imshow(K);
 % L = cat(3, K, K, A_alt);
 % imshow(L);
 % imwrite(K, 'multigaussian-15.png');
