@@ -1,7 +1,7 @@
 % Creates an image representing multiple openings in the shape of a region
 % enclosed by the profile of a normal distribution and its reflection about its
 % horizontal axis. Image size, subaperture placement, and opening dimensions can
-% be selected.
+% be selected. No antialiasing is applied.
 %
 % canvas_size_px   Dimensions of the image to create (pixels) [height,width]
 % rel_centers      Locations of subapertures as ratios of the larger canvas

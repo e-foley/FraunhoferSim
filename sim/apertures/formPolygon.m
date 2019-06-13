@@ -1,6 +1,6 @@
 % Creates an mask with a regular-polygonal-shaped transparent region at its
 % center. The size, number of sides, and orientation of the polygon can be
-% configured along with the size of the image.
+% configured along with the size of the image. No antialiasing is applied.
 %
 % canvas_size_px  Dimensions of the image to create (pixels) [height,width]
 % max_rel_radius  The radius of the circle circumscribing the polygon as a ratio
