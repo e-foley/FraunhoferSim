@@ -10,10 +10,12 @@
 %                  as a ratio of the canvas height
 % rel_std_dev      The standard deviation of the Gaussian distribution as a
 %                  ratio of the peak height
+%
+% M                The resulting image, with transparent regions 1 and opaque
+%                  regions 0 (2D array)
 
 function [M] = formMultigaussian(canvas_size_px, rel_centers, ...
     rel_peak_height, rel_std_dev)
-
 M = zeros(canvas_size_px);
 
 % Create slices representing single Gaussians and combine them onto the canvas
