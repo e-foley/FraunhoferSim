@@ -1,7 +1,7 @@
 close all;
 clear;
 
-canvas_size_px = [1024 512];
+canvas_size_px = [1500 1500];
 
 % GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
@@ -79,8 +79,13 @@ canvas_size_px = [1024 512];
 % B([512-delta : 512+delta], [512-delta : 512 + delta]) = 1;
 % imwrite(B, 'square.png');
 % 
-C = formPolygon(canvas_size_px, 0.5, 3, 90);
-imshow(C);
+% C = formPolygon(canvas_size_px, 0.5, 3, 90);
+% imshow(C);
+
+
+R = formRectangle(canvas_size_px, [0 0], [0 0]);
+imshow(R);
+
 % 
 % D = formPolygon(1024, 0.5, 6, 0);
 % imwrite(D, 'hexagon.png');
