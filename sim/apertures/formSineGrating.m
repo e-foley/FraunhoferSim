@@ -26,7 +26,7 @@ n = [-sind(grating_angle_deg) cosd(grating_angle_deg)];
 % For every element in matrix, find the distance along the direction of the unit
 % vector by projecting the indices onto it. Use that distance to calculate our
 % progression through the sine wave.
-for i=1:size(M,1)
+for i=1:size(M, 1)
     for j=1:size(M, 2)
         dist_px = dot([i j] - 1, n);
         M(i,j) = 0.5 + 0.5 * sind(360 * frequency_1_px * dist_px + phase_deg);
