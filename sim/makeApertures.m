@@ -1,10 +1,41 @@
-close all;
-clear;
+% Creates all images representing apertures and masked apertures and saves them
+% in the "apertures" folder.
 
+clear;
+output_prefix = 'apertures/';
 canvas_size_px = [1024 1024];
 
-% C11 aperture
+% CIRCULAR APERTURE
+circle = formCircle(canvas_size_px, 0.5);
+imwrite(circle, [output_prefix 'circle.png']);
 
+% C11 OBSTRUCTION
+% Assuming entire image represents 11", cut 3.881" circle out.
+c11_obstruction = ~formCircle(canvas_size_px, 3.881/11*0.5);
+imwrite(c11_obstruction, [output_prefix 'c11 obstruction.png']);
+
+% C11 APERTURE
+c11 = circle & c11_obstruction;
+imwrite(c11, [output_prefix 'c11.png']);
+
+% GAUSSIAN VARIANTS (NO OBSTRUCTION)
+for i=[10 15 20 25 30 35]
+    gaussian = formGaussian(canvas_size_px, 0.5, i / 100);
+    imwrite(gaussian, [output_prefix 'gaussian ' num2str(i) '.png']);
+end
+clear gaussian;
+
+% TRIANGLE
+triangle = formPolygon(canvas_size_px, 0.5, 3, 90);
+imwrite(triangle, [output_prefix 'triangle.png']);
+
+% SQUARE
+square = formPolygon(canvas_size_px, 0.5, 4, 0);
+imwrite(square, [output_prefix 'square.png']);
+
+% HEXAGON
+hexagon = formPolygon(canvas_size_px, 0.5, 6, 0);
+imwrite(hexagon, [output_prefix 'hexagon.png']);
 
 % GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
@@ -86,8 +117,8 @@ canvas_size_px = [1024 1024];
 % imshow(C);
 
 
-R = formRectangle(canvas_size_px, [0 0], [0 0]);
-imshow(R);
+% R = formRectangle(canvas_size_px, [0 0], [0 0]);
+% imshow(R);
 
 % 
 % D = formPolygon(1024, 0.5, 6, 0);
