@@ -1,7 +1,10 @@
 close all;
 clear;
 
-canvas_size_px = [1500 1500];
+canvas_size_px = [1024 1024];
+
+% C11 aperture
+
 
 % GAUSSIAN DONUT WITH STRUCTURE
 % A = ones(1024);
