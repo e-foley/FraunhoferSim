@@ -3,7 +3,7 @@
 % phase.
 %
 % canvas_size_px     Dimensions of the image to create (pixels) [height,width]
-% frequency_1_px     The spacial frequency of the sinusoidal function (1/pixel)
+% frequency_1_px     The spatial frequency of the sinusoidal function (1/pixel)
 % phase_deg          The phase of the sinusoid (degrees). The image's top-left
 %                    pixel's translucency is effectively calculated using this
 %                    value as its angle.
