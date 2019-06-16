@@ -18,7 +18,7 @@
 
 function [M] = formSineGrating(canvas_size_px, frequency_1_px, phase_deg, ...
     grating_angle_deg)
-M = zeros(canvas_size_px);
+M = zeros(canvas_size_px, 'double');
 
 % Find normal unit vector for purpose of calculating distances.
 n = [-sind(grating_angle_deg) cosd(grating_angle_deg)];

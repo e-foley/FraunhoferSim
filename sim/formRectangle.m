@@ -12,7 +12,7 @@
 %                 regions 0 (2D array)
 
 function [M] = formRectangle(canvas_size_px, rel_center, rel_dims)
-    M = zeros(canvas_size_px);
+    M = zeros(canvas_size_px, 'logical');
     max_dim_px = max(canvas_size_px);
     
     % Calculate center and bounds.

@@ -19,7 +19,7 @@
 %                 translucent regions [2D array]
 
 function [M] = formApodization(canvas_size_px, rel_std_dev)
-    M = zeros(canvas_size_px);
+    M = zeros(canvas_size_px, 'double');
     center_px = (canvas_size_px + 1) / 2;
     max_dim_px = max(canvas_size_px);
     % Translucency decays as a Gaussian function of distance to image center.

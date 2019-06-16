@@ -16,7 +16,7 @@
 
 function [M] = formMultigaussian(canvas_size_px, rel_centers, ...
     rel_peak_height, rel_std_dev)
-M = zeros(canvas_size_px);
+M = zeros(canvas_size_px, 'logical');
 
 % Create slices representing single Gaussians and combine them onto the canvas
 % by shifting each one by a number of pixels appropriate for the rel_centers

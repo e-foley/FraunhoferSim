@@ -11,7 +11,7 @@
 %                 regions 0 (2D array)
 
 function [M] = formScreen(canvas_size_px, line_width_px, spacing_px)
-    M = ones(canvas_size_px);
+    M = ones(canvas_size_px, 'logical');
     for i = 1:line_width_px
         M(:,i:spacing_px:canvas_size_px) = 0;
     end

@@ -1,4 +1,5 @@
 # Make sure not to ignore bowtie files, since they can't be created using our scripts.
 *.png
+*.tif
 !bowtie.png
 !beamed_bowtie.png
