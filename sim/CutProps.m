@@ -29,7 +29,7 @@ classdef CutProps
         % Color maps to use for color bars {map1,map2,...,mapN}
         color_maps = {}
         
-        % w-axis limits over which colorbar range is applied
+        % w-axis limits over which color bar range is applied
         c_limits = [-4 -1]
         
         % Color bar tick spacing

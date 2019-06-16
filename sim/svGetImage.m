@@ -5,10 +5,10 @@
 % sv                  The StarView object to visualize
 % new_as_bounds       The angular bounds of the region to visualize (arcseconds)
 %                     [umin,umax;vmin,vmax]
-% app_vis_mag_limits  The apparent visual magnititude limits--not log-10
+% app_vis_mag_limits  The apparent visual magnitude limits--not log-10
 %                     limits--that define black and white pixels. Because larger
 %                     apparent visual magnitudes correspond to dimmer objects,
-%                     the bounds are listed in desending magnitude order as
+%                     the bounds are listed in descending magnitude order as
 %                     [max,min].
 %
 % image               The generated StarView image as a matrix of grayscale

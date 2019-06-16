@@ -9,7 +9,7 @@
 %
 % Script tested using MATLAB R2018a with the Image Processing Toolbox.
 
-% Clear existing variables and figures for repeatibility reasons.
+% Clear existing variables and figures for repeatability reasons.
 clearvars;
 close all;
 
@@ -92,7 +92,7 @@ separation_as = 0.77;  % (arcseconds)
 app_vis_mags = [4.54 6.26];  % apparent visual magnitudes (not log-10)
 pa_deg = 90;  % position angle (degrees) -- pretend it's 90 to align with mask
 stars = asterismFromDouble(separation_as, app_vis_mags, pa_deg);
-% Generate the actual StarView objects, which are used in analagous ways as Psf
+% Generate the actual StarView objects, which are used in analogous ways as Psf
 % objects.
 c11_sv = getStarView(stars, c11_psf, telescope_diameter_in, wavelength_nm);
 bowtie_sv = getStarView(stars, bowtie_psf, telescope_diameter_in, wavelength_nm);

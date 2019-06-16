@@ -2,7 +2,7 @@
 % graphical elements in a consistent manner.
 %
 % the_figure     Handle to the figure produced by imagesc
-% imagesc_props  Plot formating properties to apply
+% imagesc_props  Plot formatting properties to apply
 
 function formatImagescPlot(the_figure, imagesc_props)
 s = imagesc_props;

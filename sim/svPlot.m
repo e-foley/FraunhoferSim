@@ -22,7 +22,7 @@ image = sv.data;
 image = -2.5 * log10(image);
 image = rot90(image);
 
-% Create and reformat the StarView plot by using imagesc followod by
+% Create and reformat the StarView plot by using imagesc followed by
 % formatImagescPlot with the arguments supplied to svPlot.
 figure_out = figure;
 imagesc(sv.as_bounds(1,:), fliplr(sv.as_bounds(2,:)), image);
@@ -32,9 +32,9 @@ formatImagescPlot(figure_out, s);
 caxis(fliplr(s.output_limits));
 h = colorbar;
 colormap(flipud(s.color_maps{1}));
-drawnow;  % MATLAB bug: colorbar colors don't update without this line.
-% Reverse the colorbar axis because large magnitudes (dim objects) should appear
-% lower in the scale.
+drawnow;  % MATLAB bug: color bar colors don't update without this line.
+% Reverse the color bar axis because large magnitudes (dim objects) should
+% appear lower in the scale.
 set(h, 'YDir', 'reverse');
 ylabel(h, 'apparent visual magnitude');
 

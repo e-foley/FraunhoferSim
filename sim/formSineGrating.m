@@ -8,7 +8,7 @@
 %                    pixel's translucency is effectively calculated using this
 %                    value as its angle.
 % grating_angle_deg  The orientation of the sine grating (degrees). When 0, the
-%                    spatial wave "propogates" along the horizontal axis to form
+%                    spatial wave "propagates" along the horizontal axis to form
 %                    vertical bars. A positive value rotates the grating
 %                    counterclockwise.
 %

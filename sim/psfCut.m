@@ -2,7 +2,7 @@
 % the u-axis of one or more point spread functions.
 %
 % psfs        Psf objects representing the PSFs to cut
-% cut_props   A CutProps object describing how to format the figur.
+% cut_props   A CutProps object describing how to format the figure.
 % io_props    An IoProps object determining whether and how the figure is saved
 %
 % figure_out  A handle to the generated figure.
@@ -84,8 +84,8 @@ set(gca,'FontSize', c.font_size_pt, 'fontWeight', 'bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 
-% The logic to show the colorbars is convoluted because we cheat our way around
-% the typical MATLAB restriction of one colorbar per plot.
+% The logic to show the color bars is convoluted because we cheat our way around
+% the typical MATLAB restriction of one color bar per plot.
 if (c.show_color_bars)
     cb = colorbar('westoutside');
     colormap(cb, c.color_maps{end});

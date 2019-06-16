@@ -1,4 +1,4 @@
-% Creates an mask with a regular-polygonal-shaped transparent region at its
+% Creates a mask with a regular-polygonal-shaped transparent region at its
 % center. The size, number of sides, and orientation of the polygon can be
 % configured along with the size of the image. No antialiasing is applied.
 %
@@ -15,7 +15,7 @@
 function [M] = formPolygon(canvas_size_px, max_rel_radius, num_sides, rot_deg)
 max_dim_px = max(canvas_size_px);
 
-% Mark vertices along the circumfrence of the bounding circle. We first
+% Mark vertices along the circumference of the bounding circle. We first
 % calculate the angles at which these vertices will appear, then do basic trig
 % to find the (x,y) coordinates.
 theta = deg2rad(rot_deg) + linspace(0, 2*pi, num_sides + 1);

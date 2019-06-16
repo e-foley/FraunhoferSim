@@ -4,7 +4,7 @@
 % the aperture's size.
 %
 % aperture        The image representing the entirety of the aperture, where
-%                 white pixels indicate tansparent regions and black pixels
+%                 white pixels indicate transparent regions and black pixels
 %                 indicate opaque areas. Grayscale values convey translucency.
 % aperture_scale  The factor the function will use to scale the aperture image
 %                 before the fast Fourier transform is taken. Smaller factors
