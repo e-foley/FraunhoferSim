@@ -1,5 +1,6 @@
 % Creates all images representing apertures and masked apertures and saves them
 % in the "apertures" folder.
+
 function makeApertures
 output_prefix = 'apertures/';
 canvas_size_px = [1024 1024];
