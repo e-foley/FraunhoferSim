@@ -1,4 +1,4 @@
-% Represents the covolution of stars with point spread functions for a
+% Represents the convolution of stars with point spread functions for a
 % particular wavelength and a specific telescope diameter. Importantly, a
 % StarView object differs from a Psf object in that its dimensions are not
 % normalized to lambda/diameter: instead, they are in arcseconds.

@@ -12,7 +12,7 @@
 %                  regions 0 (2D array)
 
 function [M] = formGaussian(canvas_size_px, rel_peak_height, rel_std_dev)
-M = ones(canvas_size_px);
+M = ones(canvas_size_px, 'logical');
 peak_height_px = rel_peak_height * canvas_size_px(1);
 std_dev_px = rel_std_dev * peak_height_px;
 mean_px = (canvas_size_px(2) + 1) / 2;

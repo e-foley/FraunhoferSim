@@ -1,0 +1,3 @@
+# Don't version anything in this folder. (This file exists so that folder is created when repo is cloned.)
+*
+!.gitignore

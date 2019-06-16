@@ -8,7 +8,7 @@
 %                    pixel's translucency is effectively calculated using this
 %                    value as its angle.
 % grating_angle_deg  The orientation of the sine grating (degrees). When 0, the
-%                    spatial wave "propogates" along the horizontal axis to form
+%                    spatial wave "propagates" along the horizontal axis to form
 %                    vertical bars. A positive value rotates the grating
 %                    counterclockwise.
 %
@@ -18,7 +18,7 @@
 
 function [M] = formSineGrating(canvas_size_px, frequency_1_px, phase_deg, ...
     grating_angle_deg)
-M = zeros(canvas_size_px);
+M = zeros(canvas_size_px, 'double');
 
 % Find normal unit vector for purpose of calculating distances.
 n = [-sind(grating_angle_deg) cosd(grating_angle_deg)];

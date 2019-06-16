@@ -2,7 +2,7 @@
 % the u-axis of one or more point spread functions.
 %
 % psfs        Psf objects representing the PSFs to cut
-% cut_props   A CutProps object describing how to format the figur.
+% cut_props   A CutProps object describing how to format the figure.
 % io_props    An IoProps object determining whether and how the figure is saved
 %
 % figure_out  A handle to the generated figure.
@@ -11,12 +11,15 @@ function [figure_out] = psfCut(psfs, cut_props, io_props)
 c = cut_props;
 o = io_props;
 
-% Condition color_maps and labels into cell arrays so that they work in loops.
+% Condition some arguments into cell arrays so that they work in loops.
 if (~iscell(c.color_maps))
     c.color_maps = {c.color_maps};
 end
 if (~iscell(c.labels))
     c.labels = {c.labels};
+end
+if (~iscell(c.line_colors))
+    c.line_colors = {c.line_colors};
 end
 
 num_psfs = numel(psfs);
@@ -81,8 +84,8 @@ set(gca,'FontSize', c.font_size_pt, 'fontWeight', 'bold');
 set(gca, 'XTick', (c.u_limits(1)):c.u_spacing:c.u_limits(2));
 set(gca, 'YTick', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
 
-% The logic to show the colorbars is convoluted because we cheat our way around
-% the typical MATLAB restriction of one colorbar per plot.
+% The logic to show the color bars is convoluted because we cheat our way around
+% the typical MATLAB restriction of one color bar per plot.
 if (c.show_color_bars)
     cb = colorbar('westoutside');
     colormap(cb, c.color_maps{end});

@@ -8,7 +8,7 @@
 %                 elsewhere
 
 function [M] = formCircle(canvas_size_px, rel_radius)
-    M = zeros(canvas_size_px);
+    M = zeros(canvas_size_px, 'logical');
     center_px = (canvas_size_px + 1) / 2;
     max_dim_px = max(canvas_size_px);
     for x=1:canvas_size_px(1)

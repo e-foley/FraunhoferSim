@@ -52,7 +52,7 @@ end
 figure_out = figure;
 ax = axes;
 
-% Display and do inital formatting on plot.
+% Display and do initial formatting on plot.
 imagesc(s.field_limits(1,:), fliplr(s.field_limits(2,:)), composite);
 formatImagescPlot(figure_out, s);
 
@@ -76,9 +76,9 @@ if (num_labels > 0)
     hold off;
 end
 
-% Establish baseline colorbar position so we can position extras (if needed).
+% Establish baseline color bar position so we can position extras (if needed).
 % MATLAB usually limits us to one color bar per plot, but we get around this by
-% positioning the second an subsequent bars manually.
+% positioning the second and subsequent bars manually.
 if (s.show_color_bars)
     cb = colorbar(ax);
     colormap(cb, s.color_maps{1});
@@ -86,21 +86,22 @@ if (s.show_color_bars)
     color_bar_pos = cb.Position;
 
     for i=2:num_maps
-         % Cancel last colorbar's labels if more bars to show. 
+         % Cancel last color bar's labels if more bars to show. 
          set(cb, 'TickLabels', []);
 
-         % Must create dummy hidden axes to place extra colorbar.
+         % Must create dummy hidden axes to place extra color bar.
          ax = axes;
          ax.Visible = 'off';
          ax.XTick = [];
          ax.YTick = [];
 
-         % Create and format new colorbar on dummy axes.
+         % Create and format new color bar on dummy axes.
          cb = colorbar(ax);
          colormap(cb, s.color_maps{i});
          caxis(s.output_limits);
 
-         % Match colorbar's dimensions to baseline, translating it by its width.
+         % Match color bar's dimensions to baseline, translating it by its
+         % width.
          cb.Position = color_bar_pos + [(i-1)*color_bar_pos(3) 0 0 0];
     end
 
