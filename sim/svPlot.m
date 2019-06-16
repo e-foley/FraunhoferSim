@@ -11,7 +11,13 @@ function [figure_out] = svPlot(sv, imagesc_props, imagesc_io_props)
 s = imagesc_props;
 o = imagesc_io_props;
 
-% Preformat the data within the StarView.
+% Condition color_maps into cell array for consistency with psfPlot.
+if (~iscell(s.color_maps))
+    s.color_maps = {s.color_maps};
+end
+
+% Preformat the data within the StarView. We convert log-10 magnitudes to
+% apparent visual magnitudes and rotate the image to get (x,y) from (u,v).
 image = sv.data;
 image = -2.5 * log10(image);
 image = rot90(image);
@@ -25,7 +31,7 @@ formatImagescPlot(figure_out, s);
 % Format the color axis appropriately.
 caxis(fliplr(s.output_limits));
 h = colorbar;
-colormap(flipud(s.color_maps));
+colormap(flipud(s.color_maps{1}));
 drawnow;  % MATLAB bug: colorbar colors don't update without this line.
 % Reverse the colorbar axis because large magnitudes (dim objects) should appear
 % lower in the scale.
