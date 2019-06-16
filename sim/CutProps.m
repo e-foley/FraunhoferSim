@@ -48,7 +48,7 @@ classdef CutProps
         font_size_pt = 14
         
         % Whether to draw a horizontal "contrast target" line on the plot
-        show_target = false
+        show_target = true
         
         % The place along the w-axis to draw a contrast target line
         target = -2.6

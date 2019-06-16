@@ -1,56 +1,65 @@
+% Demonstration script that shows how to generate mask figures and diffraction
+% pattern figure for the C11 aperture and bowtie mask.
+%
+% Prerequisites: folders called "apertures" and "plots" exist in the same
+% directory as this script; "apertures" folder contains at least a file called
+% "bowtie.png".
+
+% Clear existing variables for repeatibility reasons.
 clearvars;
 
-% Variables used in multiple contexts.
-input_prefix = '../Inputs/';
-output_prefix = '../Outputs/';
-standard_diameter_in = 11;  % [in]
-standard_wavelength_nm = 550;  % [nm]
+% Define variables used in multiple contexts.
+input_prefix = 'apertures/';
+output_prefix = 'plots/';
 
-% Define standard formatting parameters for aperture figures.
-aperture_props = ImagescProps;
-aperture_props.plot_title = '';  % overwritten inside loop
-aperture_props.nominal_plot_size_px = [620 528];
-aperture_props.extra_title_margin = 0.02;
-aperture_props.field_limits = [-0.5 0.5; -0.5 0.5];
-aperture_props.output_limits = [0 1];
-aperture_props.h_axis_title = '{\itx}'' ({\itx}/{\itD})';
-aperture_props.h_axis_tick_spacing = 0.1;
-aperture_props.v_axis_title = '{\ity}'' ({\ity}/{\itD})';
-aperture_props.v_axis_tick_spacing = 0.1;
-aperture_props.labels = {''};  % no label needed
-aperture_props.show_color_bars = false;
-aperture_props.color_maps = gray(256);
-aperture_props.font_size_pt = 14;
+% Generate our aperture shapes, including the C11.
+% makeApertures;
 
-% Define aperture plot I/O properties.
-aperture_io_props = IoProps;
-aperture_io_props.save_eps = false;
-aperture_io_props.save_png = true;
+% Load images corresponding to the C11 aperture and bowtie mask.
+c11_aperture = imread([input_prefix 'c11.png']);
+bowtie_mask = imread([input_prefix 'bowtie.png']);
 
-% Define standard PSF generation properties
-aperture_scale = 0.25;
-fft_scale = 8;
-save_psf_plain_eps = false;
-save_psf_plain_png = true;
+% Generate plots of the C11 aperture and bowtie mask.
+aperture_plot_props = getAperturePlotDefaults;
+aperture_plot_props.plot_title = 'C11 aperture';
+plotAperture(c11_aperture, aperture_plot_props, IoProps);
+aperture_plot_props.plot_title = 'bowtie mask';
+plotAperture(bowtie_mask, aperture_plot_props, IoProps);
 
-% Define standard formatting parameters for PSF figures.
-col = [1 0 1];
-psf_props = ImagescProps;
-psf_props.plot_title = 'Power spectrum';
-psf_props.nominal_plot_size_px = [660 528];
-psf_props.extra_title_margin = 0.5;
-psf_props.field_limits = [-12 12; -12 12];
-psf_props.output_limits = [-4 -1];
-psf_props.h_axis_title = '{\itu} [{\it\lambda}/{\itD}]';
-psf_props.h_axis_tick_spacing = 2;
-psf_props.v_axis_title = '{\itv} [{\it\lambda}/{\itD}]';
-psf_props.v_axis_tick_spacing = 2;
-psf_props.labels = {'Test', 'ing'};
-psf_props.show_color_bars = true;
-%psf_props.color_maps = hot(256);
-psf_props.color_maps = {col.*gray(256) (1-col).*gray(256)};
-%psf_props.color_maps = {[1 0 0].*gray(256) [0 1 0].*gray(256) [0 0 1].*gray(256)};
-psf_props.font_size_pt = 14;
+% Calculate PSFs for the C11 aperture and bowtie mask and store them in objects.
+aperture_scale = 0.25;  % Lower: faster execution, less accurate
+fft_scale = 8;  % Higher: better resolution, slower processing
+c11_psf = getPsf(c11_aperture, aperture_scale, fft_scale);
+bowtie_psf = getPsf(bowtie_mask, aperture_scale, fft_scale);
+
+% Plot the individual PSFs of the C11 aperture and bowtie mask.
+psf_plot_props = getPsfPlotDefaults;
+psf_plot_props.plot_title = 'Ideal monochromatic, on-axis PSF of C11 aperture';
+psfPlot(c11_psf, psf_plot_props, IoProps);
+psf_plot_props.plot_title = 'Ideal monochromatic, on-axis PSF of bowtie mask';
+psfPlot(bowtie_psf, psf_plot_props, IoProps);
+
+% Plot horizontal cuts of our two PSFs.
+cut_props = CutProps;
+cut_props.labels = {'C11 aperture'};
+psfCut(c11_psf, cut_props, IoProps);
+cut_props.labels = {'bowtie mask'};
+psfCut(bowtie_psf, cut_props, IoProps);
+
+
+
+return;
+
+% Configure base properties for the plots we'll generate.
+aperture_props = getAperturePlotDefaults;
+psf_single_props = getPsfPlotDefaults;
+psf_multi_props = getPsfPlotDefaults;
+psf_multi_props.color_maps = {[1 0 1] .* gray(256), [0 1 0] .* gray(256)};
+
+% Generate all aperture shapes, except bowtie and variants, by invoking the
+% makeApertures.m script.
+%makeApertures;
+
 
 % Define PSF plot I/O properties.
 psf_io_props = IoProps;
@@ -62,8 +71,8 @@ central_star = Star([0 0], 0);
 close_double = asterismFromDouble(1, [0 4], 90);
 
 % Define standard star view configurations.
-sv_params = {central_star, standard_diameter_in, standard_wavelength_nm};
-sv_params2 = {close_double, standard_diameter_in, standard_wavelength_nm};
+sv_params = {central_star, diameter_in, wavelength_nm};
+sv_params2 = {close_double, diameter_in, wavelength_nm};
 
 % Define standard formatting parameters for star view figures.
 sv_props = ImagescProps;
@@ -107,29 +116,21 @@ savePsfSpecs(size(aperture1), aperture_scale, scaled_aperture_size_px, ...
 %psfPlot([psf1 psf2], psf_props, psf_io_props);
 %psfPlot([psf1 psf2 psf3], psf_props, psf_io_props);
 
-% Define cut properties
+
+% Define standard PSF generation properties.
+
+save_psf_plain_eps = false;
+save_psf_plain_png = true;
+diameter_in = 11;  % [in]
+wavelength_nm = 550;  % [nm]
+
+
+% Define cut properties that modify defaults
 cut_props = CutProps;
-cut_props.plot_title = 'Horizontal PSF cut';
-cut_props.nominal_plot_size_px = [620 528];
-cut_props.extra_title_margin = 0.14;  % extra vertical margin for plot title
-cut_props.u_title = '{\itu} [{\it\lambda}/{\itD}]';
-cut_props.u_limits = [0 psf_props.field_limits(1,2)];
-cut_props.u_spacing = 2;
-cut_props.w_title = 'log_1_0 contrast';
-cut_props.w_limits = [-8 0];
-cut_props.w_spacing = 1;
 cut_props.show_color_bars = true;
 cut_props.color_maps = {col.*gray(256) (1-col).*gray(256)};
-cut_props.c_limits = [-4 -1];
-cut_props.c_spacing = 1;
 cut_props.labels = {'C11', 'double Gaussian'};
 cut_props.line_colors = {col, 1-col};
-cut_props.cut_line_thickness_pt = 2;
-cut_props.font_size_pt = 14;
-cut_props.show_target = true;
-cut_props.target = -2.6;  % base-10 magnitude
-cut_props.target_line_thickness_pt = 1;
-cut_props.target_line_color = [0.4 0.4 0.4];
 
 cut_io_props = IoProps;
 cut_io_props.save_eps = false;

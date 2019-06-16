@@ -1,7 +1,6 @@
 % Creates all images representing apertures and masked apertures and saves them
 % in the "apertures" folder.
-
-clear;
+function makeApertures
 output_prefix = 'apertures/';
 canvas_size_px = [1024 1024];
 make_tifs = true;
@@ -152,4 +151,5 @@ if make_tifs
         imwrite(imread([output_prefix files(i).name]), [output_prefix new_name]);
     end
     clear pattern files i new_name
+end
 end

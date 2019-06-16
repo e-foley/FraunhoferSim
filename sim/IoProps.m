@@ -7,7 +7,7 @@ classdef IoProps
         png_location = 'output.png';
         
         % Whether and where to save an encapsulated postscript (EPS) file
-        save_eps = true;
+        save_eps = false;
         eps_location = 'output.eps';
     end
 end

@@ -11,12 +11,15 @@ function [figure_out] = psfCut(psfs, cut_props, io_props)
 c = cut_props;
 o = io_props;
 
-% Condition color_maps and labels into cell arrays so that they work in loops.
+% Condition some arguments into cell arrays so that they work in loops.
 if (~iscell(c.color_maps))
     c.color_maps = {c.color_maps};
 end
 if (~iscell(c.labels))
     c.labels = {c.labels};
+end
+if (~iscell(c.line_colors))
+    c.line_colors = {c.line_colors};
 end
 
 num_psfs = numel(psfs);
