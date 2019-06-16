@@ -5,8 +5,8 @@
 function [defaults] = getStarViewPlotDefaults
 defaults = ImagescProps;
 defaults.plot_title = 'Simulated monochromatic view';
-defaults.nominal_plot_size_px = [620 528];
-defaults.extra_title_margin = 0.1;
+defaults.nominal_plot_size_px = [660 528];
+defaults.extra_title_margin = 0.2;
 defaults.field_limits = [-5 5; -5 5];
 defaults.output_limits = [10 2];
 defaults.h_axis_title = '{\itu} [as]';
