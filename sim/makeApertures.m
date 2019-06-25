@@ -145,7 +145,7 @@ clear wavenumber_px sine_grating;
 
 % SQUARE OBSTRUCTION (FOR SUPERPOSITION DEMO IN PAPER)
 % Size obstruction to cover C11 secondary mirror.
-square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 45);
+square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 0);
 imwrite(square_obstruction, [output_prefix 'square obstruction.png']);
 
 % CIRCULAR APERTURE WITH SQUARE OBSTRUCTION
