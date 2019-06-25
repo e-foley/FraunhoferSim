@@ -143,6 +143,16 @@ for wavenumber_px=[8 16 32 64 128]
 end
 clear wavenumber_px sine_grating;
 
+% SQUARE OBSTRUCTION (FOR SUPERPOSITION DEMO IN PAPER)
+% Size obstruction to cover C11 secondary mirror.
+square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 0);
+imwrite(square_obstruction, [output_prefix 'square obstruction.png']);
+
+% CIRCULAR APERTURE WITH SQUARE OBSTRUCTION
+circle_with_square_obstruction = circle & square_obstruction;
+imwrite(circle_with_square_obstruction, ...
+    [output_prefix 'circle with square obstruction.png']);
+
 % Optionally copy every .png to .tif.
 if make_tifs
     pattern = fullfile(output_prefix, '*.png');
