@@ -108,7 +108,8 @@ imwrite(c11_with_gaussian_30, [output_prefix 'c11 with gaussian 30.png']);
 
 % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.30
 gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider, 45, 'crop');
-imwrite(gaussian_30_with_oriented_spider, [output_prefix 'gaussian 30 with oriented spider.png']);
+imwrite(gaussian_30_with_oriented_spider, ...
+    [output_prefix 'gaussian 30 donut with oriented spider.png']);
 
 % GAUSSIAN MULTI, STDDEV FACTOR 0.30
 rel_horiz = 0.225;
