@@ -20,7 +20,7 @@ c11 = circle & c11_obstruction;
 imwrite(c11, [output_prefix 'c11.png']);
 
 % GAUSSIAN VARIANTS (NO OBSTRUCTION)
-for i=10:5:60
+for i=10:5:65
     gaussian = circle & formGaussian(canvas_size_px, 0.5, i / 100);
     imwrite(gaussian, [output_prefix 'gaussian ' num2str(i) '.png']);
 end
@@ -50,6 +50,8 @@ gaussian_100_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.00);
 imwrite(gaussian_100_obstruction, [output_prefix 'gaussian 100 obstruction.png']);
 gaussian_120_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.20);
 imwrite(gaussian_120_obstruction, [output_prefix 'gaussian 120 obstruction.png']);
+gaussian_160_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.60);
+imwrite(gaussian_160_obstruction, [output_prefix 'gaussian 160 obstruction.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.30 (NO SUPPORT)
 gaussian_30_donut = circle & formGaussian(canvas_size_px, 0.5, 0.30) & gaussian_30_obstruction;
@@ -79,9 +81,25 @@ imwrite(gaussian_55_donut, [output_prefix 'gaussian 55 donut.png']);
 gaussian_45_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_120_obstruction;
 imwrite(gaussian_45_donut_120, [output_prefix 'gaussian 45 donut 120.png']);
 
-% GAUSSIAN DONUT, STDDEV FACTORS 0.45, 1.20
+% GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.30
+gaussian_50_donut_30 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_30_obstruction;
+imwrite(gaussian_50_donut_30, [output_prefix 'gaussian 50 donut 30.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.50
+gaussian_50_donut_50 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
+imwrite(gaussian_50_donut_50, [output_prefix 'gaussian 50 donut 50.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.80
+gaussian_50_donut_80 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_80_obstruction;
+imwrite(gaussian_50_donut_80, [output_prefix 'gaussian 50 donut 80.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.50, 1.20
 gaussian_50_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_120_obstruction;
 imwrite(gaussian_50_donut_120, [output_prefix 'gaussian 50 donut 120.png']);
+
+% GAUSSIAN_DONUT, STDDEV FACTORS 0.50, 1.60
+gaussian_50_donut_160 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_160_obstruction;
+imwrite(gaussian_50_donut_160, [output_prefix 'gaussian 50 donut 160.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.55, 1.20
 gaussian_55_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_120_obstruction;
