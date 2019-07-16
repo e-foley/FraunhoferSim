@@ -72,7 +72,9 @@ hold off;
 if (c.show_target)
     legend(h, c.labels, 'contrast target');
 else
-    legend(h, c.labels);
+    if numel(c.labels) > 0
+        legend(h, c.labels);
+    end
 end
 
 % Configure the axis displays.
