@@ -38,4 +38,5 @@ cut_props.c_limits = mag_lims_psf;
 cut_props.show_target = show_target;
 cut_props.labels = labels;
 cut_props.font_size_pt = 18;
+io_props.png_location = [output_prefix input_name ' psf cut.png'];
 close(psfCut(psf, cut_props, io_props));
