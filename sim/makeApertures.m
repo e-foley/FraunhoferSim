@@ -117,7 +117,7 @@ imwrite(hexagon, [output_prefix 'hexagon.png']);
 apodization_18 = formApodization(canvas_size_px, 0.18);
 imwrite(apodization_18, [output_prefix 'apodization 18.png']);
 
-% C11 WITH APODIZATION, STDDEV FACTOR 0.18
+% CIRCLE WITH APODIZATION, STDDEV FACTOR 0.18
 circle_with_apodization_18 = circle .* apodization_18;
 imwrite(circle_with_apodization_18, [output_prefix 'circle with apodization 18.png']);
 
