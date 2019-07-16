@@ -20,23 +20,72 @@ c11 = circle & c11_obstruction;
 imwrite(c11, [output_prefix 'c11.png']);
 
 % GAUSSIAN VARIANTS (NO OBSTRUCTION)
-for i=[10 15 20 25 30 35]
-    gaussian = formGaussian(canvas_size_px, 0.5, i / 100);
+for i=10:5:60
+    gaussian = circle & formGaussian(canvas_size_px, 0.5, i / 100);
     imwrite(gaussian, [output_prefix 'gaussian ' num2str(i) '.png']);
 end
 clear i gaussian;
 
+% GAUSSIAN OBSTRUCTIONS
+% Gaussian secondaries are numerically sized to overlap C11 secondary.
+gaussian_30_obstruction = ~formGaussian(canvas_size_px, 0.32, 0.30);
+imwrite(gaussian_30_obstruction, [output_prefix 'gaussian 30 obstruction.png']);
+gaussian_35_obstruction = ~formGaussian(canvas_size_px, 0.29, 0.35);
+imwrite(gaussian_35_obstruction, [output_prefix 'gaussian 35 obstruction.png']);
+gaussian_40_obstruction = ~formGaussian(canvas_size_px, 0.27, 0.40);
+imwrite(gaussian_40_obstruction, [output_prefix 'gaussian 40 obstruction.png']);
+gaussian_45_obstruction = ~formGaussian(canvas_size_px, 0.25, 0.45);
+imwrite(gaussian_45_obstruction, [output_prefix 'gaussian 45 obstruction.png']);
+gaussian_50_obstruction = ~formGaussian(canvas_size_px, 0.23, 0.50);
+imwrite(gaussian_50_obstruction, [output_prefix 'gaussian 50 obstruction.png']);
+gaussian_55_obstruction = ~formGaussian(canvas_size_px, 0.22, 0.55);
+imwrite(gaussian_55_obstruction, [output_prefix 'gaussian 55 obstruction.png']);
+gaussian_60_obstruction = ~formGaussian(canvas_size_px, 0.21, 0.60);
+imwrite(gaussian_60_obstruction, [output_prefix 'gaussian 60 obstruction.png']);
+gaussian_70_obstruction = ~formGaussian(canvas_size_px, 0.20, 0.70);
+imwrite(gaussian_70_obstruction, [output_prefix 'gaussian 70 obstruction.png']);
+gaussian_80_obstruction = ~formGaussian(canvas_size_px, 0.19, 0.80);
+imwrite(gaussian_80_obstruction, [output_prefix 'gaussian 80 obstruction.png']);
+gaussian_100_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.00);
+imwrite(gaussian_100_obstruction, [output_prefix 'gaussian 100 obstruction.png']);
+gaussian_120_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.20);
+imwrite(gaussian_120_obstruction, [output_prefix 'gaussian 120 obstruction.png']);
+
 % GAUSSIAN DONUT, STDDEV FACTOR 0.30 (NO SUPPORT)
-gaussian_30_donut = formGaussian(canvas_size_px, 0.5, 0.30);
-% Gaussian secondary was numerically sized to overlap C11 secondary.
-gaussian_30_donut = gaussian_30_donut & ~formGaussian(canvas_size_px, 0.32, 0.30);
+gaussian_30_donut = circle & formGaussian(canvas_size_px, 0.5, 0.30) & gaussian_30_obstruction;
 imwrite(gaussian_30_donut, [output_prefix 'gaussian 30 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.35 (NO SUPPORT)
-gaussian_35_donut = formGaussian(canvas_size_px, 0.5, 0.35);
-% Gaussian secondary was numerically sized to overlap C11 secondary.
-gaussian_35_donut = gaussian_35_donut & ~formGaussian(canvas_size_px, 0.29, 0.35);
+gaussian_35_donut = circle & formGaussian(canvas_size_px, 0.5, 0.35) & gaussian_35_obstruction;
 imwrite(gaussian_35_donut, [output_prefix 'gaussian 35 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTOR 0.40 (NO SUPPORT)
+gaussian_40_donut = circle & formGaussian(canvas_size_px, 0.5, 0.40) & gaussian_40_obstruction;
+imwrite(gaussian_40_donut, [output_prefix 'gaussian 40 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTOR 0.45 (NO SUPPORT)
+gaussian_45_donut = circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_45_obstruction;
+imwrite(gaussian_45_donut, [output_prefix 'gaussian 45 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTOR 0.50 (NO SUPPORT)
+gaussian_50_donut = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
+imwrite(gaussian_50_donut, [output_prefix 'gaussian 50 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTOR 0.55 (NO SUPPORT)
+gaussian_55_donut = circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_55_obstruction;
+imwrite(gaussian_55_donut, [output_prefix 'gaussian 55 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.45, 1.20
+gaussian_45_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_120_obstruction;
+imwrite(gaussian_45_donut_120, [output_prefix 'gaussian 45 donut 120.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.45, 1.20
+gaussian_50_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_120_obstruction;
+imwrite(gaussian_50_donut_120, [output_prefix 'gaussian 50 donut 120.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTORS 0.55, 1.20
+gaussian_55_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_120_obstruction;
+imwrite(gaussian_55_donut_120, [output_prefix 'gaussian 55 donut 120.png']);
 
 % BEAM
 beam_rel_width = (3/16) / 11;
