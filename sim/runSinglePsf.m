@@ -1,7 +1,7 @@
 % Focus on below variables =====================================================
 
-input_name = 'gaussian 50 donut 120';  % Aperture image file name less extension
-aperture_title = 'Gaussian donut (p=0.50,1.20)';  % Shows up in plot titles
+input_name = 'gaussian 50 donut 160';  % Aperture image file name less extension
+aperture_title = 'Gaussian aperture (p=0.50,1.60)';  % Shows up in plot titles
 aperture_scale = 0.25;  % Default: 0.25
 fft_scale = 32;  % Defaults: 16 (draft), 32 (publishing)
 ld_bound = 12;  % Max magnitude of u and v dimensions in PSF plots; default: 12
@@ -39,4 +39,5 @@ cut_props.show_target = show_target;
 cut_props.labels = labels;
 cut_props.font_size_pt = 18;
 io_props.png_location = [output_prefix input_name ' psf cut.png'];
-close(psfCut(psf, cut_props, io_props));
+%close(psfCut(psf, cut_props, io_props));
+psfCut(psf, cut_props, io_props);
