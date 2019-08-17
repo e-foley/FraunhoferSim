@@ -7,8 +7,9 @@ fft_scale = 32;  % Defaults: 16 (draft), 32 (publishing)
 ld_bound = 12;  % Max magnitude of u and v dimensions in PSF plots; default: 12
 mag_lims_psf = [-4 -1];  % Default: [-4 -1]
 mag_lims_cut = [-8 0];  % Default: [-8 0]
-show_target = false;  % Default: false
-labels = {};
+show_target = true;  % Default: false
+target = -2.8;  % Default: -2.8
+labels = {aperture_title};
 
 % End important variables ======================================================
 
@@ -36,6 +37,7 @@ cut_props.show_color_bars = true;
 cut_props.color_maps = gray(256);
 cut_props.c_limits = mag_lims_psf;
 cut_props.show_target = show_target;
+cut_props.target = target;
 cut_props.labels = labels;
 cut_props.font_size_pt = 18;
 io_props.png_location = [output_prefix input_name ' psf cut.png'];
