@@ -42,6 +42,7 @@ cut_props.show_color_bars = true;
 cut_props.color_maps = psf_plot_props.color_maps;
 cut_props.c_limits = mag_lims_psf;
 cut_props.show_target = show_target;
+cut_props.target = target;
 cut_props.labels = labels;
 cut_props.font_size_pt = 14;
 cut_props.line_colors = {cut_props.color_maps{1}(end,:) cut_props.color_maps{2}(end,:)};
