@@ -1,6 +1,6 @@
 input_name = 'gaussian 35 donut with beam';
-aperture_scale = 0.25;  % Default: 0.25
-fft_scale = 32;  % Defaults: 16 (draft), 32 (publishing)
+aperture_scale = 1.0;  % Default: 1.0
+fft_scale = 8;  % Default: 8 (use with 1.0 aperture_scale for publishing)
 star_separation_as = 9.4;
 star_app_mags = [0 6.5];
 star_angle = 90;
