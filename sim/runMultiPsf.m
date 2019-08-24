@@ -5,12 +5,13 @@ input1_name = 'bowtie';  % Aperture image file name less extension
 input2_name = 'gaussian 50 donut 120';
 aperture1_title = 'bowtie';  % Shows up in plot titles
 aperture2_title = 'Gaussian boomerang';
-aperture_scale = 0.25;  % Default: 0.25
-fft_scale = 32;  % Defaults: 16 (draft), 32 (publishing)
+aperture_scale = 1.0;  % Default: 1.0
+fft_scale = 8;  % Default: 8 (use with 1.0 aperture_scale for publishing)
 ld_bound = 12;  % Max magnitude of u and v dimensions in PSF plots; default: 12
 mag_lims_psf = [-4 -1];  % Default: [-4 -1]
 mag_lims_cut = [-8 0];  % Default: [-8 0]
-show_target = true;  % Default: false
+show_target = true;  % Default: true
+target = -2.8;  % Default: -2.8
 labels = {aperture1_title aperture2_title};
 
 % End important variables ======================================================
@@ -34,7 +35,7 @@ io_props.png_location = [output_prefix input2_name ' vs ' input1_name ' psf plot
 close(psfPlot([psf1 psf2], psf_plot_props, io_props));
 cut_props = CutProps;
 %cut_props.plot_title = ['Horizontal PSF cut of ' aperture_title];
-cut_props.plot_title = '';
+cut_props.plot_title = 'Horizontal PSF cut comparison';
 cut_props.u_limits = [0 ld_bound];
 cut_props.w_limits = mag_lims_cut;
 cut_props.show_color_bars = true;

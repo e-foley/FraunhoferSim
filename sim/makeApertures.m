@@ -3,7 +3,7 @@
 
 function makeApertures
 output_prefix = 'apertures/';
-canvas_size_px = [1024 1024];
+canvas_size_px = [2048 2048];
 make_tifs = true;
 
 % CIRCULAR APERTURE
