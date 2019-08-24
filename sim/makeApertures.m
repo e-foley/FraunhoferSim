@@ -3,7 +3,8 @@
 
 function makeApertures
 output_prefix = 'apertures/';
-canvas_size_px = [2048 2048];
+canvas_dim_px = 2048;
+canvas_size_px = canvas_dim_px * [1 1];
 make_tifs = true;
 
 % CIRCULAR APERTURE
@@ -139,15 +140,15 @@ imwrite(apodization_18, [output_prefix 'apodization 18.png']);
 circle_with_apodization_18 = circle .* apodization_18;
 imwrite(circle_with_apodization_18, [output_prefix 'circle with apodization 18.png']);
 
-% SCREEN, VERTICAL, 4 PIXELS SPACED BY 16 PIXELS
-screen_vertical = formScreen(1024, 4, 16);
-imwrite(screen_vertical, [output_prefix 'screen vertical 4 16.png']);
+% SCREEN, VERTICAL, 8 PIXELS SPACED BY 32 PIXELS
+screen_vertical = formScreen(canvas_dim_px, 8, 32);
+imwrite(screen_vertical, [output_prefix 'screen vertical 8 32.png']);
 
-% SCREEN, SQUARE, 4 PIXELS SPACED BY 16 PIXELS
+% SCREEN, SQUARE, 8 PIXELS SPACED BY 32 PIXELS
 screen_square = screen_vertical & screen_vertical';
-imwrite(screen_square, [output_prefix 'screen square 4 16.png']);
+imwrite(screen_square, [output_prefix 'screen square 8 32.png']);
 
-% APODIZING SCREEN, 4 PIXELS SPACED BY 16 PIXELS
+% APODIZING SCREEN, 8 PIXELS SPACED BY 32 PIXELS
 % Dimensions of circular screen cutouts from Lovro
 % (http://www.graphitegalaxy.com/index.cgi?a=diyapodmask).
 apodizing_screen = circle & ...
@@ -156,7 +157,7 @@ apodizing_screen = apodizing_screen & ...
     (imrotate(screen_square, 30, 'crop') | formCircle(canvas_size_px, 0.78/2));
 apodizing_screen = apodizing_screen & ...
     (imrotate(screen_square, 60, 'crop') | formCircle(canvas_size_px, 0.90/2));
-imwrite(apodizing_screen, [output_prefix 'apodizing screen 4 16.png']);;
+imwrite(apodizing_screen, [output_prefix 'apodizing screen 8 32.png']);
 
 % SPIDER (FOUR-LEGGED)
 rel_spider_width = (1/16) / 11;
