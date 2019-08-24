@@ -7,7 +7,7 @@ fft_scale = 8;  % Default: 8 (use with 1.0 aperture_scale for publishing)
 ld_bound = 12;  % Max magnitude of u and v dimensions in PSF plots; default: 12
 mag_lims_psf = [-4 -1];  % Default: [-4 -1]
 mag_lims_cut = [-8 0];  % Default: [-8 0]
-show_target = true;  % Default: false
+show_target = true;  % Default: true
 target = -2.8;  % Default: -2.8
 labels = {aperture_title};
 
