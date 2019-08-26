@@ -34,7 +34,6 @@ psf_plot_props.labels = labels;
 io_props.png_location = [output_prefix input2_name ' vs ' input1_name ' psf plot.png'];
 close(psfPlot([psf1 psf2], psf_plot_props, io_props));
 cut_props = CutProps;
-%cut_props.plot_title = ['Horizontal PSF cut of ' aperture_title];
 cut_props.plot_title = 'Horizontal PSF cut comparison';
 cut_props.u_limits = [0 ld_bound];
 cut_props.w_limits = mag_lims_cut;
