@@ -1,3 +1,5 @@
+% Focus on below variables =====================================================
+
 input_name = 'gaussian 35 donut with beam';
 aperture_scale = 1.0;  % Default: 1.0
 fft_scale = 8;  % Default: 8 (use with 1.0 aperture_scale for publishing)
@@ -8,6 +10,8 @@ aperture_diam_in = 11;
 wavelength_nm = 548;
 extents_as = 20;
 app_vis_mag_limits = [10 5];
+
+% End important variables ======================================================
 
 input_prefix = 'apertures/';
 output_prefix = 'plots/';
