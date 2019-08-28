@@ -19,7 +19,8 @@ io_props.save_eps = false;
 input_prefix = 'apertures/';
 output_prefix = 'plots/';
 aperture = imread([input_prefix input_name '.png']);
-psf = getPsf(aperture, aperture_scale, fft_scale);
+[psf, scaled_aperture_size_px, fft_size_px] = ...
+    getPsf(aperture, aperture_scale, fft_scale);
 psf_image = psfGetImage(psf, ld_bound .* [-1 1; -1 1], mag_lims_psf);
 imwrite(psf_image, [output_prefix input_name ' psf.png']);
 psf_plot_props = getPsfPlotDefaults;
@@ -42,3 +43,5 @@ cut_props.font_size_pt = 18;
 io_props.png_location = [output_prefix input_name ' psf cut.png'];
 %close(psfCut(psf, cut_props, io_props));
 psfCut(psf, cut_props, io_props);
+savePsfSpecs(size(aperture), aperture_scale, scaled_aperture_size_px, ...
+    fft_scale, fft_size_px, [output_prefix input_name ' psf specs.txt']);
