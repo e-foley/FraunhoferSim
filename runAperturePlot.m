@@ -1,7 +1,7 @@
 % Focus on below variables =====================================================
 
-input_name = 'c11';  % Aperture image file name less extension
-aperture_title = 'C11 aperture';  % Plot title
+input_name = 'gaussian 50 donut 160';  % Aperture image file name less extension
+aperture_title = 'Gaussian boomerang';  % Plot title
 
 % End important variables ======================================================
 
@@ -14,4 +14,4 @@ io_props.png_location = [output_prefix input_name ' aperture plot.png'];
 aperture = imread([input_prefix input_name '.png']);
 aperture_plot_props = getAperturePlotDefaults;
 aperture_plot_props.plot_title = aperture_title;
-plotAperture(aperture, aperture_plot_props, io_props);
+close(plotAperture(aperture, aperture_plot_props, io_props));
