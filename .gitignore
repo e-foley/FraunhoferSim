@@ -47,5 +47,5 @@ Temporary Items
 .apdisk
 
 # Custom
-/Inputs
-/Outputs
+# Any MATLAB autosave file
+*.asv
