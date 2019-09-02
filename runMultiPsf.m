@@ -1,3 +1,8 @@
+% Utility script that produces a formatted overlay plot of the point spread
+% functions of given apertures along with a plot comparing their contrast
+% through a horizontal cut. Isolates the most common parameters for easy
+% customization.
+
 % Focus on below variables =====================================================
 
 % 1 is base; 2 is addition

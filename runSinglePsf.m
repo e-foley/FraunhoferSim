@@ -1,3 +1,7 @@
+% Utility script that produces a formatted plot of the point spread function
+% of a given aperture along with a plot of contrast through a horizontal cut.
+% Isolates the most common parameters for easy customization.
+
 % Focus on below variables =====================================================
 
 input_name = 'gaussian 50 donut 160';  % Aperture image file name less extension
