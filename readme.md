@@ -22,6 +22,9 @@ are used to create masks with polygonal openings, spiders, and oriented screens 
 *makeApertures.m*. If these are not required for your application, there is no need to install the
 Image Processing Toolbox.
 
+Some operations consume enormous amounts of RAM. For best results, run the script on a computer with
+24 GB or more of RAM.
+
 ## Getting started
 1. Install MATLAB.
 2. Optionally, install the Image Processing Toolbox.
