@@ -2,7 +2,7 @@
 
 input_name = 'gaussian 50 donut 160';  % Aperture image file name less extension
 aperture_title = 'Gaussian boomerang';  % Shows up in plot titles
-aperture_scale = 0.25;  % Default: 1.0 (can use 0.25 for draft)
+aperture_scale = 1.0;  % Default: 1.0 (can use 0.25 for draft)
 fft_scale = 8;  % Default: 8
 as_bound = 5;
 app_vis_mag_lims = [10 2];
