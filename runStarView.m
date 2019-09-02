@@ -14,11 +14,12 @@ app_vis_mag_limits = [10 2];
 
 % End important variables ======================================================
 
+input_prefix = 'apertures/';
+output_prefix = 'plots/';
 io_props = IoProps;
 io_props.save_png = true;
 io_props.save_eps = false;
-input_prefix = 'apertures/';
-output_prefix = 'plots/';
+io_props.png_location = [output_prefix input_name ' sv plot.png'];
 stars = asterismFromDouble(star_separation_as, star_app_mags, star_angle);
 psf = getPsf(imread([input_prefix input_name '.png']), aperture_scale, fft_scale);
 sv = getStarView(stars, psf, aperture_diam_in, wavelength_nm);
@@ -28,5 +29,4 @@ sv_plot_props = getStarViewPlotDefaults;
 sv_plot_props.plot_title = ['Ideal monochromatic view through ' aperture_title];
 sv_plot_props.field_limits = extents_as .* [-1 1; -1 1];
 sv_plot_props.output_limits = app_vis_mag_limits;
-io_props.png_location = [output_prefix input_name ' sv plot.png'];
 svPlot(sv, sv_plot_props, io_props);

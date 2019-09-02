@@ -13,11 +13,12 @@ labels = {aperture_title};
 
 % End important variables ======================================================
 
+input_prefix = 'apertures/';
+output_prefix = 'plots/';
 io_props = IoProps;
 io_props.save_png = true;
 io_props.save_eps = false;
-input_prefix = 'apertures/';
-output_prefix = 'plots/';
+io_props.png_location = [output_prefix input_name ' psf plot.png'];
 aperture = imread([input_prefix input_name '.png']);
 [psf, scaled_aperture_size_px, fft_size_px] = ...
     getPsf(aperture, aperture_scale, fft_scale);
@@ -27,7 +28,6 @@ psf_plot_props = getPsfPlotDefaults;
 psf_plot_props.plot_title = ['Ideal monochromatic, on-axis PSF of ' aperture_title];
 psf_plot_props.field_limits = ld_bound .* [-1 1; -1 1];
 psf_plot_props.output_limits = mag_lims_psf;
-io_props.png_location = [output_prefix input_name ' psf plot.png'];
 close(psfPlot(psf, psf_plot_props, io_props));
 cut_props = CutProps;
 cut_props.plot_title = ['Horizontal PSF cut of ' aperture_title];
