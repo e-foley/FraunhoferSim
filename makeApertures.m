@@ -120,18 +120,6 @@ imwrite(gaussian_30_donut_with_beam, [output_prefix 'gaussian 30 donut with beam
 gaussian_35_donut_with_beam = gaussian_35_donut & beam;
 imwrite(gaussian_35_donut_with_beam, [output_prefix 'gaussian 35 donut with beam.png']);
 
-% TRIANGLE
-triangle = formPolygon(canvas_size_px, 0.5, 3, 90);
-imwrite(triangle, [output_prefix 'triangle.png']);
-
-% SQUARE
-square = formPolygon(canvas_size_px, 0.5, 4, 0);
-imwrite(square, [output_prefix 'square.png']);
-
-% HEXAGON
-hexagon = formPolygon(canvas_size_px, 0.5, 6, 0);
-imwrite(hexagon, [output_prefix 'hexagon.png']);
-
 % APODIZATION, STDDEV FACTOR 0.18
 apodization_18 = formApodization(canvas_size_px, 0.18);
 imwrite(apodization_18, [output_prefix 'apodization 18.png']);
@@ -148,17 +136,6 @@ imwrite(screen_vertical, [output_prefix 'screen vertical 8 32.png']);
 screen_square = screen_vertical & screen_vertical';
 imwrite(screen_square, [output_prefix 'screen square 8 32.png']);
 
-% APODIZING SCREEN, 8 PIXELS SPACED BY 32 PIXELS
-% Dimensions of circular screen cutouts from Lovro
-% (http://www.graphitegalaxy.com/index.cgi?a=diyapodmask).
-apodizing_screen = circle & ...
-    (screen_square | formCircle(canvas_size_px, 0.55/2));
-apodizing_screen = apodizing_screen & ...
-    (imrotate(screen_square, 30, 'crop') | formCircle(canvas_size_px, 0.78/2));
-apodizing_screen = apodizing_screen & ...
-    (imrotate(screen_square, 60, 'crop') | formCircle(canvas_size_px, 0.90/2));
-imwrite(apodizing_screen, [output_prefix 'apodizing screen 8 32.png']);
-
 % SPIDER (FOUR-LEGGED)
 rel_spider_width = (1/16) / 11;
 spider = ~formRectangle(canvas_size_px, [0 0], [rel_spider_width 1]) & ...
@@ -173,11 +150,6 @@ imwrite(c11_with_spider, [output_prefix 'c11 with spider.png']);
 % C11 WITH GAUSSIAN, STDDEV FACTOR 0.30
 c11_with_gaussian_30 = c11 & formGaussian(canvas_size_px, 0.5, 0.30);
 imwrite(c11_with_gaussian_30, [output_prefix 'c11 with gaussian 30.png']);
-
-% GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.30
-gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider, 45, 'crop');
-imwrite(gaussian_30_with_oriented_spider, ...
-    [output_prefix 'gaussian 30 donut with oriented spider.png']);
 
 % GAUSSIAN MULTI, STDDEV FACTOR 0.30
 rel_horiz = 0.225;
@@ -212,15 +184,51 @@ for wavenumber_px=[8 16 32 64 128]
 end
 clear wavenumber_px sine_grating;
 
-% SQUARE OBSTRUCTION (FOR SUPERPOSITION DEMO IN PAPER)
-% Size obstruction to cover C11 secondary mirror.
-square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 0);
-imwrite(square_obstruction, [output_prefix 'square obstruction.png']);
+% BEGIN IMAGE PROCESSING TOOLBOX QUARANTINE ====================================
 
-% CIRCULAR APERTURE WITH SQUARE OBSTRUCTION
-circle_with_square_obstruction = circle & square_obstruction;
-imwrite(circle_with_square_obstruction, ...
-    [output_prefix 'circle with square obstruction.png']);
+% Check if Image Processing Toolbox is installed.
+v = ver;
+if any(strcmp('Image Processing Toolbox', {v.Name}))
+    % TRIANGLE
+    triangle = formPolygon(canvas_size_px, 0.5, 3, 90);
+    imwrite(triangle, [output_prefix 'triangle.png']);
+
+    % SQUARE
+    square = formPolygon(canvas_size_px, 0.5, 4, 0);
+    imwrite(square, [output_prefix 'square.png']);
+
+    % HEXAGON
+    hexagon = formPolygon(canvas_size_px, 0.5, 6, 0);
+    imwrite(hexagon, [output_prefix 'hexagon.png']);
+
+    % SQUARE OBSTRUCTION (FOR SUPERPOSITION DEMO IN PAPER)
+    % Size obstruction to cover C11 secondary mirror.
+    square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 0);
+    imwrite(square_obstruction, [output_prefix 'square obstruction.png']);
+    
+    % CIRCULAR APERTURE WITH SQUARE OBSTRUCTION
+    circle_with_square_obstruction = circle & square_obstruction;
+    imwrite(circle_with_square_obstruction, ...
+        [output_prefix 'circle with square obstruction.png']);
+    
+    % APODIZING SCREEN, 8 PIXELS SPACED BY 32 PIXELS
+    % Dimensions of circular screen cutouts from Lovro
+    % (http://www.graphitegalaxy.com/index.cgi?a=diyapodmask).
+    apodizing_screen = circle & ...
+        (screen_square | formCircle(canvas_size_px, 0.55/2));
+    apodizing_screen = apodizing_screen & ...
+        (imrotate(screen_square, 30, 'crop') | formCircle(canvas_size_px, 0.78/2));
+    apodizing_screen = apodizing_screen & ...
+        (imrotate(screen_square, 60, 'crop') | formCircle(canvas_size_px, 0.90/2));
+    imwrite(apodizing_screen, [output_prefix 'apodizing screen 8 32.png']);
+
+    % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.30
+    gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider, 45, 'crop');
+    imwrite(gaussian_30_with_oriented_spider, ...
+        [output_prefix 'gaussian 30 donut with oriented spider.png']);
+end
+
+% END IMAGE PROCESSING TOOLBOX QUARANTINE ======================================
 
 % Optionally copy every .png to .tif.
 if make_tifs
