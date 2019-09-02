@@ -1,10 +1,10 @@
 % Focus on below variables =====================================================
 
 % 1 is base; 2 is addition
-input1_name = 'bowtie';  % Aperture image file name less extension
-input2_name = 'gaussian 50 donut 120';
-aperture1_title = 'bowtie';  % Shows up in plot titles
-aperture2_title = 'Gaussian boomerang';
+input1_name = 'c11';  % Aperture image file name less extension
+input2_name = 'gaussian 50 donut';
+aperture1_title = 'C11 aperture';  % Shows up in plot titles
+aperture2_title = 'Gauss. donut (p=0.50)';
 aperture_scale = 1.0;  % Default: 1.0
 fft_scale = 8;  % Default: 8 (use with 1.0 aperture_scale for publishing)
 ld_bound = 12;  % Max magnitude of u and v dimensions in PSF plots; default: 12
