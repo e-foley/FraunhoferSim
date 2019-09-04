@@ -177,6 +177,32 @@ gaussian_35_multi = gaussian_35_multi & c11;
 imwrite(gaussian_35_multi, [output_prefix 'gaussian 35 multi.png']);
 clear rel_horiz rel_vert rel_height rel_matrix
 
+% GAUSSIAN_MULTI, STDDEV FACTOR 0.50
+rel_horiz = 0.225;
+rel_vert = 0.225;
+rel_height = 0.18;
+rel_matrix = [-rel_vert -rel_horiz;
+               rel_vert -rel_horiz;
+              -rel_vert  rel_horiz;
+               rel_vert  rel_horiz];
+gaussian_50_multi = formMultigaussian(canvas_size_px, rel_matrix, rel_height, 0.50);
+gaussian_50_multi = gaussian_50_multi & c11;
+imwrite(gaussian_50_multi, [output_prefix 'gaussian 50 multi.png']);
+clear rel_horiz rel_vert rel_height rel_matrix
+
+% GAUSSIAN_MULTI, STDDEV FACTOR 0.65
+rel_horiz = 0.225;
+rel_vert = 0.225;
+rel_height = 0.155;
+rel_matrix = [-rel_vert -rel_horiz;
+               rel_vert -rel_horiz;
+              -rel_vert  rel_horiz;
+               rel_vert  rel_horiz];
+gaussian_65_multi = formMultigaussian(canvas_size_px, rel_matrix, rel_height, 0.65);
+gaussian_65_multi = gaussian_65_multi & c11;
+imwrite(gaussian_65_multi, [output_prefix 'gaussian 65 multi.png']);
+clear rel_horiz rel_vert rel_height rel_matrix
+
 % SINE GRATINGS
 for wavenumber_px=[8 16 32 64 128]
     sine_grating = formSineGrating(canvas_size_px, 1/wavenumber_px, 0, 90);
