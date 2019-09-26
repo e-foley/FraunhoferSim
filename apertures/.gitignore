@@ -2,4 +2,4 @@
 *.png
 *.tif
 !bowtie.png
-!beamed_bowtie.png
+!beamed bowtie.png
