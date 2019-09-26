@@ -148,15 +148,22 @@ imwrite(screen_vertical, [output_prefix 'screen vertical 8 32.png']);
 screen_square = screen_vertical & screen_vertical';
 imwrite(screen_square, [output_prefix 'screen square 8 32.png']);
 
-% SPIDER (FOUR-LEGGED)
+% 1/16" SPIDER (FOUR-LEGGED)
 rel_spider_width = (1/16) / 11;
-spider = ~formRectangle(canvas_size_px, [0 0], [rel_spider_width 1]) & ...
+spider_1_16 = ~formRectangle(canvas_size_px, [0 0], [rel_spider_width 1]) & ...
          ~formRectangle(canvas_size_px, [0 0], [1 rel_spider_width]);
-imwrite(spider, [output_prefix 'spider.png']);
+imwrite(spider_1_16, [output_prefix 'spider 1 16.png']);
+
+% 1/8" SPIDER (FOUR-LEGGED)
+rel_spider_width = (1/8) / 11;
+spider_1_8 = ~formRectangle(canvas_size_px, [0 0], [rel_spider_width 1]) & ...
+         ~formRectangle(canvas_size_px, [0 0], [1 rel_spider_width]);
+imwrite(spider_1_8, [output_prefix 'spider 1 8.png']);
+
 clear rel_spider_width
 
 % C11 WITH SPIDER (FOUR-LEGGED)
-c11_with_spider = c11 & spider;
+c11_with_spider = c11 & spider_1_16;
 imwrite(c11_with_spider, [output_prefix 'c11 with spider.png']);
 
 % C11 WITH GAUSSIAN, STDDEV FACTOR 0.30
@@ -261,27 +268,27 @@ if any(strcmp('Image Processing Toolbox', {v.Name}))
     imwrite(apodizing_screen, [output_prefix 'apodizing screen 8 32.png']);
 
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.30
-    gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider, 45, 'crop');
+    gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_30_with_oriented_spider, ...
         [output_prefix 'gaussian 30 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.35
-    gaussian_35_with_oriented_spider =  gaussian_35_donut & imrotate(spider, 45, 'crop');
+    gaussian_35_with_oriented_spider =  gaussian_35_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_35_with_oriented_spider, ...
         [output_prefix 'gaussian 35 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.40
-    gaussian_40_with_oriented_spider =  gaussian_40_donut & imrotate(spider, 45, 'crop');
+    gaussian_40_with_oriented_spider =  gaussian_40_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_40_with_oriented_spider, ...
         [output_prefix 'gaussian 40 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.45
-    gaussian_45_with_oriented_spider =  gaussian_45_donut & imrotate(spider, 45, 'crop');
+    gaussian_45_with_oriented_spider =  gaussian_45_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_45_with_oriented_spider, ...
         [output_prefix 'gaussian 45 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.50
-    gaussian_50_with_oriented_spider =  gaussian_50_donut & imrotate(spider, 45, 'crop');
+    gaussian_50_with_oriented_spider =  gaussian_50_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_50_with_oriented_spider, ...
         [output_prefix 'gaussian 50 donut with oriented spider.png']);
 end
