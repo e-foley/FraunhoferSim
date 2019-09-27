@@ -55,55 +55,68 @@ gaussian_160_obstruction = ~formGaussian(canvas_size_px, 0.18, 1.60);
 imwrite(gaussian_160_obstruction, [output_prefix 'gaussian 160 obstruction.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.30 (NO SUPPORT)
-gaussian_30_donut = circle & formGaussian(canvas_size_px, 0.5, 0.30) & gaussian_30_obstruction;
+gaussian_30_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.30) & gaussian_30_obstruction;
 imwrite(gaussian_30_donut, [output_prefix 'gaussian 30 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.35 (NO SUPPORT)
-gaussian_35_donut = circle & formGaussian(canvas_size_px, 0.5, 0.35) & gaussian_35_obstruction;
+gaussian_35_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.35) & gaussian_35_obstruction;
 imwrite(gaussian_35_donut, [output_prefix 'gaussian 35 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.40 (NO SUPPORT)
-gaussian_40_donut = circle & formGaussian(canvas_size_px, 0.5, 0.40) & gaussian_40_obstruction;
+gaussian_40_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.40) & gaussian_40_obstruction;
 imwrite(gaussian_40_donut, [output_prefix 'gaussian 40 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.45 (NO SUPPORT)
-gaussian_45_donut = circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_45_obstruction;
+gaussian_45_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_45_obstruction;
 imwrite(gaussian_45_donut, [output_prefix 'gaussian 45 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.50 (NO SUPPORT)
-gaussian_50_donut = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
+gaussian_50_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
 imwrite(gaussian_50_donut, [output_prefix 'gaussian 50 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.55 (NO SUPPORT)
-gaussian_55_donut = circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_55_obstruction;
+gaussian_55_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_55_obstruction;
 imwrite(gaussian_55_donut, [output_prefix 'gaussian 55 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.45, 1.20
-gaussian_45_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_120_obstruction;
+gaussian_45_donut_120 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.45) & gaussian_120_obstruction;
 imwrite(gaussian_45_donut_120, [output_prefix 'gaussian 45 donut 120.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.30
-gaussian_50_donut_30 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_30_obstruction;
+gaussian_50_donut_30 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_30_obstruction;
 imwrite(gaussian_50_donut_30, [output_prefix 'gaussian 50 donut 30.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.50
-gaussian_50_donut_50 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
+gaussian_50_donut_50 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_50_obstruction;
 imwrite(gaussian_50_donut_50, [output_prefix 'gaussian 50 donut 50.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.50, 0.80
-gaussian_50_donut_80 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_80_obstruction;
+gaussian_50_donut_80 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_80_obstruction;
 imwrite(gaussian_50_donut_80, [output_prefix 'gaussian 50 donut 80.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.50, 1.20
-gaussian_50_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_120_obstruction;
+gaussian_50_donut_120 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_120_obstruction;
 imwrite(gaussian_50_donut_120, [output_prefix 'gaussian 50 donut 120.png']);
 
 % GAUSSIAN_DONUT, STDDEV FACTORS 0.50, 1.60
-gaussian_50_donut_160 = circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_160_obstruction;
+gaussian_50_donut_160 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.50) & gaussian_160_obstruction;
 imwrite(gaussian_50_donut_160, [output_prefix 'gaussian 50 donut 160.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTORS 0.55, 1.20
-gaussian_55_donut_120 = circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_120_obstruction;
+gaussian_55_donut_120 = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.55) & gaussian_120_obstruction;
 imwrite(gaussian_55_donut_120, [output_prefix 'gaussian 55 donut 120.png']);
 
 % BEAM
@@ -225,7 +238,8 @@ clear rel_horiz rel_vert rel_height rel_matrix
 % SINE GRATINGS
 for wavenumber_px=[8 16 32 64 128]
     sine_grating = formSineGrating(canvas_size_px, 1/wavenumber_px, 0, 90);
-    imwrite(sine_grating, [output_prefix 'sine grating ' num2str(wavenumber_px) '.png']);
+    imwrite(sine_grating, ...
+        [output_prefix 'sine grating ' num2str(wavenumber_px) '.png']);
 end
 clear wavenumber_px sine_grating;
 
@@ -268,27 +282,32 @@ if any(strcmp('Image Processing Toolbox', {v.Name}))
     imwrite(apodizing_screen, [output_prefix 'apodizing screen 8 32.png']);
 
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.30
-    gaussian_30_with_oriented_spider =  gaussian_30_donut & imrotate(spider_1_8, 45, 'crop');
+    gaussian_30_with_oriented_spider = ...
+        gaussian_30_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_30_with_oriented_spider, ...
         [output_prefix 'gaussian 30 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.35
-    gaussian_35_with_oriented_spider =  gaussian_35_donut & imrotate(spider_1_8, 45, 'crop');
+    gaussian_35_with_oriented_spider = ...
+        gaussian_35_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_35_with_oriented_spider, ...
         [output_prefix 'gaussian 35 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.40
-    gaussian_40_with_oriented_spider =  gaussian_40_donut & imrotate(spider_1_8, 45, 'crop');
+    gaussian_40_with_oriented_spider = ...
+        gaussian_40_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_40_with_oriented_spider, ...
         [output_prefix 'gaussian 40 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.45
-    gaussian_45_with_oriented_spider =  gaussian_45_donut & imrotate(spider_1_8, 45, 'crop');
+    gaussian_45_with_oriented_spider = ...
+        gaussian_45_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_45_with_oriented_spider, ...
         [output_prefix 'gaussian 45 donut with oriented spider.png']);
     
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.50
-    gaussian_50_with_oriented_spider =  gaussian_50_donut & imrotate(spider_1_8, 45, 'crop');
+    gaussian_50_with_oriented_spider = ...
+        gaussian_50_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_50_with_oriented_spider, ...
         [output_prefix 'gaussian 50 donut with oriented spider.png']);
 end
