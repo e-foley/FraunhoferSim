@@ -20,8 +20,9 @@ vert_center_px = (canvas_size_px(1) + 1) / 2;
 
 % Calculate Gaussian in pixel scale.
 h = 1:canvas_size_px(2);
-vert_scaling = peak_height_px / normpdf(mean_px, mean_px, std_dev_px);
-norm_px = vert_center_px + vert_scaling * normpdf(h, mean_px, std_dev_px);
+vert_scaling = peak_height_px * std_dev_px * sqrt(2*pi);
+norm_px = vert_center_px + vert_scaling * ...
+    1/(std_dev_px*sqrt(2*pi)) * exp(-(h-mean_px).^2/(2*std_dev_px^2));
 
 % Only calculate values for top half, then reflect result.
 x_limit_px = round(canvas_size_px(1) / 2);
