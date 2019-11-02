@@ -11,7 +11,7 @@ as_bound = 5;
 app_vis_mag_lims = [10 2];
 star_separation_as = 3.1;
 star_app_mags = [0 3.0];
-star_angle = 120;
+star_angle_deg = 120;
 aperture_diam_in = 11;
 wavelength_nm = 548;
 
@@ -23,7 +23,7 @@ io_props = IoProps;
 io_props.save_png = true;
 io_props.save_eps = false;
 io_props.png_location = [output_prefix input_name ' sv plot.png'];
-stars = asterismFromDouble(star_separation_as, star_app_mags, star_angle);
+stars = asterismFromDouble(star_separation_as, star_app_mags, star_angle_deg);
 psf = getPsf(imread([input_prefix input_name '.png']), aperture_scale, fft_scale);
 sv = getStarView(stars, psf, aperture_diam_in, wavelength_nm);
 sv_image = svGetImage(sv, as_bound * [-1 1; -1 1], app_vis_mag_lims);
