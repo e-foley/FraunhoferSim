@@ -33,6 +33,8 @@ gaussian_30_obstruction = ~formGaussian(canvas_size_px, 0.32, 0.30);
 imwrite(gaussian_30_obstruction, [output_prefix 'gaussian 30 obstruction.png']);
 gaussian_35_obstruction = ~formGaussian(canvas_size_px, 0.29, 0.35);
 imwrite(gaussian_35_obstruction, [output_prefix 'gaussian 35 obstruction.png']);
+gaussian_36_obstruction = ~formGaussian(canvas_size_px, 0.29, 0.36);
+imwrite(gaussian_36_obstruction, [output_prefix 'gaussian 36 obstruction.png']);
 gaussian_40_obstruction = ~formGaussian(canvas_size_px, 0.27, 0.40);
 imwrite(gaussian_40_obstruction, [output_prefix 'gaussian 40 obstruction.png']);
 gaussian_45_obstruction = ~formGaussian(canvas_size_px, 0.25, 0.45);
@@ -63,6 +65,11 @@ imwrite(gaussian_30_donut, [output_prefix 'gaussian 30 donut.png']);
 gaussian_35_donut = ...
     circle & formGaussian(canvas_size_px, 0.5, 0.35) & gaussian_35_obstruction;
 imwrite(gaussian_35_donut, [output_prefix 'gaussian 35 donut.png']);
+
+% GAUSSIAN DONUT, STDDEV FACTOR 0.36 (NO SUPPORT)
+gaussian_36_donut = ...
+    circle & formGaussian(canvas_size_px, 0.5, 0.36) & gaussian_36_obstruction;
+imwrite(gaussian_36_donut, [output_prefix 'gaussian 36 donut.png']);
 
 % GAUSSIAN DONUT, STDDEV FACTOR 0.40 (NO SUPPORT)
 gaussian_40_donut = ...
@@ -132,6 +139,10 @@ imwrite(gaussian_30_donut_with_beam, [output_prefix 'gaussian 30 donut with beam
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.35
 gaussian_35_donut_with_beam = gaussian_35_donut & beam;
 imwrite(gaussian_35_donut_with_beam, [output_prefix 'gaussian 35 donut with beam.png']);
+
+% GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.36
+gaussian_36_donut_with_beam = gaussian_36_donut & beam;
+imwrite(gaussian_36_donut_with_beam, [output_prefix 'gaussian 36 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.40
 gaussian_40_donut_with_beam = gaussian_40_donut & beam;
