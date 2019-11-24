@@ -134,27 +134,33 @@ clear beam_rel_width
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.30
 gaussian_30_donut_with_beam = gaussian_30_donut & beam;
-imwrite(gaussian_30_donut_with_beam, [output_prefix 'gaussian 30 donut with beam.png']);
+imwrite(gaussian_30_donut_with_beam, ...
+    [output_prefix 'gaussian 30 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.35
 gaussian_35_donut_with_beam = gaussian_35_donut & beam;
-imwrite(gaussian_35_donut_with_beam, [output_prefix 'gaussian 35 donut with beam.png']);
+imwrite(gaussian_35_donut_with_beam, ...
+    [output_prefix 'gaussian 35 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.36
 gaussian_36_donut_with_beam = gaussian_36_donut & beam;
-imwrite(gaussian_36_donut_with_beam, [output_prefix 'gaussian 36 donut with beam.png']);
+imwrite(gaussian_36_donut_with_beam, ...
+    [output_prefix 'gaussian 36 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.40
 gaussian_40_donut_with_beam = gaussian_40_donut & beam;
-imwrite(gaussian_40_donut_with_beam, [output_prefix 'gaussian 40 donut with beam.png']);
+imwrite(gaussian_40_donut_with_beam, ...
+    [output_prefix 'gaussian 40 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.45
 gaussian_45_donut_with_beam = gaussian_45_donut & beam;
-imwrite(gaussian_45_donut_with_beam, [output_prefix 'gaussian 45 donut with beam.png']);
+imwrite(gaussian_45_donut_with_beam, ...
+    [output_prefix 'gaussian 45 donut with beam.png']);
 
 % GAUSSIAN_DONUT WITH BEAM, STDDEV FACTOR 0.50
 gaussian_50_donut_with_beam = gaussian_50_donut & beam;
-imwrite(gaussian_50_donut_with_beam, [output_prefix 'gaussian 50 donut with beam.png']);
+imwrite(gaussian_50_donut_with_beam, ...
+    [output_prefix 'gaussian 50 donut with beam.png']);
 
 % APODIZATION, STDDEV FACTOR 0.18
 apodization_18 = formApodization(canvas_size_px, 0.18);
@@ -275,12 +281,12 @@ if any(strcmp('Image Processing Toolbox', {v.Name}))
     % Size obstruction to cover C11 secondary mirror.
     square_obstruction = 1 - formPolygon(canvas_size_px, 3.881/11 * sqrt(2)/2, 4, 0);
     imwrite(square_obstruction, [output_prefix 'square obstruction.png']);
-    
+
     % CIRCULAR APERTURE WITH SQUARE OBSTRUCTION
     circle_with_square_obstruction = circle & square_obstruction;
     imwrite(circle_with_square_obstruction, ...
         [output_prefix 'circle with square obstruction.png']);
-    
+
     % APODIZING SCREEN, 8 PIXELS SPACED BY 32 PIXELS
     % Dimensions of circular screen cutouts from Lovro
     % (http://www.graphitegalaxy.com/index.cgi?a=diyapodmask).
@@ -297,25 +303,25 @@ if any(strcmp('Image Processing Toolbox', {v.Name}))
         gaussian_30_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_30_with_oriented_spider, ...
         [output_prefix 'gaussian 30 donut with oriented spider.png']);
-    
+
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.35
     gaussian_35_with_oriented_spider = ...
         gaussian_35_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_35_with_oriented_spider, ...
         [output_prefix 'gaussian 35 donut with oriented spider.png']);
-    
+
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.40
     gaussian_40_with_oriented_spider = ...
         gaussian_40_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_40_with_oriented_spider, ...
         [output_prefix 'gaussian 40 donut with oriented spider.png']);
-    
+
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.45
     gaussian_45_with_oriented_spider = ...
         gaussian_45_donut & imrotate(spider_1_8, 45, 'crop');
     imwrite(gaussian_45_with_oriented_spider, ...
         [output_prefix 'gaussian 45 donut with oriented spider.png']);
-    
+
     % GAUSSIAN DONUT WITH ORIENTED SPIDER, STDDEV FACTOR 0.50
     gaussian_50_with_oriented_spider = ...
         gaussian_50_donut & imrotate(spider_1_8, 45, 'crop');
