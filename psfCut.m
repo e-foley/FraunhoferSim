@@ -32,10 +32,13 @@ w = cell(1, num_psfs);
 % For each PSF, log-normalize the intensities and collect data along the u-axis.
 for i=1:num_psfs
     image = log10(psfs(i).data ./ max(max(psfs(i).data)));
-    upx_min = 1 + round(psfs(i).pixels_per_ld * (c.u_limits(1) - psfs(i).ld_bounds(1,1)));
-    upx_max = 1 + round(psfs(i).pixels_per_ld * (c.u_limits(2) - psfs(i).ld_bounds(1,1)));
-    v_px =    1 + round(psfs(i).pixels_per_ld * (0 - psfs(i).ld_bounds(1,1)));
-    
+    upx_min = 1 + round(psfs(i).pixels_per_ld * ...
+        (c.u_limits(1) - psfs(i).ld_bounds(1,1)));
+    upx_max = 1 + round(psfs(i).pixels_per_ld * ...
+        (c.u_limits(2) - psfs(i).ld_bounds(1,1)));
+    v_px =    1 + round(psfs(i).pixels_per_ld * ...
+        (0 - psfs(i).ld_bounds(1,1)));
+
     % Because we rounded to find u bound indices closest to requested limits, we
     % calculate what values of u *actually* correspond to those indices.
     u{i} = psfs(i).ld_bounds(1,1) + ((upx_min:upx_max) - 1) / psfs(i).pixels_per_ld;
@@ -92,13 +95,13 @@ if (c.show_color_bars)
     cb = colorbar('westoutside');
     colormap(cb, c.color_maps{end});
     caxis(c.c_limits);
-    % Cache initial color bar's position so we can place subsequent bars. 
+    % Cache initial color bar's position so we can place subsequent bars.
     color_bar_pos = cb.Position;
     set(cb, 'TickLabels', []);
     set(cb, 'AxisLocation', 'in');
     set(cb, 'Limits', c.w_limits);
     set(cb, 'Ticks', (c.w_limits(1)):c.w_spacing:c.w_limits(2));
-    
+
     for i=1:(num_maps-1)
         cb = colorbar;
         colormap(cb, c.color_maps{i});
